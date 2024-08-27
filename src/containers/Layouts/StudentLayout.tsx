@@ -1,12 +1,13 @@
 import Sidebar from '@/containers/Sidebar';
 import LoadingContainer from '@/containers/StartupContainers/LoadingContainer';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Breadcrumb, Button, Layout, theme } from 'antd';
+import { Breadcrumb, Layout, theme } from 'antd';
 import { ErrorBoundary } from 'react-error-boundary';
 
+import NavBar from '@/containers/Navbar';
 import { Suspense, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-const { Header, Content, Footer } = Layout;
+
+const { Content, Footer } = Layout;
 
 function StudentLayout() {
   const {
@@ -21,18 +22,7 @@ function StudentLayout() {
         <Layout style={{ minHeight: '100vh' }}>
           <Sidebar collapsed={collapsed} />
           <Layout>
-            <Header style={{ padding: 0, background: colorBgContainer }}>
-              <Button
-                type="text"
-                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                onClick={() => setCollapsed(!collapsed)}
-                style={{
-                  fontSize: '16px',
-                  width: 64,
-                  height: 64,
-                }}
-              />
-            </Header>
+            <NavBar collapsed={collapsed} setCollapsed={setCollapsed} />
             <Content style={{ margin: '0 16px' }}>
               <Breadcrumb style={{ margin: '16px 0' }}>
                 <Breadcrumb.Item>User</Breadcrumb.Item>
