@@ -6,7 +6,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Layout, Menu } from 'antd';
+import { Flex, Image, Layout, Menu } from 'antd';
 import { FC } from 'react';
 const { Sider } = Layout;
 
@@ -43,6 +43,9 @@ type Props = {
 const Sidebar: FC<Props> = ({ collapsed }) => {
   return (
     <Sider breakpoint="lg" collapsedWidth="0" trigger={null} collapsible collapsed={collapsed}>
+      <Flex align="center" justify="center">
+        <Image width={70} src="https://www.cdnlogo.com/logos/r/85/react.svg" />
+      </Flex>
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
     </Sider>
   );
