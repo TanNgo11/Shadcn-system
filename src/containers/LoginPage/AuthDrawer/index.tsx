@@ -1,8 +1,8 @@
 import { Auth } from '@/containers/LoginPage';
-import { Dispatch, SetStateAction } from 'react';
-import './styles.css';
 import LoginForm from '@/containers/LoginPage/AuthDrawer/LoginForm';
 import UserRegisterForm from '@/containers/LoginPage/AuthDrawer/UserRegisterForm';
+import { Dispatch, SetStateAction } from 'react';
+import './styles.css';
 type MyComponentProps = {
   isAuth: Auth;
   setIsAuth: Dispatch<SetStateAction<Auth>>;
