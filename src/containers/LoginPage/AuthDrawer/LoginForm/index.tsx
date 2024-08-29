@@ -1,8 +1,3 @@
-type UserLogin = {
-  username: string;
-  password: string;
-};
-
 function LoginForm() {
   return (
     <div className="login">

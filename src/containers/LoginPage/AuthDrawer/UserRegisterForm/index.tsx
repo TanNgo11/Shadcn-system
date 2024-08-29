@@ -4,9 +4,7 @@ type RegisterFormProps = {
   switchToLogin: () => void;
 };
 
-const UserRegisterForm = ({ switchToLogin }: RegisterFormProps) => {
-  const [startDate, setStartDate] = useState(new Date());
-
+const UserRegisterForm: React.FC<RegisterFormProps> = () => {
   const [currIndex, setCurrIndex] = useState<number>(0);
 
   const plusIndex = (n: number) => {
