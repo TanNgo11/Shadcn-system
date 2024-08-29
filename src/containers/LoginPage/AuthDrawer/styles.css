@@ -1,0 +1,254 @@
+#Auth {
+    width: 360px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: -360px;
+    background-color: #fff;
+    overflow: hidden;
+    box-shadow: 3px 5px 30px rgba(0, 0, 0, 0.1);
+    transition: 0.5s;
+    z-index: 1000;
+}
+
+#Auth.show {
+    right: 0;
+}
+
+#Auth.show::before {
+    content: "";
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: -1;
+}
+
+#Auth .close {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background: #e8505b;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Auth .content {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+
+/* Login - Register GLobal */
+
+#Auth strong {
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #555;
+    padding: 15px 0;
+    text-align: center;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #acacac;
+    margin: auto;
+
+}
+
+
+#Auth form {
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 30px;
+
+}
+
+#Auth form label {
+    font-weight: 400;
+    color: #555;
+    font-size: 0.9rem;
+    display: flex;
+    letter-spacing: 1px;
+    margin: 5px 0;
+
+}
+
+#Auth form label span {
+    color: #d82710;
+    font-size: 1.1rem;
+    font-weight: 800;
+
+}
+
+#Auth form .login-input-group {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #acacac;
+    /* margin-bottom: 10px; */
+
+}
+
+#Auth form .login-input-group input {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: none;
+}
+
+#Auth form .login-input-group i {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #acacac;
+    color: #555;
+}
+
+#Auth form .btns {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+#Auth form .btns button {
+    width: 100%;
+    height: 100%;
+    background: #e8505b;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+
+#Auth form .forget {
+    color: #333;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+    font-weight: 400;
+    font-size: 0.9rem;
+
+}
+
+#Auth .intro-text {
+    width: 90%;
+    text-align: center;
+    border-top: 1px solid #acacac;
+    margin: auto;
+}
+
+#Auth .intro-text span {
+    display: inline-block;
+    font-weight: 600;
+    color: #222;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+#Auth .intro-text p {
+    color: #7e7e7e;
+    margin: 7px 0;
+    font-size: 0.85rem;
+}
+
+/* Register progress bar */
+
+
+#Auth .register .login-progress-bar {
+    width: 100%;
+    padding: 0 30px;
+    margin-top: 40px;
+}
+
+#Auth .register .login-progress-bar ul {
+    width: 90%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+}
+
+#Auth .register .login-progress-bar ul li {
+    width: 25px;
+    height: 25px;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px solid #000;
+    display: grid;
+    place-items: center;
+    font-size: 0.8rem;
+    cursor: pointer;
+    z-index: 1;
+}
+
+#Auth .register .login-progress-bar ul li::before {
+    content: attr(data-title);
+    position: absolute;
+    font-size: 0.85rem;
+    top: -1.5rem;
+    color: #000;
+}
+
+#Auth .register .login-progress-bar ul::before,
+#Auth .register .login-progress-bar ul .progress {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 34px;
+    transform: translateY(-50%);
+    height: 2px;
+    background: #555;
+    width: 80%;
+    padding: 0px 10px;
+}
+
+#Auth .register .login-progress-bar ul li.active {
+    background: #e8505b;
+    border-color: #e8505b;
+    color: #fff;
+    transition-delay: 0.3s;
+}
+
+#Auth .register .login-progress-bar ul .progress {
+    background: #e8505b;
+    transition: width 0.3s linear;
+    width: calc(100% / 3 * 0);
+}
+
+#Auth .register .login-progress-bar ul li.active::before {
+    color: #e8505b;
+    transition-delay: 0.3s;
+}
+
+#Auth .register .wrapper {
+    width: 400%;
+    display: flex;
+    transition: margin-left 0.3s linear;
+}
+
+#Auth .register .wrapper form .login-input-group select {
+    width: 100%;
+    font-size: 17px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+}

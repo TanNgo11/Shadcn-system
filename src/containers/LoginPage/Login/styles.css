@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+ul {
+    list-style: none;
+
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+}
+
+#login-Home {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    background-image: url("./bg.png");
+    background-size: 500px;
+    background-position: center;
+    overflow: hidden;
+    transition: margin-left 0.5s;
+}
+
+#login-Home.active {
+    margin-left: -180px;
+}
+
+#login-Home .login-container {
+    width: 100%;
+    max-width: 360px;
+    padding: 0 10px;
+    display: grid;
+    place-items: center;
+}
+
+#login-Home .login-container .login-img {
+    width: 300px;
+}
+
+#login-Home .login-container .login-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+#login-Home .login-text-btns {
+    width: 100%;
+    text-align: center;
+}
+
+#login-Home .login-text-btns p {
+    color: #363636;
+    font-size: 0.9rem;
+    margin: 10px 0;
+}
+
+
+#login-Home .login-text-btns .login-btns a {
+    display: inline-block;
+    width: 100%;
+    height: 42px;
+    line-height: 42px;
+    border: 1px solid #7e7e7e;
+    border-radius: 20px;
+    margin: 7px 0;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    transition: 0.2s ease;
+    color: #000;
+}
+
+
+
+#login-Home .login-text-btns .login-btns a.login-login-btn {
+    background-color: #e8505b;
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+
+
+#login-Home .login-text-btns .login-btns a:hover {
+    background-color: #222;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+
+#login-Home .login-text-btns span {
+    display: inline-block;
+    font-weight: 600;
+    color: #222;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+
+#login-Home .login-text-btns .login-via-social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+#login-Home .login-text-btns .login-via-social a {
+    width: 33px;
+    height: 33px;
+    display: flex;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 0.8rem;
+    margin: 5px;
+}
+
+#login-Home .login-text-btns .login-via-social a:nth-child(1) {
+    background-color: #155ee6;
+}
+
+#login-Home .login-text-btns .login-via-social a:nth-child(2) {
+    background-color: #eb1515;
+}
+
+#login-Home .login-text-btns .login-via-social a:nth-child(3) {
+    background-color: #197cfd;
+}
