@@ -1,5 +1,4 @@
 import LoadingContainer from '@/containers/StartupContainers/LoadingContainer';
-import { Layout } from 'antd';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { Suspense } from 'react';
@@ -9,9 +8,7 @@ function PublicLayout() {
   return (
     <Suspense fallback={<LoadingContainer />}>
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
-        <Layout style={{ minHeight: '100vh' }}>
-          <Outlet />
-        </Layout>
+        <Outlet />
       </ErrorBoundary>
     </Suspense>
   );

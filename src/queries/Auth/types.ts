@@ -1,11 +1,13 @@
+import { LoginKey } from '@/queries/Auth/keys';
+
 export type Auth = {
   accessToken: string;
   refreshToken: string;
 };
 
 export type LoginPayload = {
-  username: string;
-  password: string;
+  [LoginKey.USERNAME]: string;
+  [LoginKey.PASSWORD]: string;
 };
 
 export type RefreshTokenPayload = {

@@ -13,8 +13,6 @@ export function useGetUserInfo(options?: UseQueryOptions<ApiResponseType<User>, 
     refetch: onGetUserInfo,
   } = useQuery<ApiResponseType<User>, Error, User>([API_QUERIES._USER], {
     queryFn: () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
       return responseWrapper<ApiResponseType<User>>(authApi.getUserInfo);
     },
     select: (data) => data?.result || {},
