@@ -1,13 +1,13 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import useHttpPrivateRequest from '@/services/useHttpPrivateRequest';
 import useHttpPublicRequest from '@/services/useHttpPublicRequest';
+import { useHttpPrivateRequest } from '@/services/useHttpPrivateRequest';
+import { LoginPayload } from '@/queries/Auth/types';
 
-const create = (baseURL = 'http://localhost:8080/identity') => {
+const useApi = (baseURL = 'http://localhost:8080/identity') => {
   const publicApi = useHttpPublicRequest(baseURL);
   const privateApi = useHttpPrivateRequest(baseURL);
 
-  const authenticate = (username: string, password: string) => {
-    return publicApi.post('/api/v1/auth/token', { username, password });
+  const authenticate = (payload: LoginPayload) => {
+    return publicApi.post('/api/v1/auth/token', payload);
   };
 
   const getUserInfo = () => {
@@ -25,8 +25,4 @@ const create = (baseURL = 'http://localhost:8080/identity') => {
   };
 };
 
-export type Apis = ReturnType<typeof create>;
-
-export default {
-  create,
-};
+export default useApi;

@@ -1,3 +1,4 @@
-import api from './api';
+import useApi from './api';
 
-export const authApi = api.create();
+// eslint-disable-next-line react-hooks/rules-of-hooks
+export const authApi = useApi();

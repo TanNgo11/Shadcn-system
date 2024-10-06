@@ -9,7 +9,6 @@ export type Auth = {
 
 function LoginPage() {
   const [isAuth, setIsAuth] = useState({ open: false, form: 'login' });
-
   return (
     <>
       <Login isAuth={isAuth} setIsAuth={setIsAuth} />

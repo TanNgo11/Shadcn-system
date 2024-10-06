@@ -4,7 +4,7 @@ export async function responseWrapper<T>(func: ApiCall, [...args]: any[] = []): 
   return new Promise(async (res, rej) => {
     try {
       const response = (await func(...args)) || {};
-      if (response.ok) res(response.data);
+      if (response.status >= 200 && response.status < 300) res(response.data);
       if (response?.originalError?.message === 'CONNECTION_TIMEOUT') {
         alert('Connection timeout. Please check your network and try again.');
       }
