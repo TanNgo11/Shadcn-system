@@ -27,7 +27,7 @@ const data = [
   {
     title: (
       <div className="course-detail-page-container__activities-tab--icon__forum">
-        Forum for discussion
+        Forum for discussion2
       </div>
     ),
     icon: (
