@@ -5,10 +5,10 @@ export default {
     path: '/',
     routes: [
       {
-        path: '/welcome',
-        name: 'welcome',
+        path: '/home',
+        name: 'home',
         icon: <SmileFilled />,
-        component: './Welcome',
+        component: <>sahaud</>,
       },
       {
         path: '/admin',
