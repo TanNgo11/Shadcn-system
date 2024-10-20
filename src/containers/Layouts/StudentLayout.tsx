@@ -2,10 +2,13 @@ import MenuCard from '@/containers/Layouts/Components/MenuCardLayout';
 import SearchInput from '@/containers/Layouts/Components/SearchInputLayout';
 import LoadingContainer from '@/containers/StartupContainers/LoadingContainer';
 import {
+  CrownFilled,
   GithubFilled,
   InfoCircleFilled,
   LogoutOutlined,
+  ProfileOutlined,
   QuestionCircleFilled,
+  SmileFilled,
 } from '@ant-design/icons';
 import {
   PageContainer,
@@ -15,20 +18,25 @@ import {
   ProSettings,
   SettingDrawer,
 } from '@ant-design/pro-components';
-import { Button, ConfigProvider, Dropdown } from 'antd';
+import { ConfigProvider, Dropdown, Menu } from 'antd';
 import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import defaultProps from './Components/_HeaderMenuProps';
 
 function StudentLayout() {
   const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
     layout: 'mix',
-    splitMenus: true,
+    splitMenus: false,
+    navTheme: 'light',
+    contentWidth: 'Fluid',
+    colorPrimary: '#1677FF',
+    siderMenuType: 'sub',
+    fixedHeader: true,
   });
 
-  const [pathname, setPathname] = useState('/admin/sub-page1');
+  const [pathname, setPathname] = useState(window.location.pathname);
   const [num, setNum] = useState(40);
   if (typeof document === 'undefined') {
     return <div />;
@@ -80,7 +88,7 @@ function StudentLayout() {
                     colorBgMenuItemSelected: 'rgba(0,0,0,0.04)',
                   },
                 }}
-                siderMenuType="group"
+                siderMenuType="sub"
                 menu={{
                   collapsedShowGroupTitle: true,
                 }}
@@ -93,6 +101,11 @@ function StudentLayout() {
                       <Dropdown
                         menu={{
                           items: [
+                            {
+                              key: 'Profile',
+                              icon: <ProfileOutlined />,
+                              label: <Link to="/profile">Profile</Link>,
+                            },
                             {
                               key: 'logout',
                               icon: <LogoutOutlined />,
@@ -134,6 +147,10 @@ function StudentLayout() {
                     <>
                       {defaultDom}
                       <MenuCard />
+
+                      <Link style={{ fontSize: '14px' }} to="/courses">
+                        Course
+                      </Link>
                     </>
                   );
                 }}
@@ -152,39 +169,44 @@ function StudentLayout() {
                   );
                 }}
                 onMenuHeaderClick={(e) => console.log(e)}
-                menuItemRender={(item, dom) => (
-                  <div
-                    onClick={() => {
-                      setPathname(item.path || '/welcome');
-                    }}
-                  >
-                    {dom}
-                  </div>
-                )}
+                menuItemRender={(item, dom) => <Link to={item.path || '/'}>{dom}</Link>}
+                breadcrumbRender={(routers = []) => {
+                  return [
+                    {
+                      path: '/profile',
+                      breadcrumbName: 'Profile',
+                    },
+                    ...routers,
+                  ];
+                }}
                 {...settings}
+                menuDataRender={() => [
+                  {
+                    path: '/home',
+                    name: 'Home',
+                    icon: <SmileFilled />,
+                  },
+                  {
+                    path: '/admin',
+                    name: 'Admin',
+                    icon: <CrownFilled />,
+
+                    children: [
+                      { path: '/admin/sub-page1', name: 'Sub Page 1' },
+                      { path: '/admin/sub-page2', name: 'Sub Page 2' },
+                    ],
+                  },
+                ]}
               >
                 <PageContainer
                   token={{
                     paddingInlinePageContainerContent: num,
                   }}
-                  extra={[
-                    <Button key="3">Test</Button>,
-                    <Button key="2">Test2</Button>,
-                    <Button
-                      key="1"
-                      type="primary"
-                      onClick={() => {
-                        setNum(num > 0 ? 0 : 40);
-                      }}
-                    >
-                      Test3
-                    </Button>,
-                  ]}
                   subTitle="Subtitle"
                 >
                   <ProCard
                     style={{
-                      height: '200vh',
+                      height: 'fit-content',
                       minHeight: 800,
                     }}
                   >

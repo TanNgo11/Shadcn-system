@@ -29,7 +29,7 @@ const List: React.FC<{ title: string; style?: React.CSSProperties }> = (props) =
         }}
       >
         {new Array(6).fill(1).map((_, index) => {
-          return <Item key={index}>listItem-{index}</Item>;
+          return <Item key={index}>listItem2-{index}</Item>;
         })}
       </div>
     </div>
