@@ -1,0 +1,11 @@
+.learning-materials-tab-container {
+  &__learning {
+    margin-bottom: 20px;
+    &--subtitle {
+      margin-top: 10px;
+    }
+    &--description {
+      margin-top: 5px;
+    }
+  }
+}
