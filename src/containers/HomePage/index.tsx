@@ -111,7 +111,7 @@ const columns: ProColumns<GithubIssueItem>[] = [
     title: 'option',
     valueType: 'option',
     key: 'option',
-    render: (text, record, _, action) => [
+    render: (_text, record, _, action) => [
       <a
         key="editable"
         onClick={() => {
