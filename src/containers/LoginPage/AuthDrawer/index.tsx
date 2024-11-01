@@ -1,8 +1,10 @@
 import { Auth } from '@/containers/LoginPage';
 import LoginForm from '@/containers/LoginPage/AuthDrawer/LoginForm';
 import UserRegisterForm from '@/containers/LoginPage/AuthDrawer/UserRegisterForm';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import './styles.css';
+import { useNotification } from '@/containers/StartupContainers/ToastContainer';
+
 type MyComponentProps = {
   isAuth: Auth;
   setIsAuth: Dispatch<SetStateAction<Auth>>;
@@ -12,6 +14,7 @@ function AuthDrawer({ isAuth, setIsAuth }: MyComponentProps) {
   const switchToLogin = () => {
     setIsAuth({ open: true, form: 'login' });
   };
+
   return (
     <div id="Auth" className={`${isAuth.open ? 'show' : ''}`}>
       <a href="#!" className="close" onClick={() => setIsAuth({ ...isAuth, open: false })}>

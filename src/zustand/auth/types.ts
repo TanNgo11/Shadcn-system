@@ -10,7 +10,7 @@ export type User = {
   dateOfBirth: Date;
   status: UserStatus;
   avatar: string;
-  roles?: Role;
+  roles?: Role[];
 };
 export enum UserStatus {
   ACTIVE = 'ACTIVE',
@@ -24,7 +24,8 @@ export enum Gender {
 }
 
 export enum Role {
-  USER = 'USER',
+  STUDENT = 'STUDENT',
   ADMIN = 'ADMIN',
   STAFF = 'STAFF',
+  TEACHER = 'TEACHER',
 }

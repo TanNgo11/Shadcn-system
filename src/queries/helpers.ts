@@ -15,13 +15,28 @@ export async function responseWrapper<T>(func: ApiCall, [...args]: any[] = []): 
   });
 }
 
-export interface ApiResponseListType<T> {
-  code: number;
-  result: T[];
-  message?: string;
-}
 export interface ApiResponseType<T> {
   code: number;
   result: T;
   message?: string;
 }
+
+export interface PaginationResponseType<T> {
+  current: number;
+  totalPages: number;
+  pageSize: number;
+  totalElements: number;
+  data: T;
+}
+export type TableParams = {
+  skip?: number;
+  take?: number;
+  order?: string;
+  search?: string;
+  sort?: string;
+  [key: string]: number | boolean | string | string[] | undefined;
+};
+
+export type GetPropertiesParams = {
+  [key: string]: string | number | string[] | boolean;
+};

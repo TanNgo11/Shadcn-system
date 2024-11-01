@@ -26,7 +26,7 @@ import defaultProps from './Components/_HeaderMenuProps';
 import { useAuthStore } from '@/zustand/auth/useAuthStore';
 import { useNotification } from '../StartupContainers/ToastContainer';
 
-function StudentLayout() {
+function TeacherLayout() {
   const { clearAuth } = useAuthStore();
   const toast = useNotification();
   const navigate = useNavigate();
@@ -253,4 +253,4 @@ function StudentLayout() {
   );
 }
 
-export default StudentLayout;
+export default TeacherLayout;

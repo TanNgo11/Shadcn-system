@@ -1,11 +1,16 @@
-import { ONE_HOUR } from "@/config/constants.ts";
-import MainNavigator from "@/containers";
-import LoadingContainer from "@/containers/StartupContainers/LoadingContainer";
-import "@/styles/globals.css";
-import { Suspense } from "react";
-import ReactDOM from "react-dom/client";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { ONE_HOUR } from '@/config/constants.ts';
+import MainNavigator from '@/containers';
+import LoadingContainer from '@/containers/StartupContainers/LoadingContainer';
+import '@/styles/globals.css';
+import { Suspense } from 'react';
+import ReactDOM from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { NotificationProvider } from './containers/StartupContainers/ToastContainer';
+import { ConfigProvider } from 'antd';
+import enUS from 'antd/lib/locale/en_US';
+import React from 'react';
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -24,13 +29,18 @@ const queryClient = new QueryClient({
     },
   },
 });
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  // <React.StrictMode>
-  <QueryClientProvider client={queryClient}>
-    <Suspense fallback={<LoadingContainer />}>
-      <MainNavigator />
-    </Suspense>
-    <ReactQueryDevtools initialIsOpen={false} />
-  </QueryClientProvider>,
-  // </React.StrictMode>,
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <ConfigProvider locale={enUS}>
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={<LoadingContainer />}>
+          <NotificationProvider>
+            <MainNavigator />
+          </NotificationProvider>
+        </Suspense>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ConfigProvider>
+    ,
+  </React.StrictMode>,
 );

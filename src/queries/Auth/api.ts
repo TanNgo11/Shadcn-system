@@ -1,6 +1,6 @@
-import useHttpPublicRequest from '@/services/useHttpPublicRequest';
-import { useHttpPrivateRequest } from '@/services/useHttpPrivateRequest';
 import { LoginPayload } from '@/queries/Auth/types';
+import { useHttpPrivateRequest } from '@/services/useHttpPrivateRequest';
+import useHttpPublicRequest from '@/services/useHttpPublicRequest';
 
 const useApi = (baseURL = 'http://localhost:8080/identity') => {
   const publicApi = useHttpPublicRequest(baseURL);
@@ -11,7 +11,7 @@ const useApi = (baseURL = 'http://localhost:8080/identity') => {
   };
 
   const getUserInfo = () => {
-    return privateApi.get('/api/v1/myInfo');
+    return privateApi.get('/api/v1/users/myInfo');
   };
 
   const getRefreshToken = () => {

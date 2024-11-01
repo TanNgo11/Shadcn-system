@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 
 interface AuthState {
   user: User | null;
-  role: Role[] | null;
+
   accessTokenState: string | null;
   refreshTokenState: string | null;
   setUser: (user: User) => void;
@@ -28,7 +28,6 @@ export const useAuthStore = create<AuthState>()(
       clearAuth: () =>
         set({
           user: null,
-          role: null,
           accessTokenState: null,
           refreshTokenState: null,
         }),
