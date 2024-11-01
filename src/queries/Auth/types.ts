@@ -1,15 +1,14 @@
 import { LoginKey } from '@/queries/Auth/keys';
 
-export type Auth = {
+export interface Auth {
   accessToken: string;
   refreshToken: string;
-};
+}
 
-export type LoginPayload = {
+export interface LoginPayload {
   [LoginKey.USERNAME]: string;
   [LoginKey.PASSWORD]: string;
-};
-
-export type RefreshTokenPayload = {
+}
+export interface RefreshTokenPayload {
   token: string;
-};
+}

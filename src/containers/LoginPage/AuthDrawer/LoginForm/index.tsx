@@ -3,30 +3,65 @@ import {
   loginFormSchema,
   LoginFormType,
 } from '@/containers/LoginPage/AuthDrawer/LoginForm/helpers';
+import { useNotification } from '@/containers/StartupContainers/ToastContainer';
 import { LoginKey } from '@/queries/Auth/keys';
 import { useGetUserInfo } from '@/queries/Auth/useGetUserInfo';
 import { useLogin } from '@/queries/Auth/useLogin';
+import { Role } from '@/zustand/auth/types';
 import { useAuthStore } from '@/zustand/auth/useAuthStore';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Typography } from 'antd';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
-  const { setUser, setTokens } = useAuthStore();
-  const { data: userInfo, onGetUserInfo } = useGetUserInfo();
+  const navigate = useNavigate();
+  const toast = useNotification();
+  const { setTokens, setUser } = useAuthStore();
+  const { onGetUserInfo } = useGetUserInfo({
+    enabled: false,
+    onSuccess: (data) => {
+      setUser(data);
+      toast.success({
+        message: 'Login successfully',
+        description: 'Welcome back!',
+      });
+
+      switch (data?.roles?.[0]) {
+        case Role.ADMIN:
+          navigate('/admin/students-management');
+          break;
+        case Role.STUDENT:
+          navigate('/profile');
+          break;
+        default:
+          navigate('/');
+          break;
+      }
+    },
+    onError: (error) => {
+      toast.error({
+        message: 'Get user info failed',
+        description: 'Please try again.',
+      });
+    },
+  });
+
   const { onLogin } = useLogin({
     onSuccess: (data) => {
       const { accessToken, refreshToken } = data.result;
       localStorage.setItem('accessToken', accessToken);
       setTokens(accessToken, refreshToken);
-
       if (accessToken) {
-        alert(accessToken);
         onGetUserInfo();
       }
     },
     onError: (error) => {
-      console.error('Login failed:', error);
+      toast.error({
+        message: 'Login failed',
+        description: 'Please check your credentials and try again.',
+      });
     },
   });
   const {
@@ -43,7 +78,6 @@ function LoginForm() {
 
   const onSubmit = (data: LoginFormType) => {
     onLogin(data);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
   };
 
   return (
@@ -63,8 +97,10 @@ function LoginForm() {
               <input style={{ marginLeft: '5px' }} {...field} type="text" required />
             )}
           />
-          {errors[LoginKey.USERNAME] && <span>{errors[LoginKey.USERNAME]?.message}</span>}
         </div>
+        {errors[LoginKey.USERNAME] && (
+          <Typography.Text type="danger">{errors[LoginKey.USERNAME]?.message}</Typography.Text>
+        )}
 
         <label htmlFor={LoginKey.PASSWORD}>
           Password <span>*</span>
@@ -75,11 +111,13 @@ function LoginForm() {
             name={LoginKey.PASSWORD}
             control={control}
             render={({ field }) => (
-              <input style={{ marginLeft: '5px' }} {...field} type="text" required />
+              <input style={{ marginLeft: '5px' }} {...field} type="password" required />
             )}
           />
-          {errors[LoginKey.PASSWORD] && <span>{errors[LoginKey.PASSWORD]?.message}</span>}
         </div>
+        {errors[LoginKey.PASSWORD] && (
+          <Typography.Text type="danger">{errors[LoginKey.PASSWORD]?.message}</Typography.Text>
+        )}
 
         <div className="btns">
           <button type="submit">Login</button>

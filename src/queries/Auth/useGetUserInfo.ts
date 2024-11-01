@@ -4,7 +4,11 @@ import { User } from '@/zustand/auth/types';
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { authApi } from '@/queries/Auth';
 
-export function useGetUserInfo(options?: UseQueryOptions<ApiResponseType<User>, Error, User>) {
+export function useGetUserInfo(
+  options?: UseQueryOptions<ApiResponseType<User>, Error, User> & {
+    enabled?: boolean;
+  },
+) {
   const {
     data,
     error,
@@ -17,6 +21,7 @@ export function useGetUserInfo(options?: UseQueryOptions<ApiResponseType<User>, 
     },
     select: (data) => data?.result || {},
     notifyOnChangeProps: ['data', 'isFetching'],
+    enabled: options?.enabled,
     keepPreviousData: true,
     ...options,
   });

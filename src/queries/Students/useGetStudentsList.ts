@@ -1,0 +1,58 @@
+import { useState } from 'react';
+import { useQuery, UseQueryOptions, useQueryClient } from 'react-query';
+
+import { ApiResponseType, PaginationResponseType, TableParams } from '../helpers';
+
+import { isEmpty } from '@/utils';
+import { responseWrapper } from '../helpers';
+import { API_STUDENTS_QUERIES } from './keys';
+import { StudentResponse } from './types';
+import { studentsApi } from '.';
+
+export function useGetStudentsList(
+  options?: UseQueryOptions<ApiResponseType<PaginationResponseType<StudentResponse[]>>, Error> & {
+    defaultParams?: TableParams;
+  },
+) {
+  const [params, setParams] = useState<TableParams>(options?.defaultParams || {});
+  const {
+    data,
+    error,
+    isFetching,
+    refetch: onGetStudentsList,
+  } = useQuery<ApiResponseType<PaginationResponseType<StudentResponse[]>>, Error>(
+    [API_STUDENTS_QUERIES.STUDENTS_LIST, { ...params }],
+    async ({ queryKey }) => {
+      const [, ...params] = queryKey;
+      return responseWrapper<ApiResponseType<PaginationResponseType<StudentResponse[]>>>(
+        studentsApi.getStudentsList,
+        params,
+      );
+    },
+    {
+      notifyOnChangeProps: ['data', 'isFetching'],
+      keepPreviousData: true,
+      enabled: !isEmpty(params),
+      ...options,
+    },
+  );
+
+  const queryClient = useQueryClient();
+
+  const handleInvalidateStudentsList = (params: TableParams) =>
+    queryClient.invalidateQueries([API_STUDENTS_QUERIES.STUDENTS_LIST, { ...params }]);
+
+  const { result: { totalPages, pageSize, totalElements, data: students = [] } = {} } = data || {};
+
+  return {
+    totalElements,
+    pageSize,
+    totalPages,
+    students,
+    error,
+    isFetching,
+    onGetStudentsList,
+    setParams,
+    handleInvalidateStudentsList,
+  };
+}
