@@ -6,13 +6,15 @@ import { Role } from '@/zustand/auth/types';
 import React from 'react';
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import AdminLayout from './Layouts/AdminLayout';
-import TeacherLayout from './Layouts/TeacherLayout';  
+import TeacherLayout from './Layouts/TeacherLayout';
 const HomePage = React.lazy(() => import('@/containers/HomePage'));
 const NotFoundPage = React.lazy(() => import('@/containers/StartupContainers/NotFoundPage'));
-const ProfilePage = React.lazy(() => import('@/containers/Profile'));
+const StudentProfilePage = React.lazy(() => import('@/containers/Student/Profile'));
+const TeacherProfilePage = React.lazy(() => import('@/containers/Teacher/Profile'));
 const CoursesPage = React.lazy(() => import('@/containers/CoursesPage'));
 const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/CourseDetailPage'));
 const StudentManagementPage = React.lazy(() => import('@/containers/Admin/StudentManagement'));
+const CreateEditStudentPage = React.lazy(() => import('@/containers/Admin/CreateEditStudent'));
 
 const appRoutes: RouteObject[] = [
   {
@@ -30,7 +32,7 @@ const appRoutes: RouteObject[] = [
       },
       {
         path: 'profile',
-        element: <ProfilePage />,
+        element: <StudentProfilePage />,
       },
       {
         path: 'courses',
@@ -71,6 +73,12 @@ const appRoutes: RouteObject[] = [
         path: 'students-management',
         element: <StudentManagementPage />,
       },
+
+      {
+        index: true,
+        path: 'students/:id',
+        element: <CreateEditStudentPage />,
+      },
     ],
   },
   {
@@ -79,12 +87,12 @@ const appRoutes: RouteObject[] = [
         <TeacherLayout />
       </RoleBasedRoute>
     ),
-    path: '/',
+    path: '/teacher',
     children: [
       {
         index: true,
-        path: 'teacher',
-        element: <LoginPage />,
+        path: 'profile',
+        element: <TeacherProfilePage />,
       },
     ],
   },
