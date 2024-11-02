@@ -16,7 +16,13 @@ const useApi = (baseURL = 'http://localhost:8080/identity') => {
   const getStudentsList = (params: GetPropertiesParams) => {
     return studentPrivateApi.get(`/api/v1/users/students?${stringify(params)} `);
   };
+
+  const getStudentById = (studentId: string) => {
+    return studentPrivateApi.get(`/api/v1/users/students/${studentId}`);
+  };
+
   return {
+    getStudentById,
     createStudent,
     getStudentsList,
   };
