@@ -30,13 +30,13 @@ function LoginForm() {
 
       switch (data?.roles?.[0]) {
         case Role.ADMIN:
-          navigate('/admin/students-management');
+          navigate('/admin/profile');
           break;
         case Role.STUDENT:
           navigate('/profile');
           break;
         default:
-          navigate('/');
+          navigate('/teacher/profile');
           break;
       }
     },
