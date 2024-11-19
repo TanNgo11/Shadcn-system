@@ -1,5 +1,5 @@
-import CourseTab from '@/containers/Profile/InformationTabs/CourseTab';
-import StudentTab from '@/containers/Profile/InformationTabs/StudentTab';
+import CourseTab from '@/containers/Student/Profile/InformationTabs/CourseTab';
+import StudentTab from '@/containers/Student/Profile/InformationTabs/StudentTab';
 import { DatabaseTwoTone, ProfileTwoTone } from '@ant-design/icons';
 import { Tabs } from 'antd';
 import { useMemo } from 'react';
