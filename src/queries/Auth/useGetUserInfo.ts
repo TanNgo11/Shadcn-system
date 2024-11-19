@@ -15,7 +15,7 @@ export function useGetUserInfo(
     isError,
     isFetching,
     refetch: onGetUserInfo,
-  } = useQuery<ApiResponseType<User>, Error, User>([API_QUERIES._IDENTITY], {
+  } = useQuery<ApiResponseType<User>, Error, User>([API_QUERIES.IDENTITY], {
     queryFn: () => {
       return responseWrapper<ApiResponseType<User>>(authApi.getUserInfo);
     },
@@ -27,7 +27,7 @@ export function useGetUserInfo(
   });
   const queryClient = useQueryClient();
 
-  const handleInvalidateUserInfo = () => queryClient.invalidateQueries(API_QUERIES._IDENTITY);
+  const handleInvalidateUserInfo = () => queryClient.invalidateQueries(API_QUERIES.IDENTITY);
 
   return {
     data,
