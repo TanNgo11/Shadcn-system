@@ -1,17 +1,17 @@
-import { StudentResponse } from '@/queries/Students/types';
 import { Callback } from '@/utils/helpers';
 import { EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox } from 'antd';
 import { Gender } from '../components/types';
+import { TeacherResponse } from '@/queries/Teacher/types';
 
-type ListStudentsProps = {
-  handleViewStudentDetail: Callback;
+type ListTeachersProps = {
+  handleViewTeacherDetail: Callback;
 };
 
 export const allColumns = ({
-  handleViewStudentDetail,
-}: ListStudentsProps): ProColumns<StudentResponse>[] => [
+  handleViewTeacherDetail,
+}: ListTeachersProps): ProColumns<TeacherResponse>[] => [
   {
     title: '#',
     dataIndex: 'index',
@@ -33,8 +33,8 @@ export const allColumns = ({
     ),
   },
   {
-    title: 'Student ID',
-    dataIndex: 'studentId',
+    title: 'Teacher ID',
+    dataIndex: 'teacherId',
     valueType: 'text',
   },
   {
@@ -56,8 +56,8 @@ export const allColumns = ({
     title: 'Gender',
     dataIndex: 'gender',
     valueType: 'text',
-    render: (_: any, { gender }: StudentResponse) => {
-      const normalizedGender = gender?.toLowerCase(); 
+    render: (_: any, { gender }: TeacherResponse) => {
+      const normalizedGender = gender?.toLowerCase();
       return (
         <p>
           {normalizedGender === Gender.MALE.toLowerCase()
@@ -96,7 +96,7 @@ export const allColumns = ({
 
     render: (_text, _record, _) => [
       <a key="editable">
-        <EditOutlined onClick={() => handleViewStudentDetail(_record.id)} />
+        <EditOutlined onClick={() => handleViewTeacherDetail(_record.id)} />
       </a>,
     ],
   },

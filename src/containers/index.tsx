@@ -17,6 +17,8 @@ const CoursesPage = React.lazy(() => import('@/containers/CoursesPage'));
 const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/CourseDetailPage'));
 const StudentManagementPage = React.lazy(() => import('@/containers/Admin/StudentManagement'));
 const CreateEditStudentPage = React.lazy(() => import('@/containers/Admin/CreateEditStudent'));
+const TeacherManagementPage = React.lazy(() => import('@/containers/Admin/TeacherManagement'));
+// const CreateEditTeacherPage = React.lazy(() => import('@/containers/Admin/CreateEditTeacher'));
 
 const appRoutes: RouteObject[] = [
   {
@@ -44,7 +46,6 @@ const appRoutes: RouteObject[] = [
         path: 'course/:id',
         element: <CourseDetailPage />,
       },
-
       {
         path: '*',
         element: <NotFoundPage />,
@@ -75,7 +76,11 @@ const appRoutes: RouteObject[] = [
         path: 'students-management',
         element: <StudentManagementPage />,
       },
-
+      {
+        index: true,
+        path: 'teachers-management',
+        element: <TeacherManagementPage />,
+      },
       {
         path: 'students/:id',
         element: <CreateEditStudentPage />,
