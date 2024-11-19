@@ -1,5 +1,5 @@
 import PublicLayout from '@/containers/Layouts/PublicLayout';
-import StudentLayout from './Layouts/StudenLayout'; 
+import StudentLayout from './Layouts/StudenLayout';
 import LoginPage from '@/containers/LoginPage';
 import RoleBasedRoute from '@/hooks/RoleBasedRoute';
 import { Role } from '@/zustand/auth/types';
@@ -12,6 +12,7 @@ const HomePage = React.lazy(() => import('@/containers/HomePage'));
 const NotFoundPage = React.lazy(() => import('@/containers/StartupContainers/NotFoundPage'));
 const StudentProfilePage = React.lazy(() => import('@/containers/Student/Profile'));
 const TeacherProfilePage = React.lazy(() => import('@/containers/Teacher/Profile'));
+const AdminProfilePage = React.lazy(() => import('@/containers/Admin/Profile'));
 const CoursesPage = React.lazy(() => import('@/containers/CoursesPage'));
 const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/CourseDetailPage'));
 const StudentManagementPage = React.lazy(() => import('@/containers/Admin/StudentManagement'));
@@ -76,9 +77,12 @@ const appRoutes: RouteObject[] = [
       },
 
       {
-        index: true,
         path: 'students/:id',
         element: <CreateEditStudentPage />,
+      },
+      {
+        path: 'profile',
+        element: <AdminProfilePage />,
       },
     ],
   },
@@ -91,7 +95,6 @@ const appRoutes: RouteObject[] = [
     path: '/teacher',
     children: [
       {
-        index: true,
         path: 'profile',
         element: <TeacherProfilePage />,
       },

@@ -1,8 +1,7 @@
-import { DatabaseTwoTone, ProfileTwoTone } from '@ant-design/icons';
+import { ProfileTwoTone } from '@ant-design/icons';
 import { Tabs } from 'antd';
 import { useMemo } from 'react';
-import StudentTab from '@/containers/Student/Profile/InformationTabs/StudentTab';
-import CourseTab from './CourseTab';
+import AdminInfo from './AdminTab';
 
 const InformationTabs = () => {
   const listTabs = useMemo(() => {
@@ -10,14 +9,8 @@ const InformationTabs = () => {
       {
         key: 'Student Information',
         label: 'Student Information',
-        children: <StudentTab />,
+        children: <AdminInfo />,
         icon: <ProfileTwoTone />,
-      },
-      {
-        key: '2',
-        label: 'Course Information',
-        children: <CourseTab />,
-        icon: <DatabaseTwoTone />,
       },
     ];
   }, []);
