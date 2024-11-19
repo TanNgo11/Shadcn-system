@@ -2,7 +2,7 @@ import { HomeTwoTone, MailTwoTone, PhoneTwoTone } from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components';
 import { Avatar, Col, Divider, Flex, Image, Row, Tag, Typography } from 'antd';
 import './styles.scss';
-import InformationTabs from '@/containers/Profile/InformationTabs';
+import InformationTabs from './InformationTabs'; 
 
 const Profile = () => {
   return (

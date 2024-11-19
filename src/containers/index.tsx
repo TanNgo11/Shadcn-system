@@ -1,5 +1,5 @@
 import PublicLayout from '@/containers/Layouts/PublicLayout';
-import StudentLayout from '@/containers/Layouts/StudentLayout';
+import StudentLayout from './Layouts/StudenLayout'; 
 import LoginPage from '@/containers/LoginPage';
 import RoleBasedRoute from '@/hooks/RoleBasedRoute';
 import { Role } from '@/zustand/auth/types';
@@ -7,6 +7,7 @@ import React from 'react';
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import AdminLayout from './Layouts/AdminLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
+
 const HomePage = React.lazy(() => import('@/containers/HomePage'));
 const NotFoundPage = React.lazy(() => import('@/containers/StartupContainers/NotFoundPage'));
 const StudentProfilePage = React.lazy(() => import('@/containers/Student/Profile'));

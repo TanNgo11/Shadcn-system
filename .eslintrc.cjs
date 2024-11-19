@@ -1,5 +1,6 @@
+// eslint-disable-next-line no-undef
 module.exports = {
-  env: { browser: true, es2020: true },
+  env: { browser: true, es2020: true, node: true },
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -10,6 +11,17 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': 'warn',
+    'no-unused-vars': 'disable',
+    semi: ['error', 'always'],
+    'no-console': 'warn',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'warn',
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
+    eqeqeq: ['error', 'always'],
+    'no-undef': 'error',
+    'no-debugger': 'warn', 
+  
     '@typescript-eslint/no-unused-vars': 'off',
    
   },

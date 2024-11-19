@@ -22,11 +22,11 @@ import { ConfigProvider, Dropdown, Menu } from 'antd';
 import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import defaultProps from './Components/_HeaderMenuProps';
+import defaultProps from '../Components/_HeaderMenuProps';
 import { useAuthStore } from '@/zustand/auth/useAuthStore';
-import { useNotification } from '../StartupContainers/ToastContainer';
+import { useNotification } from '../../StartupContainers/ToastContainer';
 
-function StudentLayout() {
+function TeacherLayout() {
   const { clearAuth } = useAuthStore();
   const toast = useNotification();
   const navigate = useNavigate();
@@ -253,4 +253,4 @@ function StudentLayout() {
   );
 }
 
-export default StudentLayout;
+export default TeacherLayout;

@@ -1,14 +1,15 @@
 import MenuCard from '@/containers/Layouts/Components/MenuCardLayout';
 import SearchInput from '@/containers/Layouts/Components/SearchInputLayout';
 import LoadingContainer from '@/containers/StartupContainers/LoadingContainer';
+import { useAuthStore } from '@/zustand/auth/useAuthStore';
 import {
-  CrownFilled,
   GithubFilled,
   InfoCircleFilled,
   LogoutOutlined,
   ProfileOutlined,
   QuestionCircleFilled,
   SmileFilled,
+  UserOutlined,
 } from '@ant-design/icons';
 import {
   PageContainer,
@@ -18,15 +19,14 @@ import {
   ProSettings,
   SettingDrawer,
 } from '@ant-design/pro-components';
-import { ConfigProvider, Dropdown, Menu } from 'antd';
+import { ConfigProvider, Dropdown } from 'antd';
 import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import defaultProps from './Components/_HeaderMenuProps';
-import { useAuthStore } from '@/zustand/auth/useAuthStore';
-import { useNotification } from '../StartupContainers/ToastContainer';
+import { useNotification } from '../../StartupContainers/ToastContainer';
+import defaultProps from '../Components/_HeaderMenuProps';
 
-function TeacherLayout() {
+function AdminLayout() {
   const { clearAuth } = useAuthStore();
   const toast = useNotification();
   const navigate = useNavigate();
@@ -204,13 +204,10 @@ function TeacherLayout() {
                   },
                   {
                     path: '/admin',
-                    name: 'Admin',
-                    icon: <CrownFilled />,
+                    name: 'Users',
+                    icon: <UserOutlined />,
 
-                    children: [
-                      { path: '/admin/sub-page1', name: 'Sub Page 1' },
-                      { path: '/admin/sub-page2', name: 'Sub Page 2' },
-                    ],
+                    children: [{ path: '/admin/students-management', name: 'Students List' }],
                   },
                 ]}
               >
@@ -253,4 +250,4 @@ function TeacherLayout() {
   );
 }
 
-export default TeacherLayout;
+export default AdminLayout;
