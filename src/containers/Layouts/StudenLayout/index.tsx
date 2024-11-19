@@ -211,7 +211,6 @@ function StudentLayout() {
                       {
                         path: '/admin/student-management',
                         name: 'Student',
-                        // icon: ,
                       },
                       { path: '/admin/teacher-management', name: 'Teacher' },
                       { path: '/admin/staff-management', name: 'Staff' },

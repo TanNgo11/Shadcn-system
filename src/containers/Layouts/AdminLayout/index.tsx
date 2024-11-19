@@ -207,7 +207,10 @@ function AdminLayout() {
                     name: 'Users',
                     icon: <UserOutlined />,
 
-                    children: [{ path: '/admin/students-management', name: 'Students List' }],
+                    children: [
+                      { path: '/admin/students-management', name: 'Students List' },
+                      { path: '/admin/teachers-management', name: 'Teachers List' },
+                    ],
                   },
                 ]}
               >

@@ -4,7 +4,7 @@ import { Avatar, Col, Divider, Flex, Image, Row, Tag, Typography } from 'antd';
 import './styles.scss';
 import InformationTabs from './InformationTabs';
 
-const TeacherProfile = () => {
+const AdminProfile = () => {
   return (
     <>
       <Row
@@ -143,4 +143,4 @@ const TeacherProfile = () => {
   );
 };
 
-export default TeacherProfile;
+export default AdminProfile;

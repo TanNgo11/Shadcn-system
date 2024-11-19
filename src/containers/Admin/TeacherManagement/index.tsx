@@ -1,47 +1,47 @@
-import { StudentResponse } from '@/queries/Students/types';
-import { useGetStudentsList } from '@/queries/Students/useGetStudentsList';
+import { TeacherResponse } from '@/queries/Teacher/types';
+import { useGetTeachersList } from '@/queries/Teacher/useGetTeachersList';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import { Button } from 'antd';
 import { useCallback, useMemo, useRef } from 'react';
-import { allColumns } from './allColumns';
 import { useNavigate } from 'react-router-dom';
+import { allColumns } from './allColumns';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { students, handleInvalidateStudentsList } = useGetStudentsList({
+  const { teachers, handleInvalidateTeachersList } = useGetTeachersList({
     defaultParams: {
       current: 1,
       pageSize: 10,
     },
   });
 
-  const handleEditStudent = useCallback(
+  const handleEditTeacher = useCallback(
     (id: string) => {
-      navigate(`/admin/students/${id}`);
+      navigate(`/admin/teachers/${id}`);
     },
     [navigate],
   );
 
-  const columns: ProColumns<StudentResponse>[] = useMemo(
-    () => allColumns({ handleViewStudentDetail: handleEditStudent }),
-    [handleEditStudent],
+  const columns: ProColumns<TeacherResponse>[] = useMemo(
+    () => allColumns({ handleViewTeacherDetail: handleEditTeacher }),
+    [handleEditTeacher],
   );
 
   const actionRef = useRef<ActionType>();
 
   return (
-    <ProTable<StudentResponse>
-      dataSource={students}
+    <ProTable<TeacherResponse>
+      dataSource={teachers}
       columns={columns}
       actionRef={actionRef}
       cardBordered
       request={async (_params, _sort, _filter) => {
         return {
-          data: students,
+          data: teachers,
           success: true,
-          total: students.length,
+          total: teachers.length,
         };
       }}
       columnsState={{
@@ -86,7 +86,7 @@ export default function HomePage() {
           key="button"
           icon={<PlusOutlined />}
           onClick={() => {
-            const newId = students.length + 1;
+            const newId = teachers.length + 1;
             console.log(`New record ID: ${newId}`);
             actionRef.current?.reload();
           }}

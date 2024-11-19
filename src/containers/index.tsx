@@ -1,5 +1,5 @@
 import PublicLayout from '@/containers/Layouts/PublicLayout';
-import StudentLayout from './Layouts/StudenLayout'; 
+import StudentLayout from './Layouts/StudenLayout';
 import LoginPage from '@/containers/LoginPage';
 import RoleBasedRoute from '@/hooks/RoleBasedRoute';
 import { Role } from '@/zustand/auth/types';
@@ -12,10 +12,13 @@ const HomePage = React.lazy(() => import('@/containers/HomePage'));
 const NotFoundPage = React.lazy(() => import('@/containers/StartupContainers/NotFoundPage'));
 const StudentProfilePage = React.lazy(() => import('@/containers/Student/Profile'));
 const TeacherProfilePage = React.lazy(() => import('@/containers/Teacher/Profile'));
+const AdminProfilePage = React.lazy(() => import('@/containers/Admin/Profile'));
 const CoursesPage = React.lazy(() => import('@/containers/CoursesPage'));
 const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/CourseDetailPage'));
 const StudentManagementPage = React.lazy(() => import('@/containers/Admin/StudentManagement'));
 const CreateEditStudentPage = React.lazy(() => import('@/containers/Admin/CreateEditStudent'));
+const TeacherManagementPage = React.lazy(() => import('@/containers/Admin/TeacherManagement'));
+// const CreateEditTeacherPage = React.lazy(() => import('@/containers/Admin/CreateEditTeacher'));
 
 const appRoutes: RouteObject[] = [
   {
@@ -43,7 +46,6 @@ const appRoutes: RouteObject[] = [
         path: 'course/:id',
         element: <CourseDetailPage />,
       },
-
       {
         path: '*',
         element: <NotFoundPage />,
@@ -74,11 +76,18 @@ const appRoutes: RouteObject[] = [
         path: 'students-management',
         element: <StudentManagementPage />,
       },
-
       {
         index: true,
+        path: 'teachers-management',
+        element: <TeacherManagementPage />,
+      },
+      {
         path: 'students/:id',
         element: <CreateEditStudentPage />,
+      },
+      {
+        path: 'profile',
+        element: <AdminProfilePage />,
       },
     ],
   },
@@ -91,7 +100,6 @@ const appRoutes: RouteObject[] = [
     path: '/teacher',
     children: [
       {
-        index: true,
         path: 'profile',
         element: <TeacherProfilePage />,
       },
