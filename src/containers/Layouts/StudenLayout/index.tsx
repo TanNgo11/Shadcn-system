@@ -1,15 +1,14 @@
 import MenuCard from '@/containers/Layouts/Components/MenuCardLayout';
 import SearchInput from '@/containers/Layouts/Components/SearchInputLayout';
 import LoadingContainer from '@/containers/StartupContainers/LoadingContainer';
-import { useAuthStore } from '@/zustand/auth/useAuthStore';
 import {
+  CrownFilled,
   GithubFilled,
   InfoCircleFilled,
   LogoutOutlined,
   ProfileOutlined,
   QuestionCircleFilled,
   SmileFilled,
-  UserOutlined,
 } from '@ant-design/icons';
 import {
   PageContainer,
@@ -19,14 +18,15 @@ import {
   ProSettings,
   SettingDrawer,
 } from '@ant-design/pro-components';
-import { ConfigProvider, Dropdown } from 'antd';
+import { ConfigProvider, Dropdown, Menu } from 'antd';
 import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { useNotification } from '../StartupContainers/ToastContainer';
-import defaultProps from './Components/_HeaderMenuProps';
+import defaultProps from '../Components/_HeaderMenuProps';
+import { useAuthStore } from '@/zustand/auth/useAuthStore';
+import { useNotification } from '../../StartupContainers/ToastContainer';
 
-function AdminLayout() {
+function StudentLayout() {
   const { clearAuth } = useAuthStore();
   const toast = useNotification();
   const navigate = useNavigate();
@@ -204,10 +204,18 @@ function AdminLayout() {
                   },
                   {
                     path: '/admin',
-                    name: 'Users',
-                    icon: <UserOutlined />,
+                    name: 'Admin',
+                    icon: <CrownFilled />,
 
-                    children: [{ path: '/admin/students-management', name: 'Students List' }],
+                    children: [
+                      {
+                        path: '/admin/student-management',
+                        name: 'Student',
+                        // icon: ,
+                      },
+                      { path: '/admin/teacher-management', name: 'Teacher' },
+                      { path: '/admin/staff-management', name: 'Staff' },
+                    ],
                   },
                 ]}
               >
@@ -250,4 +258,4 @@ function AdminLayout() {
   );
 }
 
-export default AdminLayout;
+export default StudentLayout;
