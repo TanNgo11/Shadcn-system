@@ -1,9 +1,8 @@
+import { TeacherResponse } from '@/queries/Teachers/types';
 import { Callback } from '@/utils/helpers';
 import { EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox } from 'antd';
-import { Gender } from '../components/types';
-import { TeacherResponse } from '@/queries/Teacher/types';
 
 type ListTeachersProps = {
   handleViewTeacherDetail: Callback;
@@ -25,21 +24,18 @@ export const allColumns = ({
     valueType: 'text',
   },
   {
-    title: 'Full Name',
+    title: 'First Name',
+    dataIndex: 'firstName',
     valueType: 'text',
-    width: 200,
-    render: (_: any, record: { firstName: string; lastName: string }) => (
-      <p>{`${record?.firstName ?? ''} ${record?.lastName ?? ''}`}</p>
-    ),
+  },
+  {
+    title: 'Last Name',
+    dataIndex: 'lastName',
+    valueType: 'text',
   },
   {
     title: 'Teacher ID',
     dataIndex: 'teacherId',
-    valueType: 'text',
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
     valueType: 'text',
   },
   {
@@ -56,18 +52,6 @@ export const allColumns = ({
     title: 'Gender',
     dataIndex: 'gender',
     valueType: 'text',
-    render: (_: any, { gender }: TeacherResponse) => {
-      const normalizedGender = gender?.toLowerCase();
-      return (
-        <p>
-          {normalizedGender === Gender.MALE.toLowerCase()
-            ? 'Male'
-            : normalizedGender === Gender.FEMALE.toLowerCase()
-              ? 'Female'
-              : 'Others'}
-        </p>
-      );
-    },
   },
   {
     title: 'Citizen ID',
@@ -75,13 +59,8 @@ export const allColumns = ({
     valueType: 'text',
   },
   {
-    title: 'School Year',
-    dataIndex: 'schoolYear',
-    valueType: 'text',
-  },
-  {
     title: 'Username',
-    dataIndex: 'userName',
+    dataIndex: 'username',
     valueType: 'text',
   },
   {
@@ -90,7 +69,7 @@ export const allColumns = ({
     valueType: 'text',
   },
   {
-    title: 'option',
+    title: 'Option',
     valueType: 'option',
     key: 'option',
 
