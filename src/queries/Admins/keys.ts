@@ -1,0 +1,4 @@
+export enum API_ADMINS_QUERIES {
+  ADMINS_LIST = 'ADMINS_LIST',
+  ADMIN_BY_ID = 'ADMIN_BY_ID',
+}
