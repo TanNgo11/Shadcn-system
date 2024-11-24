@@ -210,6 +210,7 @@ function AdminLayout() {
                     children: [
                       { path: '/admin/students-management', name: 'Students List' },
                       { path: '/admin/teachers-management', name: 'Teachers List' },
+                      { path: '/admin/admins-management', name: 'Admins List' },
                     ],
                   },
                 ]}
