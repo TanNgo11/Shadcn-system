@@ -1,10 +1,10 @@
-import { ONE_HOUR } from "@/config/constants.ts";
-import MainNavigator from "@/containers";
-import LoadingContainer from "@/containers/StartupContainers/LoadingContainer";
-import { Suspense } from "react";
-import ReactDOM from "react-dom/client";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { ONE_HOUR } from '@/config/constants.ts';
+import MainNavigator from '@/containers';
+import LoadingContainer from '@/containers/StartupContainers/LoadingContainer';
+import { Suspense } from 'react';
+import ReactDOM from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { NotificationProvider } from './containers/StartupContainers/ToastContainer';
 import { ConfigProvider } from 'antd';
 import enUS from 'antd/lib/locale/en_US';

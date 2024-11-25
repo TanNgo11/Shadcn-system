@@ -1,12 +1,12 @@
-import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions, useQueryClient } from 'react-query';
 
 import { ApiResponseType } from '../helpers';
 
 import { isEmpty } from '@/utils';
-import { teacherAPI } from '.';
 import { responseWrapper } from '../helpers';
 import { API_TEACHERS_QUERIES } from './keys';
 import { TeacherResponse } from './types';
+import { teachersApi } from '.';
 
 export function useGetTeacherById(
   options?: UseQueryOptions<ApiResponseType<TeacherResponse>, Error> & {
@@ -22,7 +22,7 @@ export function useGetTeacherById(
     [API_TEACHERS_QUERIES.TEACHER_BY_ID, { id: options?.id }],
     async ({ queryKey }) => {
       const [, ...params] = queryKey;
-      return responseWrapper<ApiResponseType<TeacherResponse>>(teacherAPI.getTeacherById, [
+      return responseWrapper<ApiResponseType<TeacherResponse>>(teachersApi.getTeacherById, [
         options?.id,
       ]);
     },
@@ -46,7 +46,7 @@ export function useGetTeacherById(
     teacher,
     error,
     isFetching,
-    onGetTeachersList,
+    onGetTeachersList: onGetTeachersList,
     handleInvalidateTeachersList,
   };
 }

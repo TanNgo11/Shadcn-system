@@ -1,7 +1,7 @@
 import { ApiResponseType, responseWrapper } from '@/queries/helpers';
 import { UseMutationOptions, useMutation } from 'react-query';
 import { CreateTeacherPayload } from './types';
-import { teacherAPI } from '.';
+import { teachersApi } from '.';
 
 export function useCreateNewTeacher(
   options?: UseMutationOptions<ApiResponseType<CreateTeacherPayload>, Error, CreateTeacherPayload>,
@@ -14,7 +14,7 @@ export function useCreateNewTeacher(
     error,
   } = useMutation<ApiResponseType<CreateTeacherPayload>, Error, CreateTeacherPayload>({
     mutationFn: (payload: CreateTeacherPayload) =>
-      responseWrapper(teacherAPI.createteacher, [payload]),
+      responseWrapper(teachersApi.createTeacher, [payload]),
     ...options,
   });
 

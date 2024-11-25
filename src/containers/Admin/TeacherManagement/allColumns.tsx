@@ -1,9 +1,9 @@
+import { TeacherResponse } from '@/queries/Teachers/types';
 import { Callback } from '@/utils/helpers';
-import { EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox } from 'antd';
 import { Gender } from '../components/types';
-import { TeacherResponse } from '@/queries/Teacher/types';
 
 type ListTeachersProps = {
   handleViewTeacherDetail: Callback;
@@ -26,25 +26,19 @@ export const allColumns = ({
   },
   {
     title: 'Full Name',
+    dataIndex: 'fullName',
     valueType: 'text',
-    width: 200,
-    render: (_: any, record: { firstName: string; lastName: string }) => (
-      <p>{`${record?.firstName ?? ''} ${record?.lastName ?? ''}`}</p>
-    ),
+    render: (_text, record) => `${record.firstName} ${record.lastName}`,
   },
   {
     title: 'Teacher ID',
     dataIndex: 'teacherId',
     valueType: 'text',
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    valueType: 'text',
+    render: (_text, record) => record.teacherId ?? 'N/A',
   },
   {
     title: 'Phone',
-    dataIndex: 'phoneNumber',
+    dataIndex: 'emergencyContactPhoneNumber',
     valueType: 'text',
   },
   {
@@ -70,33 +64,42 @@ export const allColumns = ({
     },
   },
   {
-    title: 'Citizen ID',
-    dataIndex: 'citizenId',
-    valueType: 'text',
-  },
-  {
-    title: 'School Year',
-    dataIndex: 'schoolYear',
-    valueType: 'text',
-  },
-  {
     title: 'Username',
-    dataIndex: 'userName',
+    dataIndex: 'username',
     valueType: 'text',
   },
   {
-    title: 'Present',
-    dataIndex: 'present',
+    title: 'Email',
+    dataIndex: 'email',
     valueType: 'text',
   },
   {
-    title: 'option',
+    title: 'Department ID',
+    dataIndex: 'departmentId',
+    valueType: 'text',
+  },
+  {
+    title: 'Date of Birth',
+    dataIndex: 'dateOfBirth',
+    valueType: 'text',
+  },
+  {
+    title: 'Option',
     valueType: 'option',
     key: 'option',
 
     render: (_text, _record, _) => [
       <a key="editable">
         <EditOutlined onClick={() => handleViewTeacherDetail(_record.id)} />
+      </a>,
+      <a key="delete">
+        <DeleteOutlined
+          onClick={() => {
+            if (window.confirm('Are you sure you want to delete this teacher?')) {
+              console.log('Delete teacher');
+            }
+          }}
+        />
       </a>,
     ],
   },
