@@ -20,9 +20,9 @@ import {
   SettingDrawer,
 } from '@ant-design/pro-components';
 import { ConfigProvider, Dropdown } from 'antd';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useNotification } from '../../StartupContainers/ToastContainer';
 import defaultProps from '../Components/_HeaderMenuProps';
 
@@ -30,6 +30,7 @@ function AdminLayout() {
   const { clearAuth } = useAuthStore();
   const toast = useNotification();
   const navigate = useNavigate();
+  const location = useLocation();
   const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
     layout: 'mix',
@@ -41,7 +42,7 @@ function AdminLayout() {
     fixedHeader: true,
   });
 
-  const [pathname, setPathname] = useState(window.location.pathname);
+  const [pathname, setPathname] = useState(location.pathname);
   const [num, setNum] = useState(40);
   if (typeof document === 'undefined') {
     return <div />;
@@ -56,6 +57,7 @@ function AdminLayout() {
     });
     navigate('/login');
   };
+
   return (
     <Suspense fallback={<LoadingContainer />}>
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
@@ -95,9 +97,7 @@ function AdminLayout() {
                   },
                 ]}
                 {...defaultProps}
-                location={{
-                  pathname,
-                }}
+                location={location}
                 token={{
                   header: {
                     colorBgMenuItemSelected: 'rgba(0,0,0,0.04)',
@@ -187,13 +187,7 @@ function AdminLayout() {
                 onMenuHeaderClick={(e) => console.log(e)}
                 menuItemRender={(item, dom) => <Link to={item.path || '/'}>{dom}</Link>}
                 breadcrumbRender={(routers = []) => {
-                  return [
-                    {
-                      path: '/profile',
-                      breadcrumbName: 'Profile',
-                    },
-                    ...routers,
-                  ];
+                  return [...routers];
                 }}
                 {...settings}
                 menuDataRender={() => [
@@ -208,6 +202,16 @@ function AdminLayout() {
                     icon: <UserOutlined />,
 
                     children: [
+                      {
+                        path: '/admin/students-management',
+                        name: 'Students List',
+                        breadcrumbName: 'Students List',
+                      },
+                      {
+                        path: '/admin/teachers-management',
+                        name: 'Teachers List',
+                        breadcrumbName: 'Teachers List',
+                      },
                       { path: '/admin/students-management', name: 'Students List' },
                       { path: '/admin/teachers-management', name: 'Teachers List' },
                       { path: '/admin/admins-management', name: 'Admins List' },
