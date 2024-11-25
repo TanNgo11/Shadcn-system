@@ -7,7 +7,7 @@ import { isEmpty } from '@/utils';
 import { responseWrapper } from '../helpers';
 import { API_TEACHERS_QUERIES } from './keys';
 import { TeacherResponse } from './types';
-import { teacherAPI } from '.';
+import { teachersApi } from '.';
 
 export function useGetTeachersList(
   options?: UseQueryOptions<ApiResponseType<PaginationResponseType<TeacherResponse[]>>, Error> & {
@@ -25,7 +25,7 @@ export function useGetTeachersList(
     async ({ queryKey }) => {
       const [, ...params] = queryKey;
       return responseWrapper<ApiResponseType<PaginationResponseType<TeacherResponse[]>>>(
-        teacherAPI.getTeachersList,
+        teachersApi.getTeachersList,
         params,
       );
     },

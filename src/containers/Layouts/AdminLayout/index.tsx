@@ -3,11 +3,13 @@ import SearchInput from '@/containers/Layouts/Components/SearchInputLayout';
 import LoadingContainer from '@/containers/StartupContainers/LoadingContainer';
 import { useAuthStore } from '@/zustand/auth/useAuthStore';
 import {
+  BookOutlined,
   GithubFilled,
   InfoCircleFilled,
   LogoutOutlined,
   ProfileOutlined,
   QuestionCircleFilled,
+  QuestionCircleOutlined,
   SmileFilled,
   UserOutlined,
 } from '@ant-design/icons';
@@ -122,10 +124,21 @@ function AdminLayout() {
                               label: <Link to="/profile">Profile</Link>,
                             },
                             {
-                              key: 'logout',
+                              key: 'Logout',
                               icon: <LogoutOutlined />,
                               label: 'Logout',
                               onClick: handleLogout,
+                            },
+                            {
+                              key: 'About',
+                              icon: <QuestionCircleOutlined />,
+                              label: 'About Antd',
+                              onClick: () => {
+                                window.open(
+                                  'https://procomponents.ant.design/components/layout',
+                                  '_blank',
+                                );
+                              },
                             },
                           ],
                         }}
@@ -200,7 +213,6 @@ function AdminLayout() {
                     path: '/admin',
                     name: 'Users',
                     icon: <UserOutlined />,
-
                     children: [
                       {
                         path: '/admin/students-management',
@@ -215,6 +227,17 @@ function AdminLayout() {
                       { path: '/admin/students-management', name: 'Students List' },
                       { path: '/admin/teachers-management', name: 'Teachers List' },
                       { path: '/admin/admins-management', name: 'Admins List' },
+                    ],
+                  },
+                  {
+                    path: '/admin',
+                    name: 'University',
+                    icon: <BookOutlined />,
+
+                    children: [
+                      { path: '/admin/academic-year-management', name: 'Academic Year Management' },
+                      { path: '/admin/semester-management', name: 'Semester Management' },
+                      { path: '/admin/department-management', name: 'Department Management' },
                     ],
                   },
                 ]}

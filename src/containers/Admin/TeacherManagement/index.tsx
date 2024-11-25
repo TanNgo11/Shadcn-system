@@ -1,16 +1,16 @@
-import { TeacherResponse } from '@/queries/Teacher/types';
-import { useGetTeachersList } from '@/queries/Teacher/useGetTeachersList';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import { Button } from 'antd';
 import { useCallback, useMemo, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { allColumns } from './allColumns';
+import { useNavigate } from 'react-router-dom';
+import { TeacherResponse } from '@/queries/Teachers/types';
+import { useGetTeachersList } from '@/queries/Teachers/useGetTeachersList';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { teachers, handleInvalidateTeachersList } = useGetTeachersList({
+  const { teachers } = useGetTeachersList({
     defaultParams: {
       current: 1,
       pageSize: 10,
@@ -23,6 +23,10 @@ export default function HomePage() {
     },
     [navigate],
   );
+
+  // const handleCreateTeacher = useCallback(() => {
+  //   navigate('/admin/teachers/create');
+  // }, [navigate]);
 
   const columns: ProColumns<TeacherResponse>[] = useMemo(
     () => allColumns({ handleViewTeacherDetail: handleEditTeacher }),
@@ -51,7 +55,7 @@ export default function HomePage() {
           option: { fixed: 'right', disable: true },
           lastName: { show: false },
           phoneNumber: { show: false },
-          address: { show: false },
+          address: { show: true },
           citizenId: { show: false },
         },
         onChange(value) {
@@ -86,8 +90,8 @@ export default function HomePage() {
           key="button"
           icon={<PlusOutlined />}
           onClick={() => {
-            const newId = teachers.length + 1;
-            console.log(`New record ID: ${newId}`);
+            const newId = teachers.length + 1; // Example logic to generate new ID
+            console.log('newId: ', newId);
             actionRef.current?.reload();
           }}
           type="primary"
