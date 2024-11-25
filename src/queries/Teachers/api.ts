@@ -1,3 +1,4 @@
+import { Delete } from 'lucide-react';
 import { useHttpPrivateRequest } from '@/services/useHttpPrivateRequest';
 import useHttpPublicRequest from '@/services/useHttpPublicRequest';
 import { CreateTeacherPayload } from './types';
@@ -19,6 +20,10 @@ const useApi = (baseURL = 'http://localhost:8080/identity') => {
 
   const getTeacherById = (teacherId: string) => {
     return studentPrivateApi.get(`/api/v1/users/teacher/${teacherId}`);
+  };
+
+  const updateTeacher = (teacherId: string, payload: CreateTeacherPayload) => {
+    return privateApi.put(`/api/v1/users/teacher/${teacherId}`, payload);
   };
 
   return {

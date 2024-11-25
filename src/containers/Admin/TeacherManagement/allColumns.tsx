@@ -1,8 +1,9 @@
 import { TeacherResponse } from '@/queries/Teachers/types';
 import { Callback } from '@/utils/helpers';
-import { EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox } from 'antd';
+import { Gender } from '../components/types';
 
 type ListTeachersProps = {
   handleViewTeacherDetail: Callback;
@@ -24,23 +25,20 @@ export const allColumns = ({
     valueType: 'text',
   },
   {
-    title: 'First Name',
-    dataIndex: 'firstName',
+    title: 'Full Name',
+    dataIndex: 'fullName',
     valueType: 'text',
-  },
-  {
-    title: 'Last Name',
-    dataIndex: 'lastName',
-    valueType: 'text',
+    render: (_text, record) => `${record.firstName} ${record.lastName}`,
   },
   {
     title: 'Teacher ID',
     dataIndex: 'teacherId',
     valueType: 'text',
+    render: (_text, record) => record.teacherId ?? 'N/A',
   },
   {
     title: 'Phone',
-    dataIndex: 'phoneNumber',
+    dataIndex: 'emergencyContactPhoneNumber',
     valueType: 'text',
   },
   {
@@ -52,11 +50,18 @@ export const allColumns = ({
     title: 'Gender',
     dataIndex: 'gender',
     valueType: 'text',
-  },
-  {
-    title: 'Citizen ID',
-    dataIndex: 'citizenId',
-    valueType: 'text',
+    render: (_: any, { gender }: TeacherResponse) => {
+      const normalizedGender = gender?.toLowerCase();
+      return (
+        <p>
+          {normalizedGender === Gender.MALE.toLowerCase()
+            ? 'Male'
+            : normalizedGender === Gender.FEMALE.toLowerCase()
+              ? 'Female'
+              : 'Others'}
+        </p>
+      );
+    },
   },
   {
     title: 'Username',
@@ -64,8 +69,18 @@ export const allColumns = ({
     valueType: 'text',
   },
   {
-    title: 'Present',
-    dataIndex: 'present',
+    title: 'Email',
+    dataIndex: 'email',
+    valueType: 'text',
+  },
+  {
+    title: 'Department ID',
+    dataIndex: 'departmentId',
+    valueType: 'text',
+  },
+  {
+    title: 'Date of Birth',
+    dataIndex: 'dateOfBirth',
     valueType: 'text',
   },
   {
@@ -76,6 +91,15 @@ export const allColumns = ({
     render: (_text, _record, _) => [
       <a key="editable">
         <EditOutlined onClick={() => handleViewTeacherDetail(_record.id)} />
+      </a>,
+      <a key="delete">
+        <DeleteOutlined
+          onClick={() => {
+            if (window.confirm('Are you sure you want to delete this teacher?')) {
+              console.log('Delete teacher');
+            }
+          }}
+        />
       </a>,
     ],
   },

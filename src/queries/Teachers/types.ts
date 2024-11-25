@@ -2,28 +2,42 @@ export interface CreateTeacherPayload {
   username: string;
   password: string;
   email: string;
+  status: string;
+  role: string;
   firstName: string;
   lastName: string;
-  phone: string;
-  dataOfBirth: string;
+  address: string;
+  dateOfBirth: string;
+  phoneNumber: string;
+  gender: string;
+  departmentId: string;
+  salary: number;
+  emergencyContactName: string;
+  emergencyContactPhoneNumber: string;
+  hireDate: string;
+  officeHours?: string;
 }
+
 export interface TeacherResponse {
-  studentId: string;
-  id: string;
+  id: number;
+  createdDate: string;
+  modifiedDate: string;
+  createdBy: string;
+  modifiedBy: string;
+  teacherId: string;
+  username: string;
+  hireDate: string;
+  departmentId: string;
+  salary: number;
+  officeHours: string;
+  address: string;
+  emergencyContactName: string;
+  emergencyContactPhoneNumber: string;
   firstName: string;
   lastName: string;
   dateOfBirth: string;
-  city: string;
   phoneNumber: string;
   gender: string;
-  address: string;
   email: string;
-  avatarPath: string;
-  nation: string;
-  religion: string;
-  citizenId: string;
-  faculty: string;
-  degreeLevel: string;
-  schoolYear: string;
-  present: string;
+  avatarPath: string | null;
 }

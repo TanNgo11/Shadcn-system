@@ -24,6 +24,10 @@ export default function HomePage() {
     [navigate],
   );
 
+  // const handleCreateTeacher = useCallback(() => {
+  //   navigate('/admin/teachers/create');
+  // }, [navigate]);
+
   const columns: ProColumns<TeacherResponse>[] = useMemo(
     () => allColumns({ handleViewTeacherDetail: handleEditTeacher }),
     [handleEditTeacher],
@@ -51,7 +55,7 @@ export default function HomePage() {
           option: { fixed: 'right', disable: true },
           lastName: { show: false },
           phoneNumber: { show: false },
-          address: { show: false },
+          address: { show: true },
           citizenId: { show: false },
         },
         onChange(value) {
@@ -87,7 +91,7 @@ export default function HomePage() {
           icon={<PlusOutlined />}
           onClick={() => {
             const newId = teachers.length + 1; // Example logic to generate new ID
-            console.log(`New record ID: ${newId}`);
+            console.log('newId: ', newId);
             actionRef.current?.reload();
           }}
           type="primary"
