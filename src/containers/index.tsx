@@ -7,7 +7,6 @@ import React from 'react';
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import AdminLayout from './Layouts/AdminLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
-import CreateEditTeacher from './Admin/CreateEditTeacher';
 
 const HomePage = React.lazy(() => import('@/containers/HomePage'));
 const NotFoundPage = React.lazy(() => import('@/containers/StartupContainers/NotFoundPage'));
@@ -21,7 +20,6 @@ const CreateEditStudentPage = React.lazy(
   () => import('@/containers/Admin/StudentManagement/CreateEditViewStudent'),
 );
 const TeacherManagementPage = React.lazy(() => import('@/containers/Admin/TeacherManagement'));
-const CreateEditTeacherPage = React.lazy(() => import('@/containers/Admin/CreateEditTeacher'));
 // const CreateEditTeacherPage = React.lazy(() => import('@/containers/Admin/CreateEditTeacher'));
 const AdminManagementPage = React.lazy(() => import('@/containers/Admin/AdminManagement'));
 
@@ -97,10 +95,10 @@ const appRoutes: RouteObject[] = [
         path: 'students/:id',
         element: <CreateEditStudentPage />,
       },
-      {
-        path: 'teachers/:id',
-        element: <CreateEditTeacherPage />,
-      },
+      // {
+      //   path: 'teachers/:id',
+      //   element: <CreateEditTeacherPage />,
+      // },
       {
         path: 'profile',
         element: <AdminProfilePage />,

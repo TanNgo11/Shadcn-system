@@ -1,5 +1,5 @@
+import { Present } from '@/queries/Students/types';
 import { z } from 'zod';
-import { Present } from '../../components/types';
 
 export interface StudentResponse {
   id: number;
@@ -25,7 +25,7 @@ export interface StudentResponse {
   religion: string;
   degreeLevel: string;
   academicYearId: string;
-  present: string;
+  present: Present;
   avatarPath: string | null;
 }
 
@@ -59,7 +59,7 @@ export const initStudentValue: StudentPayload = {
   religion: '',
   degreeLevel: '',
   academicYearId: '',
-  present: Present.PRESENT,
+  present: Present.STUDYING,
   avatarPath: null,
   password: '',
   repassword: '',

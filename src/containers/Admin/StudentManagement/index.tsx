@@ -1,23 +1,28 @@
-import { StudentResponse } from '@/queries/Students/types';
+import { StudentResponse, StudentStatus } from '@/queries/Students/types';
 import { useGetStudentsList } from '@/queries/Students/useGetStudentsList';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import { Button } from 'antd';
-import { useCallback, useMemo, useRef } from 'react';
-import { allColumns } from './allColumns';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { allColumns } from './allColumns';
 import { Action } from './helpers';
+import { useUpdateListStudentStatus } from '@/queries/Students/useUpdateListStudentStatus';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { students, handleInvalidateStudentsList } = useGetStudentsList({
+  const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
+  const { students, setParams } = useGetStudentsList({
     defaultParams: {
       current: 1,
       pageSize: 10,
     },
   });
-
+  const handleRowSelectionChange = (_: any, selectedRows: StudentResponse[]) => {
+    const selectedIds = selectedRows.map((row) => row.id);
+    setSelectedRowIds(selectedIds);
+  };
   const handleEditStudent = useCallback(
     (id: string, action: Action) => {
       if (action === Action.EDIT) {
@@ -26,9 +31,17 @@ export default function HomePage() {
     },
     [navigate],
   );
+  const { onUpdateStudentStatus } = useUpdateListStudentStatus();
+
+  const handleDeleteStudent = () => {
+    onUpdateStudentStatus({
+      ids: selectedRowIds.map((id) => Number(id)),
+      status: StudentStatus.INACTIVE,
+    });
+  };
 
   const columns: ProColumns<StudentResponse>[] = useMemo(
-    () => allColumns({  handleEditStudent }),
+    () => allColumns({ handleEditStudent }),
     [handleEditStudent],
   );
 
@@ -79,19 +92,32 @@ export default function HomePage() {
         },
       }}
       pagination={{
-        pageSize: 5,
-        onChange: (page) => console.log(page),
+        showSizeChanger: true,
+        onChange: (current, pageSize) => {
+          setParams((prev) => ({
+            ...prev,
+            current,
+            pageSize,
+          }));
+        },
       }}
       dateFormatter="string"
       headerTitle="Advanced"
+      rowSelection={{
+        onChange: handleRowSelectionChange,
+        selectedRowKeys: selectedRowIds,
+      }}
       toolBarRender={() => [
+        selectedRowIds.length > 0 && (
+          <Button key="button" danger type="primary" onClick={handleDeleteStudent}>
+            Delete
+          </Button>
+        ),
         <Button
           key="button"
           icon={<PlusOutlined />}
           onClick={() => {
-            const newId = students.length + 1;
-            console.log(`New record ID: ${newId}`);
-            actionRef.current?.reload();
+            navigate('/admin/students/create');
           }}
           type="primary"
         >

@@ -38,7 +38,7 @@ export function useGetStudentById(
 
   const queryClient = useQueryClient();
 
-  const handleInvalidateStudentsList = () =>
+  const handleInvalidStudentById = () =>
     queryClient.invalidateQueries([API_STUDENTS_QUERIES.STUDENT_BY_ID, { id: options?.id }]);
 
   const { result: student } = data || {};
@@ -48,6 +48,6 @@ export function useGetStudentById(
     error,
     isFetching,
     onGetStudentsList,
-    handleInvalidateStudentsList,
+    handleInvalidStudentById,
   };
 }

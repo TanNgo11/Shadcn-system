@@ -224,8 +224,6 @@ function AdminLayout() {
                         name: 'Teachers List',
                         breadcrumbName: 'Teachers List',
                       },
-                      { path: '/admin/students-management', name: 'Students List' },
-                      { path: '/admin/teachers-management', name: 'Teachers List' },
                       { path: '/admin/admins-management', name: 'Admins List' },
                     ],
                   },
