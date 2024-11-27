@@ -4,14 +4,13 @@ import { EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox } from 'antd';
 import { Gender } from '../components/types';
+import { Action } from './helpers';
 
 type ListStudentsProps = {
-  handleViewStudentDetail: Callback;
+  handleEditStudent: Callback;
 };
 
-export const allColumns = ({
-  handleViewStudentDetail,
-}: ListStudentsProps): ProColumns<StudentResponse>[] => [
+export const allColumns = ({ handleEditStudent }: ListStudentsProps): ProColumns<StudentResponse>[] => [
   {
     title: '#',
     dataIndex: 'index',
@@ -57,7 +56,7 @@ export const allColumns = ({
     dataIndex: 'gender',
     valueType: 'text',
     render: (_: any, { gender }: StudentResponse) => {
-      const normalizedGender = gender?.toLowerCase(); 
+      const normalizedGender = gender?.toLowerCase();
       return (
         <p>
           {normalizedGender === Gender.MALE.toLowerCase()
@@ -94,9 +93,9 @@ export const allColumns = ({
     valueType: 'option',
     key: 'option',
 
-    render: (_text, _record, _) => [
+    render: (_text, record, _) => [
       <a key="editable">
-        <EditOutlined onClick={() => handleViewStudentDetail(_record.id)} />
+        <EditOutlined onClick={() => handleEditStudent(record.id, Action.EDIT)} />
       </a>,
     ],
   },
