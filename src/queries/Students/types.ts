@@ -1,11 +1,25 @@
 export interface CreateStudentPayload {
-  username: string;
-  password: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  dataOfBirth: string;
+  studentId?: string;
+  password?: string;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  address?: string;
+  dateOfBirth?: string;
+  phoneNumber?: string;
+  gender?: string;
+  gpa?: number;
+  enrollmentDate?: string;
+  departmentId?: string;
+  guardianName?: string;
+  guardianPhoneNumber?: string;
+  email?: string;
+  nationality?: string;
+  religion?: string;
+  degreeLevel?: string;
+  academicYearId?: string;
+  present?: string;
+  avatarPath?: string | null;
 }
 export interface StudentResponse {
   studentId: string;

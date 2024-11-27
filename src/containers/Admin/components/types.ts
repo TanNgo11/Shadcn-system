@@ -1,7 +1,7 @@
 export enum Gender {
   MALE = 'Male',
   FEMALE ='Female',
-  OTHERS = 'Others'
+  OTHER = 'Other'
 }
 export enum Present{
   PRESENT = 'Present',

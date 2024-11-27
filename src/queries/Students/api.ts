@@ -21,7 +21,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   const getStudentById = (studentId: string) => {
     return studentPrivateApi.get(`/api/v1/users/students/${studentId}`);
   };
-
+  
   return {
     getStudentById,
     createStudent,

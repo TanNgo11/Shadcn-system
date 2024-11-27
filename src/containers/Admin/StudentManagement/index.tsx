@@ -7,6 +7,7 @@ import { Button } from 'antd';
 import { useCallback, useMemo, useRef } from 'react';
 import { allColumns } from './allColumns';
 import { useNavigate } from 'react-router-dom';
+import { Action } from './helpers';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -18,14 +19,16 @@ export default function HomePage() {
   });
 
   const handleEditStudent = useCallback(
-    (id: string) => {
-      navigate(`/admin/students/${id}`);
+    (id: string, action: Action) => {
+      if (action === Action.EDIT) {
+        navigate(`/admin/students/${id}`);
+      }
     },
     [navigate],
   );
 
   const columns: ProColumns<StudentResponse>[] = useMemo(
-    () => allColumns({ handleViewStudentDetail: handleEditStudent }),
+    () => allColumns({  handleEditStudent }),
     [handleEditStudent],
   );
 
