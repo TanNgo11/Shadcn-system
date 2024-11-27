@@ -1,5 +1,4 @@
-export interface CreateStudentPayload {
-  studentId?: string;
+export interface CRUStudentPayload {
   password?: string;
   username?: string;
   firstName?: string;
@@ -18,7 +17,7 @@ export interface CreateStudentPayload {
   religion?: string;
   degreeLevel?: string;
   academicYearId?: string;
-  present?: string;
+  present?: Present;
   avatarPath?: string | null;
 }
 export interface StudentResponse {
@@ -44,5 +43,17 @@ export interface StudentResponse {
   faculty: string;
   degreeLevel: string;
   schoolYear: string;
-  present: string;
+  present: Present;
+  status: string;
+}
+export enum Present {
+  DROPPED_OUT = 'DROPPED_OUT',
+  GRADUATED = 'GRADUATED',
+  STUDYING = 'STUDYING',
+  SUSPENDED = 'SUSPENDED',
+}
+export enum StudentStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  DELETED = 'DELETED',
 }

@@ -2,22 +2,15 @@ import { StudentResponse } from '@/queries/Students/types';
 import { Callback } from '@/utils/helpers';
 import { EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
-import { Checkbox } from 'antd';
 import { Gender } from '../components/types';
 import { Action } from './helpers';
+import StudentChip from './ChipCommon';
 
 type ListStudentsProps = {
   handleEditStudent: Callback;
 };
 
 export const allColumns = ({ handleEditStudent }: ListStudentsProps): ProColumns<StudentResponse>[] => [
-  {
-    title: '#',
-    dataIndex: 'index',
-    valueType: 'indexBorder',
-    width: 48,
-    render: (_text, record) => <Checkbox onChange={(e) => console.log(e.target.checked, record)} />,
-  },
   {
     title: 'ID',
     dataIndex: 'id',
@@ -78,15 +71,16 @@ export const allColumns = ({ handleEditStudent }: ListStudentsProps): ProColumns
     dataIndex: 'schoolYear',
     valueType: 'text',
   },
-  {
-    title: 'Username',
-    dataIndex: 'userName',
-    valueType: 'text',
-  },
+
   {
     title: 'Present',
     dataIndex: 'present',
-    valueType: 'text',
+    render: (_, record) => <StudentChip status={record.present} />,
+  },
+  {
+    title: 'Status',
+    dataIndex: 'status',
+    render: (_, record) => <StudentChip status={record.status} />,
   },
   {
     title: 'option',

@@ -1,6 +1,6 @@
 import { useHttpPrivateRequest } from '@/services/useHttpPrivateRequest';
 import useHttpPublicRequest from '@/services/useHttpPublicRequest';
-import { CreateStudentPayload } from './types';
+import { CRUStudentPayload } from './types';
 import { GetPropertiesParams } from '../helpers';
 import { stringify } from '@/utils';
 import { API_URLS } from '../keys';
@@ -10,8 +10,11 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   const privateApi = useHttpPrivateRequest(baseURL);
   const studentPrivateApi = useHttpPrivateRequest(API_URLS.PROFILE);
 
-  const createStudent = (payload: CreateStudentPayload) => {
+  const createStudent = (payload: CRUStudentPayload) => {
     return publicApi.post('/api/v1/users/student/registration', payload);
+  };
+  const updateStudent = (id:number,payload: CRUStudentPayload ) => {
+    return studentPrivateApi.put(`/api/v1/users/student/${id}`, payload);
   };
 
   const getStudentsList = (params: GetPropertiesParams) => {
@@ -21,11 +24,17 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   const getStudentById = (studentId: string) => {
     return studentPrivateApi.get(`/api/v1/users/students/${studentId}`);
   };
-  
+  const updateStatusStudentByListId = (ids: number[], status: string) => {
+    return privateApi.patch(`/api/v1/users/students/status`, { ids, status });
+  }
+
+
   return {
     getStudentById,
     createStudent,
     getStudentsList,
+    updateStudent,
+    updateStatusStudentByListId,
   };
 };
 

@@ -1,41 +1,77 @@
+import { useNotification } from '@/containers/StartupContainers/ToastContainer';
+import { CRUStudentPayload } from '@/queries/Students/types';
+import { useCreateNewStudent } from '@/queries/Students/useCreateNewStudent';
 import { useGetStudentById } from '@/queries/Students/useGetStudentById';
+import { useGetStudentsList } from '@/queries/Students/useGetStudentsList';
+import { useUpdateStudent } from '@/queries/Students/useUpdateStudent';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Card, Col, DatePicker, Form, Input, Row, Select, Typography } from 'antd';
+import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Gender } from '../../components/types';
 import {
   initStudentValue,
   StudentPayload,
-  studentRegisterFormSchema,
-  StudentResponse,
+  studentRegisterFormSchema
 } from './helper';
-import dayjs from 'dayjs';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useCreateNewStudent } from '@/queries/Students/useCreateNewStudent';
-import { CreateStudentPayload } from '@/queries/Students/types';
-import { useNotification } from '@/containers/StartupContainers/ToastContainer';
-import { Gender } from '../../components/types';
-export interface Props {}
 
-const CreateEditViewStudent: React.FC<Props> = () => {
+const CreateEditViewStudent: React.FC = () => {
   const toast = useNotification();
   const navigate = useNavigate();
   const { id } = useParams();
   const studentId = id || '';
-  const { student } = useGetStudentById({ id: studentId });
-  const { onCreateStudent } = useCreateNewStudent({
+  const { student, handleInvalidStudentById } = useGetStudentById({ id: studentId });
+  const { handleInvalidateStudentsList } = useGetStudentsList({
+    defaultParams: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
+  const { onCreateStudent, error } = useCreateNewStudent({
     onSuccess: () => {
       toast.success({
         message: 'Create student successfully',
-        description: 'Hello World!',
+        description: 'You have successfully created a new student.',
       });
+       handleInvalidateStudentsList({
+         current: 1,
+         pageSize: 10,
+       });
       navigate(-1);
     },
     onError: () => {
-      toast.error({
-        message: 'Create student failed',
-        description: 'Please try again!',
+      const errorMessage = error?.response?.data?.message || 'An unexpected error occurred.';
+      if (error?.response?.data?.code !== 1000) {
+        toast.error({
+          message: 'Create student failed',
+          description: errorMessage,
+        });
+      }
+    },
+  });
+  const { onUpdateStudent, error: updateError } = useUpdateStudent({
+    onSuccess: () => {
+      toast.success({
+        message: 'Update student successfully',
+        description: 'You have successfully updated the student.',
       });
+      handleInvalidateStudentsList({
+        current: 1,
+        pageSize: 10,
+      });
+      handleInvalidStudentById();
+      navigate(-1);
+    },
+    onError: () => {
+      const errorMessage = updateError?.response?.data?.message || 'An unexpected error occurred.';
+      if (updateError?.response?.data?.code !== 1000) {
+        toast.error({
+          message: 'Update student failed',
+          description: errorMessage,
+        });
+      }
     },
   });
 
@@ -57,11 +93,12 @@ const CreateEditViewStudent: React.FC<Props> = () => {
     }
   }, [student, reset]);
 
-  const onSubmit = (data: CreateStudentPayload) => {
+  const onSubmit = (data: CRUStudentPayload) => {
     if (!id) {
       onCreateStudent(data);
+    } else {
+      onUpdateStudent({ id: Number(studentId), data });
     }
-    console.log(data);
   };
 
   const generateAcademicYears = () => {
@@ -236,7 +273,7 @@ const CreateEditViewStudent: React.FC<Props> = () => {
                       style={{ width: '100%' }}
                       format="DD-MM-YYYY"
                       value={field.value ? dayjs(field.value, 'DD-MM-YYYY') : null}
-                      onChange={(date, dateString) => field.onChange(dateString)}
+                      onChange={(_date, dateString) => field.onChange(dateString)}
                     />
                     {errors.enrollmentDate && (
                       <Typography.Text type="danger">
