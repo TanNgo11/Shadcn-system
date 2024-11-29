@@ -37,7 +37,7 @@ export function useGetTeacherById(
 
   const queryClient = useQueryClient();
 
-  const handleInvalidateTeachersList = () =>
+  const handleInvalidTeacherById = () =>
     queryClient.invalidateQueries([API_TEACHERS_QUERIES.TEACHER_BY_ID, { id: options?.id }]);
 
   const { result: teacher } = data || {};
@@ -46,7 +46,7 @@ export function useGetTeacherById(
     teacher,
     error,
     isFetching,
-    onGetTeachersList: onGetTeachersList,
-    handleInvalidateTeachersList,
+    onGetTeachersList,
+    handleInvalidTeacherById,
   };
 }

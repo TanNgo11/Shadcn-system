@@ -1,9 +1,9 @@
-export interface CreateTeacherPayload {
+export interface CrudTeacherPayload {
   username: string;
   password: string;
   email: string;
-  status: string;
-  role: string;
+  status?: string;
+  role?: string;
   firstName: string;
   lastName: string;
   address: string;
@@ -40,4 +40,10 @@ export interface TeacherResponse {
   gender: string;
   email: string;
   avatarPath: string | null;
+}
+
+export enum TeacherStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  DELETED = 'DELETED',
 }

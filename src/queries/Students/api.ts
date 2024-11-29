@@ -13,7 +13,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   const createStudent = (payload: CRUStudentPayload) => {
     return publicApi.post('/api/v1/users/student/registration', payload);
   };
-  const updateStudent = (id:number,payload: CRUStudentPayload ) => {
+  const updateStudent = (id: number, payload: CRUStudentPayload) => {
     return studentPrivateApi.put(`/api/v1/users/student/${id}`, payload);
   };
 
@@ -26,8 +26,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   };
   const updateStatusStudentByListId = (ids: number[], status: string) => {
     return privateApi.patch(`/api/v1/users/students/status`, { ids, status });
-  }
-
+  };
 
   return {
     getStudentById,

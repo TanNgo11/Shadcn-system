@@ -1,37 +1,62 @@
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
-import { CRUStudentPayload } from '@/queries/Students/types';
-import { useCreateNewStudent } from '@/queries/Students/useCreateNewStudent';
-import { useGetStudentById } from '@/queries/Students/useGetStudentById';
-import { useGetStudentsList } from '@/queries/Students/useGetStudentsList';
-import { useUpdateStudent } from '@/queries/Students/useUpdateStudent';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useCreateNewTeacher } from '@/queries/Teachers/useCreateNewTeacher';
+import { useGetTeacherById } from '@/queries/Teachers/useGetTeacherById';
+import { useGetTeachersList } from '@/queries/Teachers/useGetTeachersList';
+import { useUpdateTeacher } from '@/queries/Teachers/useUpdateTeacher';
+import { Gender } from '@/zustand/auth/types';
 import { Button, Card, Col, DatePicker, Form, Input, Row, Select, Typography } from 'antd';
-import dayjs from 'dayjs';
-import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Gender } from '../../components/types';
-import { initStudentValue, StudentPayload, studentRegisterFormSchema } from './helper';
+import { initTeacherValue, TeacherPayload, teacherRegisterFromSchema } from './helper';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { CrudTeacherPayload } from '@/queries/Teachers/types';
+import dayjs from 'dayjs';
 
-const CreateEditViewStudent: React.FC = () => {
+const CreateEditViewTeacher: React.FC = () => {
   const toast = useNotification();
   const navigate = useNavigate();
   const { id } = useParams();
-  const studentId = id || '';
-  const { student, handleInvalidStudentById } = useGetStudentById({ id: studentId });
-  const { handleInvalidateStudentsList } = useGetStudentsList({
+  const teacherId = id || '';
+  const { teacher, handleInvalidTeacherById } = useGetTeacherById({ id: teacherId });
+  const { handleInvalidateTeachersList } = useGetTeachersList({
     defaultParams: {
       current: 1,
       pageSize: 10,
     },
   });
-  const { onCreateStudent, error } = useCreateNewStudent({
+  const { onCreateTeacher, error } = useCreateNewTeacher({
     onSuccess: () => {
       toast.success({
-        message: 'Create student successfully',
-        description: 'You have successfully created a new student.',
+        message: 'Create teacher successfully',
+        description: 'You have successfully created a new teacher.',
       });
-      handleInvalidateStudentsList({
+      handleInvalidateTeachersList({
+        current: 1,
+        pageSize: 10,
+      });
+      handleInvalidTeacherById();
+      navigate(-1);
+    },
+    onError: (error: any) => {
+      const errorMessage =
+        (error as any)?.response?.data?.message || 'An unexpected error occurred.';
+      if ((error as any)?.response?.data?.code !== 1000) {
+        toast.error({
+          message: 'Create teacher failed',
+          description: errorMessage,
+        });
+      }
+    },
+  });
+
+  const { onUpdateTeacher, error: updateError } = useUpdateTeacher({
+    onSuccess: () => {
+      toast.success({
+        message: 'Update teacher successfully',
+        description: 'You have successfully updated the teacher.',
+      });
+      handleInvalidateTeachersList({
         current: 1,
         pageSize: 10,
       });
@@ -42,70 +67,40 @@ const CreateEditViewStudent: React.FC = () => {
         (error as any)?.response?.data?.message || 'An unexpected error occurred.';
       if ((error as any)?.response?.data?.code !== 1000) {
         toast.error({
-          message: 'Create student failed',
-          description: errorMessage,
-        });
-      }
-    },
-  });
-  const { onUpdateStudent, error: updateError } = useUpdateStudent({
-    onSuccess: () => {
-      toast.success({
-        message: 'Update student successfully',
-        description: 'You have successfully updated the student.',
-      });
-      handleInvalidateStudentsList({
-        current: 1,
-        pageSize: 10,
-      });
-      handleInvalidStudentById();
-      navigate(-1);
-    },
-    onError: (error: any) => {
-      const errorMessage = error?.response?.data?.message || 'An unexpected error occurred.';
-      if (error?.response?.data?.code !== 1000) {
-        toast.error({
-          message: 'Update student failed',
+          message: 'Update teacher failed',
           description: errorMessage,
         });
       }
     },
   });
 
+  // We define this function to handle the form submission
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors, isDirty },
-  } = useForm<StudentPayload>({
+    reset,
+  } = useForm<TeacherPayload>({
     mode: 'onChange',
     reValidateMode: 'onChange',
-    defaultValues: initStudentValue,
-    resolver: zodResolver(studentRegisterFormSchema),
+    defaultValues: initTeacherValue,
+    resolver: zodResolver(teacherRegisterFromSchema),
   });
 
+  // The useSubmit function is called when the form is submitted
   useEffect(() => {
     if (id) {
-      reset({ ...student, id: Number(studentId) });
+      reset({ ...teacher, id: Number(teacherId) });
     }
-  }, [student, reset]);
+  }, [teacher, reset]);
 
-  const onSubmit = (data: CRUStudentPayload) => {
+  const onSubmit = (data: CrudTeacherPayload) => {
     if (!id) {
-      onCreateStudent(data);
+      onCreateTeacher(data);
     } else {
-      onUpdateStudent({ id: Number(studentId), data });
+      console.log('data: ', data);
+      onUpdateTeacher({ id: Number(teacherId), data });
     }
-  };
-
-  const generateAcademicYears = () => {
-    const currentYear = new Date().getFullYear();
-    const startYear = currentYear - (currentYear % 4);
-    const years = [];
-    for (let i = startYear; i >= 2000; i -= 4) {
-      years.push(`${i}-${i + 4}`);
-    }
-    return years;
   };
 
   return (
@@ -163,17 +158,16 @@ const CreateEditViewStudent: React.FC = () => {
                 />
               </Form.Item>
             </Col>
-
             <Col span={12}>
               <Form.Item label="Confirmation Password">
                 <Controller
-                  name="repassword"
+                  name="rePassword"
                   control={control}
                   render={({ field }) => (
                     <>
                       <Input {...field} type="password" placeholder="Confirm password" />
-                      {errors.repassword && (
-                        <Typography.Text type="danger">{errors.repassword.message}</Typography.Text>
+                      {errors.rePassword && (
+                        <Typography.Text type="danger">{errors.rePassword.message}</Typography.Text>
                       )}
                     </>
                   )}
@@ -183,7 +177,6 @@ const CreateEditViewStudent: React.FC = () => {
           </Row>
         )}
       </Card>
-
       <Card title="Profile Information" bordered={false} style={{ marginTop: 16 }}>
         <Row gutter={16}>
           <Col span={8}>
@@ -202,7 +195,6 @@ const CreateEditViewStudent: React.FC = () => {
               />
             </Form.Item>
           </Col>
-
           <Col span={8}>
             <Form.Item label="Last Name">
               <Controller
@@ -213,24 +205,6 @@ const CreateEditViewStudent: React.FC = () => {
                     <Input {...field} placeholder="Enter last name" />
                     {errors.lastName && (
                       <Typography.Text type="danger">{errors.lastName.message}</Typography.Text>
-                    )}
-                  </>
-                )}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Form.Item label="Phone Number">
-              <Controller
-                name="phoneNumber"
-                control={control}
-                render={({ field }) => (
-                  <>
-                    <Input {...field} placeholder="Enter phone number" />
-                    {errors.phoneNumber && (
-                      <Typography.Text type="danger">{errors.phoneNumber.message}</Typography.Text>
                     )}
                   </>
                 )}
@@ -257,43 +231,41 @@ const CreateEditViewStudent: React.FC = () => {
               />
             </Form.Item>
           </Col>
+        </Row>
+        <Row gutter={16}>
           <Col span={8}>
-            <Form.Item label="Enrollment Date">
+            <Form.Item label="Phone Number">
               <Controller
-                name="enrollmentDate"
+                name="phoneNumber"
                 control={control}
                 render={({ field }) => (
                   <>
-                    <DatePicker
-                      {...field}
-                      placeholder="Select date"
-                      style={{ width: '100%' }}
-                      format="DD-MM-YYYY"
-                      value={field.value ? dayjs(field.value, 'DD-MM-YYYY') : null}
-                      onChange={(_date: any, dateString: any) => field.onChange(dateString)}
-                    />
-                    {errors.enrollmentDate && (
-                      <Typography.Text type="danger">
-                        {errors.enrollmentDate.message}
-                      </Typography.Text>
+                    <Input {...field} placeholder="Enter phone number" />
+                    {errors.phoneNumber && (
+                      <Typography.Text type="danger">{errors.phoneNumber.message}</Typography.Text>
                     )}
                   </>
                 )}
               />
             </Form.Item>
           </Col>
-        </Row>
-        <Row gutter={16}>
           <Col span={8}>
-            <Form.Item label="Nationality">
+            <Form.Item label="Date of Birth">
               <Controller
-                name="nationality"
+                name="dateOfBirth"
                 control={control}
                 render={({ field }) => (
                   <>
-                    <Input {...field} placeholder="Enter nationality" />
-                    {errors.nationality && (
-                      <Typography.Text type="danger">{errors.nationality.message}</Typography.Text>
+                    <DatePicker
+                      {...field}
+                      placeholder="Select date of birth"
+                      format="DD-MM-YYYY"
+                      style={{ width: '100%' }}
+                      value={field.value ? dayjs(field.value, 'DD-MM-YYYY') : null}
+                      onChange={(_date: any, dateString: any) => field.onChange(dateString)}
+                    />
+                    {errors.dateOfBirth && (
+                      <Typography.Text type="danger">{errors.dateOfBirth.message}</Typography.Text>
                     )}
                   </>
                 )}
@@ -316,40 +288,20 @@ const CreateEditViewStudent: React.FC = () => {
               />
             </Form.Item>
           </Col>
-          {/* <Col span={8}>
-            <Form.Item label="School Year">
-              <Controller
-                name="schoolYear"
-                control={control}
-                render={({ field }) => (
-                  <>
-                    <Select {...field} placeholder="Select academic year">
-                      {generateAcademicYears().map((year) => (
-                        <Select.Option key={year} value={year}>
-                          {year}
-                        </Select.Option>
-                      ))}
-                    </Select>
-                    {errors.schoolYear && (
-                      <Typography.Text type="danger">{errors.schoolYear.message}</Typography.Text>
-                    )}
-                  </>
-                )}
-              />
-            </Form.Item>
-          </Col> */}
         </Row>
         <Row gutter={16}>
           <Col span={8}>
-            <Form.Item label="Guardian Name">
+            <Form.Item label="Emergency Contact Phone Number">
               <Controller
-                name="guardianName"
+                name="emergencyContactPhoneNumber"
                 control={control}
                 render={({ field }) => (
                   <>
-                    <Input {...field} placeholder="Enter guardian name" />
-                    {errors.guardianName && (
-                      <Typography.Text type="danger">{errors.guardianName.message}</Typography.Text>
+                    <Input {...field} placeholder="Enter emergency contact phone number" />
+                    {errors.emergencyContactPhoneNumber && (
+                      <Typography.Text type="danger">
+                        {errors.emergencyContactPhoneNumber.message}
+                      </Typography.Text>
                     )}
                   </>
                 )}
@@ -357,17 +309,31 @@ const CreateEditViewStudent: React.FC = () => {
             </Form.Item>
           </Col>
           <Col span={8}>
-            <Form.Item label="Guardian Phone Number">
+            <Form.Item label="Phone Number">
               <Controller
-                name="guardianPhoneNumber"
+                name="phoneNumber"
                 control={control}
                 render={({ field }) => (
                   <>
                     <Input {...field} placeholder="Enter guardian phone number" />
-                    {errors.guardianPhoneNumber && (
-                      <Typography.Text type="danger">
-                        {errors.guardianPhoneNumber.message}
-                      </Typography.Text>
+                    {errors.phoneNumber && (
+                      <Typography.Text type="danger">{errors.phoneNumber.message}</Typography.Text>
+                    )}
+                  </>
+                )}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item label="Address">
+              <Controller
+                name="address"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <Input {...field} placeholder="Enter address" />
+                    {errors.address && (
+                      <Typography.Text type="danger">{errors.address.message}</Typography.Text>
                     )}
                   </>
                 )}
@@ -378,7 +344,7 @@ const CreateEditViewStudent: React.FC = () => {
         <Row gutter={16}>
           <Col span={24} style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button type="primary" htmlType="submit">
-              {id ? 'Update' : 'Create'}
+              {teacherId ? 'Update' : 'Create'}
             </Button>
           </Col>
         </Row>
@@ -387,4 +353,4 @@ const CreateEditViewStudent: React.FC = () => {
   );
 };
 
-export default CreateEditViewStudent;
+export default CreateEditViewTeacher;

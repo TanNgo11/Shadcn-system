@@ -4,20 +4,25 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox } from 'antd';
 import { Gender } from '../components/types';
+import { Action } from './helpers';
 
 type ListTeachersProps = {
-  handleViewTeacherDetail: Callback;
+  handleEditTeacher: Callback;
 };
 
 export const allColumns = ({
-  handleViewTeacherDetail,
+  handleEditTeacher,
 }: ListTeachersProps): ProColumns<TeacherResponse>[] => [
   {
     title: '#',
     dataIndex: 'index',
     valueType: 'indexBorder',
     width: 48,
-    render: (_text, record) => <Checkbox onChange={(e) => console.log(e.target.checked, record)} />,
+    render: (_text, record) => (
+      <Checkbox
+        onChange={(e: { target: { checked: any } }) => console.log(e.target.checked, record)}
+      />
+    ),
   },
   {
     title: 'ID',
@@ -90,13 +95,14 @@ export const allColumns = ({
 
     render: (_text, _record, _) => [
       <a key="editable">
-        <EditOutlined onClick={() => handleViewTeacherDetail(_record.id)} />
+        <EditOutlined onClick={() => handleEditTeacher(_record.id, Action.EDIT)} />
       </a>,
       <a key="delete">
         <DeleteOutlined
           onClick={() => {
             if (window.confirm('Are you sure you want to delete this teacher?')) {
               console.log('Delete teacher');
+              console.log(_record.id);
             }
           }}
         />
