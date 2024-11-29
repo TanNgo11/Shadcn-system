@@ -81,7 +81,7 @@ export default function HomePage() {
         },
       }}
       form={{
-        syncToUrl: (values, type) => {
+        syncToUrl: (values: { startTime: any; endTime: any }, type: string) => {
           if (type === 'get') {
             return {
               ...values,
@@ -93,7 +93,7 @@ export default function HomePage() {
       }}
       pagination={{
         showSizeChanger: true,
-        onChange: (current, pageSize) => {
+        onChange: (current: any, pageSize: any) => {
           setParams((prev) => ({
             ...prev,
             current,

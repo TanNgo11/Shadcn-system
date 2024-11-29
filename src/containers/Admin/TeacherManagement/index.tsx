@@ -7,6 +7,7 @@ import { allColumns } from './allColumns';
 import { useNavigate } from 'react-router-dom';
 import { TeacherResponse } from '@/queries/Teachers/types';
 import { useGetTeachersList } from '@/queries/Teachers/useGetTeachersList';
+import { Action } from './helpers';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -18,18 +19,16 @@ export default function HomePage() {
   });
 
   const handleEditTeacher = useCallback(
-    (id: string) => {
-      navigate(`/admin/teachers/${id}`);
+    (id: string, action: Action) => {
+      if (action === Action.EDIT) {
+        navigate(`/admin/teachers/${id}`);
+      }
     },
     [navigate],
   );
 
-  // const handleCreateTeacher = useCallback(() => {
-  //   navigate('/admin/teachers/create');
-  // }, [navigate]);
-
   const columns: ProColumns<TeacherResponse>[] = useMemo(
-    () => allColumns({ handleViewTeacherDetail: handleEditTeacher }),
+    () => allColumns({ handleEditTeacher: handleEditTeacher }),
     [handleEditTeacher],
   );
 
@@ -69,7 +68,7 @@ export default function HomePage() {
         },
       }}
       form={{
-        syncToUrl: (values, type) => {
+        syncToUrl: (values: { startTime: any; endTime: any }, type: string) => {
           if (type === 'get') {
             return {
               ...values,
@@ -81,7 +80,7 @@ export default function HomePage() {
       }}
       pagination={{
         pageSize: 5,
-        onChange: (page) => console.log(page),
+        onChange: (page: any) => console.log(page),
       }}
       dateFormatter="string"
       headerTitle="Advanced"
@@ -90,9 +89,7 @@ export default function HomePage() {
           key="button"
           icon={<PlusOutlined />}
           onClick={() => {
-            const newId = teachers.length + 1; // Example logic to generate new ID
-            console.log('newId: ', newId);
-            actionRef.current?.reload();
+            navigate('/admin/teachers/create');
           }}
           type="primary"
         >

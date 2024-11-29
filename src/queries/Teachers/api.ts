@@ -1,7 +1,7 @@
 import { Delete } from 'lucide-react';
 import { useHttpPrivateRequest } from '@/services/useHttpPrivateRequest';
 import useHttpPublicRequest from '@/services/useHttpPublicRequest';
-import { CreateTeacherPayload } from './types';
+import { CrudTeacherPayload } from './types';
 import { GetPropertiesParams } from '../helpers';
 import { stringify } from '@/utils';
 
@@ -10,8 +10,8 @@ const useApi = (baseURL = 'http://localhost:8080/identity') => {
   const privateApi = useHttpPrivateRequest(baseURL);
   const teacherPrivateApi = useHttpPrivateRequest('http://localhost:8081/profile');
 
-  const createTeacher = (payload: CreateTeacherPayload) => {
-    return publicApi.post('/api/v1/users/teacher/registration', payload);
+  const createTeacher = (payload: CrudTeacherPayload) => {
+    return privateApi.post('/api/v1/users/teacher/registration', payload);
   };
 
   const getTeachersList = (params: GetPropertiesParams) => {
@@ -19,17 +19,18 @@ const useApi = (baseURL = 'http://localhost:8080/identity') => {
   };
 
   const getTeacherById = (teacherId: string) => {
-    return teacherPrivateApi.get(`/api/v1/users/teacher/${teacherId}`);
+    return teacherPrivateApi.get(`/api/v1/users/teachers/${teacherId}`);
   };
 
-  const updateTeacher = (teacherId: string, payload: CreateTeacherPayload) => {
-    return privateApi.put(`/api/v1/users/teacher/${teacherId}`, payload);
+  const updateTeacher = (teacherId: string, payload: CrudTeacherPayload) => {
+    return teacherPrivateApi.put(`/api/v1/users/teacher/${teacherId}`, payload);
   };
 
   return {
     createTeacher,
     getTeachersList,
     getTeacherById,
+    updateTeacher,
   };
 };
 
