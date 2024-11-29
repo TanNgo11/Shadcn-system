@@ -61,17 +61,21 @@ export const allColumns = ({ handleEditStudent }: ListStudentsProps): ProColumns
       );
     },
   },
+  // {
+  //   title: 'Citizen ID',
+  //   dataIndex: 'citizenId',
+  //   valueType: 'text',
+  // },
   {
-    title: 'Citizen ID',
-    dataIndex: 'citizenId',
+    title: 'Academic Year',
+    dataIndex: 'academicYearId',
     valueType: 'text',
   },
   {
-    title: 'School Year',
-    dataIndex: 'schoolYear',
+    title: 'D.o.B',
+    dataIndex: 'dateOfBirth',
     valueType: 'text',
   },
-
   {
     title: 'Present',
     dataIndex: 'present',

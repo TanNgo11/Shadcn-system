@@ -1,75 +1,64 @@
-import { Present } from '@/queries/Students/types';
 import { z } from 'zod';
 
-export interface StudentResponse {
+export interface AdminResponse {
   id: number;
   createdDate: string;
   modifiedDate: string;
   createdBy: string;
   modifiedBy: string;
-  studentId: string;
+  adminId: string;
   username: string;
-  firstName: string;
   middleName: string;
-  lastName: string;
+  hireDate: string;
+  departmentId: string;
+  workSchedule: string;
   address: string;
+  emergencyContactName: string;
+  emergencyContactPhoneNumber: string;
+  firstName: string;
+  lastName: string;
   dateOfBirth: string;
   phoneNumber: string;
   gender: string;
-  gpa: number;
-  enrollmentDate: string;
-  departmentId: string;
-  guardianName: string;
-  guardianPhoneNumber: string;
   email: string;
-  nationality: string;
-  religion: string;
-  degreeLevel: string;
-  academicYearId: string;
-  present: Present;
   avatarPath: string | null;
 }
 
-export interface StudentPayload extends Omit<StudentResponse, 'id'> {
+export interface AdminPayload extends Omit<AdminResponse, 'id'> {
   id?: number;
   password: string;
   repassword: string;
 }
 
-export const initStudentValue: StudentPayload = {
+export const initAdminValue: AdminPayload = {
   id: 0,
   createdDate: '',
   modifiedDate: '',
   createdBy: '',
   modifiedBy: '',
-  studentId: '',
+  adminId: '',
   username: '',
-  firstName: '',
   middleName: '',
-  lastName: '',
+  hireDate: '',
+  departmentId: '',
+  workSchedule: '',
   address: '',
+  emergencyContactName: '',
+  emergencyContactPhoneNumber: '',
+  firstName: '',
+  lastName: '',
   dateOfBirth: '',
   phoneNumber: '',
   gender: '',
-  gpa: 0,
-  enrollmentDate: '',
-  departmentId: '',
-  guardianName: '',
-  guardianPhoneNumber: '',
   email: '',
-  nationality: '',
-  religion: '',
-  degreeLevel: '',
-  academicYearId: '',
-  present: Present.STUDYING,
   avatarPath: null,
   password: '',
   repassword: '',
 };
 
-export const studentRegisterFormSchema = z.object({
+export const adminRegisterFormSchema = z.object({
   id: z.number().optional(),
-  studentId: z.string().optional(),
+  adminId: z.string().optional(),
   username: z
     .string()
     .min(6, { message: 'Username must be at least 6 characters long' })
@@ -88,21 +77,13 @@ export const studentRegisterFormSchema = z.object({
     .regex(/^\d{10}$/, { message: 'Phone number must be 10 digits' })
     .optional(),
   gender: z.enum(['MALE', 'FEMALE', 'OTHER']).optional(),
-  enrollmentDate: z
-    .string()
-    .optional(),
   departmentId: z.string().optional(),
-  guardianName: z.string().optional(),
-  guardianPhoneNumber: z
+  emergencyContactName: z.string().optional(),
+  emergencyContactPhoneNumber: z
     .string()
-    .regex(/^\d{10}$/, { message: 'Guardian phone number must be 10 digits' })
+    .regex(/^\d{10}$/, { message: 'Emergency phone number must be 10 digits' })
     .optional(),
   email: z.string().email({ message: 'Invalid email address' }).optional(),
-  nationality: z.string().optional(),
-  religion: z.string().optional(),
-  degreeLevel: z.string().optional(),
-  academicYearId: z.string().optional(),
-  present: z.string().optional(),
   avatarPath: z.string().nullable().optional(),
   password: z
     .string()
@@ -113,9 +94,7 @@ export const studentRegisterFormSchema = z.object({
     .regex(/[\W_]/, { message: 'Password must contain at least one special character' })
     .optional(),
   repassword: z.string().optional(),
+  workSchedule: z.string().optional(),
+  hireDate: z.string().optional(),
 });
 
-
-export enum AcademicYear {
-  'First' = '2020-2024',
-}

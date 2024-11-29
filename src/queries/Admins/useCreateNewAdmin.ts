@@ -1,10 +1,10 @@
 import { ApiResponseType, responseWrapper } from '@/queries/helpers';
 import { UseMutationOptions, useMutation } from 'react-query';
-import { CreateAdminPayload } from './types';
+import { CRUAdminPayload } from './types';
 import { adminsApi } from '.';
 
 export function useCreateNewAdmin(
-  options?: UseMutationOptions<ApiResponseType<CreateAdminPayload>, Error, CreateAdminPayload>,
+  options?: UseMutationOptions<ApiResponseType<CRUAdminPayload>, Error, CRUAdminPayload>,
 ) {
   const {
     mutate: onCreateAdmin,
@@ -12,8 +12,8 @@ export function useCreateNewAdmin(
     isSuccess,
     isError,
     error,
-  } = useMutation<ApiResponseType<CreateAdminPayload>, Error, CreateAdminPayload>({
-    mutationFn: (payload: CreateAdminPayload) =>
+  } = useMutation<ApiResponseType<CRUAdminPayload>, Error, CRUAdminPayload>({
+    mutationFn: (payload: CRUAdminPayload) =>
       responseWrapper(adminsApi.createAdmin, [payload]),
     ...options,
   });

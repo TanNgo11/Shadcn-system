@@ -1,7 +1,8 @@
-export interface CreateAdminPayload {
+export interface CRUAdminPayload {
   username: string;
   password: string;
   firstName: string;
+  middleName: string;
   lastName: string;
   dateOfBirth: string;
   email: string;
