@@ -38,9 +38,8 @@ export function useGetAdminById(
 
   const queryClient = useQueryClient();
 
-  const handleInvalidateAdminsList = () =>
+  const handleInvalidAdminById = () =>
     queryClient.invalidateQueries([API_ADMINS_QUERIES.ADMIN_BY_ID, { id: options?.id }]);
-
   const { result: admin } = data || {};
 
   return {
@@ -48,6 +47,6 @@ export function useGetAdminById(
     error,
     isFetching,
     onGetAdminsList,
-    handleInvalidateAdminsList,
+    handleInvalidAdminById
   };
 }

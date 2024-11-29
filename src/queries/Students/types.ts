@@ -2,6 +2,7 @@ export interface CRUStudentPayload {
   password?: string;
   username?: string;
   firstName?: string;
+  middleName?: string;
   lastName?: string;
   address?: string;
   dateOfBirth?: string;
@@ -42,9 +43,9 @@ export interface StudentResponse {
   citizenId: string;
   faculty: string;
   degreeLevel: string;
-  schoolYear: string;
   present: Present;
   status: string;
+  academicYearId: string;
 }
 export enum Present {
   DROPPED_OUT = 'DROPPED_OUT',

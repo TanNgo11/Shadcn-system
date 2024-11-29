@@ -22,6 +22,9 @@ const CreateEditStudentPage = React.lazy(
 const CreateEditTeacherPage = React.lazy(
   () => import('@/containers/Admin/TeacherManagement/CreateEditViewTeacher'),
 );
+const CreateEditAdminPage = React.lazy(
+  () => import('@/containers/Admin/AdminManagement/CreateEditViewAdmin'),
+);
 const TeacherManagementPage = React.lazy(() => import('@/containers/Admin/TeacherManagement'));
 // const CreateEditTeacherPage = React.lazy(() => import('@/containers/Admin/CreateEditTeacher'));
 const AdminManagementPage = React.lazy(() => import('@/containers/Admin/AdminManagement'));
@@ -105,6 +108,10 @@ const appRoutes: RouteObject[] = [
       {
         path: 'teachers/:id',
         element: <CreateEditTeacherPage />,
+      },
+      {
+        path: 'admins/create',
+        element: <CreateEditAdminPage />,
       },
       {
         path: 'profile',

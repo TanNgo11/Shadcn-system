@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function AdminManagement() {
   const navigate = useNavigate();
-  const { admins, handleInvalidateAdminsList } = useGetAdminsList({
+  const { admins, setParams } = useGetAdminsList({
     defaultParams: {
       current: 1,
       pageSize: 10,
@@ -76,8 +76,14 @@ export default function AdminManagement() {
         },
       }}
       pagination={{
-        pageSize: 5,
-        onChange: (page) => console.log(page),
+        showSizeChanger: true,
+        onChange: (current: any, pageSize: any) => {
+          setParams((prev) => ({
+            ...prev,
+            current,
+            pageSize,
+          }));
+        },
       }}
       dateFormatter="string"
       headerTitle="Advanced"
@@ -86,9 +92,7 @@ export default function AdminManagement() {
           key="button"
           icon={<PlusOutlined />}
           onClick={() => {
-            const newId = admins.length + 1;
-            console.log(`New record ID: ${newId}`);
-            actionRef.current?.reload();
+            navigate('/admin/admins/create');
           }}
           type="primary"
         >
