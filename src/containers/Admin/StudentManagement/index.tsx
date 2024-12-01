@@ -81,7 +81,7 @@ export default function HomePage() {
         },
       }}
       form={{
-        syncToUrl: (values: { startTime: any; endTime: any }, type: string) => {
+        syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
           if (type === 'get') {
             return {
               ...values,

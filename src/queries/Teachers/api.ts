@@ -19,11 +19,19 @@ const useApi = (baseURL = 'http://localhost:8080/identity') => {
   };
 
   const getTeacherById = (teacherId: string) => {
-    return teacherPrivateApi.get(`/api/v1/users/teachers/${teacherId}`);
+    return teacherPrivateApi.get(`/api/v1/users/teacher/public/${teacherId}`);
   };
 
   const updateTeacher = (teacherId: string, payload: CrudTeacherPayload) => {
     return teacherPrivateApi.put(`/api/v1/users/teacher/${teacherId}`, payload);
+  };
+
+  const deleteTeacher = (teacherIds: string[]) => {
+    return privateApi.delete(`/api/v1/users/teachers/delete`, { data: { teacherIds: teacherIds } });
+  };
+
+  const deleteTeacherById = (teacherId: string) => {
+    return privateApi.delete(`/api/v1/users/teachers/delete/${teacherId}`);
   };
 
   return {
@@ -31,6 +39,8 @@ const useApi = (baseURL = 'http://localhost:8080/identity') => {
     getTeachersList,
     getTeacherById,
     updateTeacher,
+    deleteTeacher,
+    deleteTeacherById,
   };
 };
 
