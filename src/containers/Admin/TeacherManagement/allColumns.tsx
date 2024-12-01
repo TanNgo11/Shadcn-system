@@ -2,16 +2,30 @@ import { TeacherResponse } from '@/queries/Teachers/types';
 import { Callback } from '@/utils/helpers';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
-import { Checkbox } from 'antd';
+import { Checkbox, message, Popconfirm } from 'antd';
 import { Gender } from '../components/types';
 import { Action } from './helpers';
+import { PopconfirmProps } from 'antd/lib';
 
 type ListTeachersProps = {
   handleEditTeacher: Callback;
+  handleDeleteTeacher: Callback;
+};
+
+// Notification box to confirm the deletion of a teacher
+const confirm: PopconfirmProps['onConfirm'] = (e) => {
+  //handleDeleteTeacher(_record.id, Action.DELETE);
+  message.success('Click on Yes');
+};
+
+const cancel: PopconfirmProps['onCancel'] = (e) => {
+  console.log(e);
+  message.error('Click on No');
 };
 
 export const allColumns = ({
   handleEditTeacher,
+  handleDeleteTeacher,
 }: ListTeachersProps): ProColumns<TeacherResponse>[] => [
   {
     title: '#',
@@ -98,12 +112,17 @@ export const allColumns = ({
         <EditOutlined onClick={() => handleEditTeacher(_record.id, Action.EDIT)} />
       </a>,
       <a key="delete">
+        {/* <Popconfirm
+          title="Are you sure to delete this teacher?"
+          onConfirm={confirm}
+          onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+        ></Popconfirm> */}
         <DeleteOutlined
           onClick={() => {
-            if (window.confirm('Are you sure you want to delete this teacher?')) {
-              console.log('Delete teacher');
-              console.log(_record.id);
-            }
+            console.log('Delete teacher ' + _record.id);
+            handleDeleteTeacher(_record.id.toString(), Action.DELETE);
           }}
         />
       </a>,

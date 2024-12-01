@@ -25,6 +25,8 @@ const CreateEditViewTeacher: React.FC = () => {
       pageSize: 10,
     },
   });
+
+  // The useCreateNewTeacher hook is used to create a new teacher
   const { onCreateTeacher, error } = useCreateNewTeacher({
     onSuccess: () => {
       toast.success({
@@ -50,6 +52,7 @@ const CreateEditViewTeacher: React.FC = () => {
     },
   });
 
+  // The useUpdateTeacher hook is used to update a teacher
   const { onUpdateTeacher, error: updateError } = useUpdateTeacher({
     onSuccess: () => {
       toast.success({
@@ -74,20 +77,22 @@ const CreateEditViewTeacher: React.FC = () => {
     },
   });
 
-  // We define this function to handle the form submission
+  // We define this function to handle the form submissionv
+  // Initialize form control and validation using react-hook-form and zod
   const {
-    control,
+    control, // The control object is used to register the form fields
     handleSubmit,
-    formState: { errors, isDirty },
-    reset,
+    formState: { errors, isDirty }, // The formState means the state of the form | isDirty is a boolean value that indicates whether the form has been modified
+    reset, // The reset function is used to reset the form to its initial state
   } = useForm<TeacherPayload>({
-    mode: 'onChange',
-    reValidateMode: 'onChange',
+    mode: 'onChange', // The mode option is set to 'onChange' to validate the form when the input value changes
+    reValidateMode: 'onChange', // The reValidateMode option is set to 'onChange' to re-validate the form when the input value changes
     defaultValues: initTeacherValue,
     resolver: zodResolver(teacherRegisterFromSchema),
   });
 
   // The useSubmit function is called when the form is submitted
+  //
   useEffect(() => {
     if (id) {
       reset({ ...teacher, id: Number(teacherId) });
