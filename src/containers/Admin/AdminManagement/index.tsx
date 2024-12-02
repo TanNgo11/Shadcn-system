@@ -76,14 +76,17 @@ export default function AdminManagement() {
         },
       }}
       pagination={{
-        showSizeChanger: true,
-        onChange: (current: any, pageSize: any) => {
-          setParams((prev) => ({
-            ...prev,
-            current,
-            pageSize,
-          }));
-        },
+        // Cường code lỗi
+        // showSizeChanger: true,
+        // onChange: (current: any, pageSize: any) => {
+        //   setParams((prev) => ({
+        //     ...prev,
+        //     current,
+        //     pageSize,
+        //   }));
+        // },
+        pageSize: 8,
+        onChange: (page: any) => console.log(page),
       }}
       dateFormatter="string"
       headerTitle="Advanced"

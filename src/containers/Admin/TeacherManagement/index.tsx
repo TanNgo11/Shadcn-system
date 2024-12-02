@@ -11,19 +11,27 @@ import { Action } from './helpers';
 import { useDeleteTeacherById } from '@/queries/Teachers/useDeleteTeacherById';
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
 
+
 export default function HomePage() {
   const navigate = useNavigate();
   const toast = useNotification();
   const actionRef = useRef<ActionType>();
-
+  const { handleInvalidateTeachersList } = useGetTeachersList({
+    defaultParams: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
   const { onDeleteTeacherById } = useDeleteTeacherById({
     onSuccess: async () => {
       toast.success({
         message: 'Delete teacher successfully',
         description: 'You have successfully deleted a new teacher.',
       });
-      // Reload the teachers list after deleting a teacher
-      navigate(0);
+      handleInvalidateTeachersList({
+        current: 1,
+        pageSize: 10,
+      });
     },
     onError: (error) => {
       toast.error({
