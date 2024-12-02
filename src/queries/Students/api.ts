@@ -9,6 +9,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   const publicApi = useHttpPublicRequest(baseURL);
   const privateApi = useHttpPrivateRequest(baseURL);
   const studentPrivateApi = useHttpPrivateRequest(API_URLS.PROFILE);
+  const identityPrivateApi = useHttpPrivateRequest(API_URLS.IDENTITY);
 
   const createStudent = (payload: CRUStudentPayload) => {
     return publicApi.post('/api/v1/users/student/registration', payload);
@@ -28,7 +29,12 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
     return privateApi.patch(`/api/v1/users/students/status`, { ids, status });
   };
 
+  const uploadBulkStudent = (payload: FormData) => {
+    return identityPrivateApi.post(`/api/v1/users/students/import`, payload);
+  };
+
   return {
+    uploadBulkStudent,
     getStudentById,
     createStudent,
     getStudentsList,
