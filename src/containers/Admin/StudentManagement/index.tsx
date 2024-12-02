@@ -19,6 +19,7 @@ export default function HomePage() {
       pageSize: 10,
     },
   });
+  console.log("student", students);
   const handleRowSelectionChange = (_: any, selectedRows: StudentResponse[]) => {
     const selectedIds = selectedRows.map((row) => row.id);
     setSelectedRowIds(selectedIds);
@@ -92,14 +93,16 @@ export default function HomePage() {
         },
       }}
       pagination={{
-        showSizeChanger: true,
-        onChange: (current: any, pageSize: any) => {
-          setParams((prev) => ({
-            ...prev,
-            current,
-            pageSize,
-          }));
-        },
+        // showSizeChanger: true,
+        // onChange: (current: any, pageSize: any) => {
+        //   setParams((prev) => ({
+        //     ...prev,
+        //     current,
+        //     pageSize,
+        //   }));
+        // },
+        pageSize: 8,
+        onChange: (page: any) => console.log(page),
       }}
       dateFormatter="string"
       headerTitle="Advanced"

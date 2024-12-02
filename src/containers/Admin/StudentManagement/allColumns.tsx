@@ -19,7 +19,6 @@ export const allColumns = ({ handleEditStudent }: ListStudentsProps): ProColumns
   {
     title: 'Full Name',
     valueType: 'text',
-    width: 200,
     render: (_: any, record: { firstName: string; lastName: string }) => (
       <p>{`${record?.firstName ?? ''} ${record?.lastName ?? ''}`}</p>
     ),
