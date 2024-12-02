@@ -114,6 +114,10 @@ const appRoutes: RouteObject[] = [
         element: <CreateEditAdminPage />,
       },
       {
+        path: 'admins/:id',
+        element: <CreateEditAdminPage />,
+      },
+      {
         path: 'profile',
         element: <AdminProfilePage />,
       },

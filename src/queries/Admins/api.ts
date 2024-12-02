@@ -13,15 +13,15 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   const createAdmin = (payload: CRUAdminPayload) => {
     return privateApi.post('/api/v1/users/admin/registration', payload);
   };
-  const updateAdmin = (id: number, payload: CRUAdminPayload) => {
-    return adminPrivateApi.put(`/api/v1/users/admin/${id}`, payload);
+  const updateAdmin = (adminId: number, payload: CRUAdminPayload) => {
+    return adminPrivateApi.put(`/api/v1/users/admin/${adminId}`, payload);
   };
   const getAdminsList = (params: GetPropertiesParams) => {
     return adminPrivateApi.get(`/api/v1/users/admin?${stringify(params)} `);
   };
 
   const getAdminById = (adminId: string) => {
-    return adminPrivateApi.get(`/api/v1/users/admin/${adminId}`);
+    return adminPrivateApi.get(`/api/v1/users/admins/${adminId}`);
   };
   const updateStatusAdminByListId = (ids: number[], status: string) => {
     return privateApi.patch(`/api/v1/users/admins/status`, { ids, status });
