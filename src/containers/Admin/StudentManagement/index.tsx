@@ -1,25 +1,34 @@
 import { StudentResponse, StudentStatus } from '@/queries/Students/types';
 import { useGetStudentsList } from '@/queries/Students/useGetStudentsList';
-import { PlusOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, InboxOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Button } from 'antd';
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Button, Modal } from 'antd';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { allColumns } from './allColumns';
 import { Action } from './helpers';
 import { useUpdateListStudentStatus } from '@/queries/Students/useUpdateListStudentStatus';
+import Dragger from 'antd/es/upload/Dragger';
+import { UploadProps } from 'antd/lib';
+import { useUploadStudents } from '@/queries/Students/useUploadStudents';
+import { useNotification } from '@/containers/StartupContainers/ToastContainer';
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const toast = useNotification();
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState('Content of the modal');
+  const searchParam = useSearchParams();
   const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
-  const { students, setParams } = useGetStudentsList({
+  const { students, setParams, handleInvalidateStudentsList } = useGetStudentsList({
     defaultParams: {
       current: 1,
       pageSize: 10,
     },
   });
-  console.log("student", students);
+  console.log('student', students);
   const handleRowSelectionChange = (_: any, selectedRows: StudentResponse[]) => {
     const selectedIds = selectedRows.map((row) => row.id);
     setSelectedRowIds(selectedIds);
@@ -33,6 +42,7 @@ export default function HomePage() {
     [navigate],
   );
   const { onUpdateStudentStatus } = useUpdateListStudentStatus();
+  const { onUploadStudents } = useUploadStudents();
 
   const handleDeleteStudent = () => {
     onUpdateStudentStatus({
@@ -46,8 +56,58 @@ export default function HomePage() {
     [handleEditStudent],
   );
 
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleOk = () => {
+    setModalText('The modal will be closed after two seconds');
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setOpen(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    console.log('Clicked cancel button');
+    setOpen(false);
+  };
+
   const actionRef = useRef<ActionType>();
 
+  const props: UploadProps = {
+    name: 'file',
+    multiple: true,
+    customRequest: async ({ file, onSuccess, onError }) => {
+      try {
+        const formData = new FormData();
+        formData.append('file', file as File);
+
+        onUploadStudents(formData);
+        if (onSuccess) onSuccess('ok');
+        toast.success({
+          message: 'Create student successfully',
+          description: 'You have successfully created a new student.',
+        });
+        handleInvalidateStudentsList({
+          current: 1,
+          pageSize: 10,
+        });
+        setOpen(false);
+      } catch (error) {}
+    },
+    onChange: (info) => {
+      if (info.file.status === 'done') {
+        console.log(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === 'error') {
+        console.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop: (e) => {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
+  };
   return (
     <ProTable<StudentResponse>
       dataSource={students}

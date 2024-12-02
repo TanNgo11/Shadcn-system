@@ -50,7 +50,7 @@ const CreateEditViewStudent: React.FC = () => {
   });
   const { onUpdateStudent, error: updateError } = useUpdateStudent({
     onSuccess: () => {
-      console.log("hehe");
+      console.log('hehe');
       toast.success({
         message: 'Update student successfully',
         description: 'You have successfully updated the student.',
@@ -63,7 +63,7 @@ const CreateEditViewStudent: React.FC = () => {
       navigate(-1);
     },
     onError: (error: any) => {
-      console.log("hehe");
+      console.log('hehe');
       const errorMessage = error?.response?.data?.message || 'An unexpected error occurred.';
       if (error?.response?.data?.code !== 1000) {
         toast.error({
@@ -122,7 +122,7 @@ const CreateEditViewStudent: React.FC = () => {
                 control={control}
                 render={({ field }) => (
                   <>
-                    <Input {...field} placeholder="Enter username" />
+                    <Input disabled={true} {...field} placeholder="Enter username" />
                     {errors.username && (
                       <Typography.Text type="danger">{errors.username.message}</Typography.Text>
                     )}
@@ -349,7 +349,9 @@ const CreateEditViewStudent: React.FC = () => {
                       ))}
                     </Select>
                     {errors.academicYearId && (
-                      <Typography.Text type="danger">{errors.academicYearId.message}</Typography.Text>
+                      <Typography.Text type="danger">
+                        {errors.academicYearId.message}
+                      </Typography.Text>
                     )}
                   </>
                 )}
@@ -358,7 +360,7 @@ const CreateEditViewStudent: React.FC = () => {
           </Col>
         </Row>
         <Row gutter={16}>
-        <Col span={8}>
+          <Col span={8}>
             <Form.Item label="Address">
               <Controller
                 name="address"
@@ -367,9 +369,7 @@ const CreateEditViewStudent: React.FC = () => {
                   <>
                     <Input {...field} placeholder="Enter address" />
                     {errors.address && (
-                      <Typography.Text type="danger">
-                        {errors.address.message}
-                      </Typography.Text>
+                      <Typography.Text type="danger">{errors.address.message}</Typography.Text>
                     )}
                   </>
                 )}
@@ -412,7 +412,7 @@ const CreateEditViewStudent: React.FC = () => {
           </Col>
         </Row>
         <Row gutter={16}>
-        <Col span={8}>
+          <Col span={8}>
             <Form.Item label="Nationality">
               <Controller
                 name="nationality"
@@ -421,9 +421,7 @@ const CreateEditViewStudent: React.FC = () => {
                   <>
                     <Input {...field} placeholder="Enter nationality" />
                     {errors.nationality && (
-                      <Typography.Text type="danger">
-                        {errors.nationality.message}
-                      </Typography.Text>
+                      <Typography.Text type="danger">{errors.nationality.message}</Typography.Text>
                     )}
                   </>
                 )}
@@ -462,9 +460,7 @@ const CreateEditViewStudent: React.FC = () => {
                       onChange={(_date: any, dateString: any) => field.onChange(dateString)}
                     />
                     {errors.dateOfBirth && (
-                      <Typography.Text type="danger">
-                        {errors.dateOfBirth.message}
-                      </Typography.Text>
+                      <Typography.Text type="danger">{errors.dateOfBirth.message}</Typography.Text>
                     )}
                   </>
                 )}
