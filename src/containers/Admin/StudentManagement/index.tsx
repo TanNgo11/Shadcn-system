@@ -109,84 +109,109 @@ export default function HomePage() {
     },
   };
   return (
-    <ProTable<StudentResponse>
-      dataSource={students}
-      columns={columns}
-      actionRef={actionRef}
-      cardBordered
-      request={async (_params, _sort, _filter) => {
-        return {
-          data: students,
-          success: true,
-          total: students.length,
-        };
-      }}
-      columnsState={{
-        persistenceKey: 'pro-table-single-demos',
-        persistenceType: 'localStorage',
-        defaultValue: {
-          option: { fixed: 'right', disable: true },
-          lastName: { show: false },
-          phoneNumber: { show: false },
-          address: { show: false },
-          citizenId: { show: false },
-        },
-        onChange(value) {
-          console.log('value: ', value);
-        },
-      }}
-      rowKey="id"
-      options={{
-        setting: {
-          listsHeight: 400,
-        },
-      }}
-      form={{
-        syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
-          if (type === 'get') {
-            return {
-              ...values,
-              created_at: [values.startTime, values.endTime],
-            };
+    <>
+      <Modal
+        title="Title"
+        open={open}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <p>
+          {
+            <Dragger {...props}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">Click or drag file to this area to upload</p>
+              <p className="ant-upload-hint">
+                Support for a single or bulk upload. Strictly prohibited from uploading company data
+                or other banned files.
+              </p>
+            </Dragger>
           }
-          return values;
-        },
-      }}
-      pagination={{
-        // showSizeChanger: true,
-        // onChange: (current: any, pageSize: any) => {
-        //   setParams((prev) => ({
-        //     ...prev,
-        //     current,
-        //     pageSize,
-        //   }));
-        // },
-        pageSize: 8,
-        onChange: (page: any) => console.log(page),
-      }}
-      dateFormatter="string"
-      headerTitle="Advanced"
-      rowSelection={{
-        onChange: handleRowSelectionChange,
-        selectedRowKeys: selectedRowIds,
-      }}
-      toolBarRender={() => [
-        selectedRowIds.length > 0 && (
-          <Button key="button" danger type="primary" onClick={handleDeleteStudent}>
-            Delete
-          </Button>
-        ),
-        <Button
-          key="button"
-          icon={<PlusOutlined />}
-          onClick={() => {
-            navigate('/admin/students/create');
-          }}
-          type="primary"
-        >
-          Add New
-        </Button>,
-      ]}
-    />
+        </p>
+      </Modal>
+      <ProTable<StudentResponse>
+        dataSource={students}
+        columns={columns}
+        actionRef={actionRef}
+        cardBordered
+        request={async (_params, _sort, _filter) => {
+          return {
+            data: students,
+            success: true,
+            total: students.length,
+          };
+        }}
+        columnsState={{
+          persistenceKey: 'pro-table-single-demos',
+          persistenceType: 'localStorage',
+          defaultValue: {
+            option: { fixed: 'right', disable: true },
+            lastName: { show: false },
+            phoneNumber: { show: false },
+            address: { show: false },
+            citizenId: { show: false },
+          },
+          onChange(value) {
+            console.log('value: ', value);
+          },
+        }}
+        rowKey="id"
+        options={{
+          setting: {
+            listsHeight: 400,
+          },
+        }}
+        form={{
+          syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
+            if (type === 'get') {
+              return {
+                ...values,
+                created_at: [values.startTime, values.endTime],
+              };
+            }
+            return values;
+          },
+        }}
+        pagination={{
+          showSizeChanger: true,
+          onChange: (current: any, pageSize: any) => {
+            setParams((prev) => ({
+              ...prev,
+              current,
+              pageSize,
+            }));
+          },
+        }}
+        dateFormatter="string"
+        headerTitle="Advanced"
+        rowSelection={{
+          onChange: handleRowSelectionChange,
+          selectedRowKeys: selectedRowIds,
+        }}
+        toolBarRender={() => [
+          selectedRowIds.length > 0 && (
+            <Button key="button" danger type="primary" onClick={handleDeleteStudent}>
+              Delete
+            </Button>
+          ),
+          <Button
+            key="button"
+            icon={<PlusOutlined />}
+            onClick={() => {
+              navigate('/admin/students/create');
+            }}
+            type="primary"
+          >
+            Add New
+          </Button>,
+          <Button onClick={showModal} key="excel-button" icon={<FileExcelOutlined />}>
+            Import Excel
+          </Button>,
+        ]}
+      />
+    </>
   );
 }
