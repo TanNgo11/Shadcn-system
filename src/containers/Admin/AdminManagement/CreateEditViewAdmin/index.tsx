@@ -50,10 +50,9 @@ const CreateEditViewAdmin: React.FC = () => {
   });
   const { onUpdateAdmin, error: updateError } = useUpdateAdmin({
     onSuccess: () => {
-      console.log("hehe");
       toast.success({
-        message: 'Update admin successfully',
-        description: 'You have successfully updated the admin.',
+        message: 'Update Admin successfully',
+        description: 'You have successfully updated the Admin.',
       });
       handleInvalidateAdminsList({
         current: 1,
@@ -63,11 +62,11 @@ const CreateEditViewAdmin: React.FC = () => {
       navigate(-1);
     },
     onError: (error: any) => {
-      console.log("hehe");
-      const errorMessage = error?.response?.data?.message || 'An unexpected error occurred.';
-      if (error?.response?.data?.code !== 1000) {
+      const errorMessage =
+        (error as any)?.response?.data?.message || 'An unexpected error occurred.';
+      if ((error as any)?.response?.data?.code !== 1000) {
         toast.error({
-          message: 'Update admin failed',
+          message: 'Update Admin failed',
           description: errorMessage,
         });
       }
@@ -88,6 +87,7 @@ const CreateEditViewAdmin: React.FC = () => {
 
   console.log(errors);
   useEffect(() => {
+    console.log(admin);
     if (id) {
       reset({ ...admin, id: Number(adminId) });
     }

@@ -39,8 +39,8 @@ export function useGetAdminsList(
 
   const queryClient = useQueryClient();
 
-  const handleInvalidateAdminsList = (params: TableParams) =>
-    queryClient.invalidateQueries([API_ADMINS_QUERIES.ADMIN_BY_ID, { ...params }]);
+  const handleInvalidateAdminsList = (params?: TableParams) =>
+    queryClient.invalidateQueries([API_ADMINS_QUERIES.ADMINS_LIST, { ...params }]);
 
   const { result: { totalPages, pageSize, totalElements, data: admins = [] } = {} } = data || {};
 

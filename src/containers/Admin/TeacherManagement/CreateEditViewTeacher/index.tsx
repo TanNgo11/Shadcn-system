@@ -63,6 +63,7 @@ const CreateEditViewTeacher: React.FC = () => {
         current: 1,
         pageSize: 10,
       });
+      handleInvalidTeacherById();
       navigate(-1);
     },
     onError: (error: any) => {
