@@ -11,7 +11,7 @@ export enum API_QUERIES {
   IDENTITY = '/identity',
   PROFILE = '/profile',
   NOTIFICATION = '/notifications',
-  COURSE = '/courses',
+  COURSE = '/course-svc',
 }
 
 // Map endpoints to their base URLs
@@ -35,4 +35,3 @@ export const API_URLS = {
   NOTIFICATION: getApiUrl(API_QUERIES.NOTIFICATION),
   COURSE: getApiUrl(API_QUERIES.COURSE),
 } as const;
-
