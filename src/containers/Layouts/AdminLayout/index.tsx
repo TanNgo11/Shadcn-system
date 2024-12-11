@@ -233,9 +233,12 @@ function AdminLayout() {
                     icon: <BookOutlined />,
 
                     children: [
-                      { path: '/admin/academic-year-management', name: 'Academic Year Management' },
-                      { path: '/admin/semester-management', name: 'Semester Management' },
-                      { path: '/admin/department-management', name: 'Department Management' },
+                      {
+                        path: '/admin/academic-years-management',
+                        name: 'Academic Year Management',
+                      },
+                      { path: '/admin/semesters-management', name: 'Semester Management' },
+                      { path: '/admin/departments-management', name: 'Department Management' },
                     ],
                   },
                 ]}

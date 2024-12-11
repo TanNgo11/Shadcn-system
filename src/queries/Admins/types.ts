@@ -16,7 +16,7 @@ export interface CRUAdminPayload {
   emergencyContactPhoneNumber: string;
 }
 export interface AdminResponse {
-  id: string
+  id: string;
   adminId: string;
   username: string;
   hireDate: string;

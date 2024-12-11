@@ -7,6 +7,7 @@ import React from 'react';
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import AdminLayout from './Layouts/AdminLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
+import { AcademicYear } from './Admin/StudentManagement/CreateEditViewStudent/helper';
 
 const HomePage = React.lazy(() => import('@/containers/HomePage'));
 const NotFoundPage = React.lazy(() => import('@/containers/StartupContainers/NotFoundPage'));
@@ -16,6 +17,9 @@ const AdminProfilePage = React.lazy(() => import('@/containers/Admin/Profile'));
 const CoursesPage = React.lazy(() => import('@/containers/CoursesPage'));
 const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/CourseDetailPage'));
 const StudentManagementPage = React.lazy(() => import('@/containers/Admin/StudentManagement'));
+const AcademicYearManagementPage = React.lazy(
+  () => import('@/containers/Admin/AcademicYearManagement'),
+);
 const CreateEditStudentPage = React.lazy(
   () => import('@/containers/Admin/StudentManagement/CreateEditViewStudent'),
 );
@@ -24,6 +28,9 @@ const CreateEditTeacherPage = React.lazy(
 );
 const CreateEditAdminPage = React.lazy(
   () => import('@/containers/Admin/AdminManagement/CreateEditViewAdmin'),
+);
+const DepartmentManagementPage = React.lazy(
+  () => import('@/containers/Admin/DepartmentManagement'),
 );
 const TeacherManagementPage = React.lazy(() => import('@/containers/Admin/TeacherManagement'));
 // const CreateEditTeacherPage = React.lazy(() => import('@/containers/Admin/CreateEditTeacher'));
@@ -92,6 +99,14 @@ const appRoutes: RouteObject[] = [
       {
         path: 'admins-management',
         element: <AdminManagementPage />,
+      },
+      {
+        path: 'academic-years-management',
+        element: <AcademicYearManagementPage />,
+      },
+      {
+        path: 'departments-management',
+        element: <DepartmentManagementPage />,
       },
       {
         path: 'students/create',
