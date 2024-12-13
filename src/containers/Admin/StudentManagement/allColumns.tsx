@@ -10,7 +10,9 @@ type ListStudentsProps = {
   handleEditStudent: Callback;
 };
 
-export const allColumns = ({ handleEditStudent }: ListStudentsProps): ProColumns<StudentResponse>[] => [
+export const allColumns = ({
+  handleEditStudent,
+}: ListStudentsProps): ProColumns<StudentResponse>[] => [
   {
     title: 'ID',
     dataIndex: 'id',
@@ -71,7 +73,7 @@ export const allColumns = ({ handleEditStudent }: ListStudentsProps): ProColumns
     valueType: 'text',
   },
   {
-    title: 'D.o.B',
+    title: 'Date of Birth',
     dataIndex: 'dateOfBirth',
     valueType: 'text',
   },

@@ -44,6 +44,9 @@ export default function AdminManagement() {
           total: admins.length,
         };
       }}
+      search={{
+        layout: 'vertical',
+      }}
       columnsState={{
         persistenceKey: 'pro-table-single-demos',
         persistenceType: 'localStorage',
@@ -52,7 +55,7 @@ export default function AdminManagement() {
           lastName: { show: false },
           phoneNumber: { show: false },
           address: { show: false },
-          hireDate : {show: false}
+          hireDate: { show: false },
         },
         onChange(value) {
           console.log('value: ', value);

@@ -23,9 +23,7 @@ export function useGetAdminById(
     [API_ADMINS_QUERIES.ADMIN_BY_ID, { id: options?.id }],
     async ({ queryKey }) => {
       const [, ...params] = queryKey;
-      return responseWrapper<ApiResponseType<AdminResponse>>(adminsApi.getAdminById, [
-        options?.id,
-      ]);
+      return responseWrapper<ApiResponseType<AdminResponse>>(adminsApi.getAdminById, [options?.id]);
     },
 
     {
@@ -47,6 +45,6 @@ export function useGetAdminById(
     error,
     isFetching,
     onGetAdminsList,
-    handleInvalidAdminById
+    handleInvalidAdminById,
   };
 }

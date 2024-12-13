@@ -27,6 +27,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useNotification } from '../../StartupContainers/ToastContainer';
 import defaultProps from '../Components/_HeaderMenuProps';
+import adminSidebarProps from '../Components/_AdminSidebarProps';
 
 function AdminLayout() {
   const { clearAuth } = useAuthStore();
@@ -99,7 +100,7 @@ function AdminLayout() {
                   },
                 ]}
                 {...defaultProps}
-                location={location}
+                //location={location}
                 token={{
                   header: {
                     colorBgMenuItemSelected: 'rgba(0,0,0,0.04)',
@@ -121,7 +122,7 @@ function AdminLayout() {
                             {
                               key: 'Profile',
                               icon: <ProfileOutlined />,
-                              label: <Link to="/profile">Profile</Link>,
+                              label: <Link to="/admin/profile">Profile</Link>,
                             },
                             {
                               key: 'Logout',
@@ -203,45 +204,46 @@ function AdminLayout() {
                   return [...routers];
                 }}
                 {...settings}
-                menuDataRender={() => [
-                  {
-                    path: '/home',
-                    name: 'Home',
-                    icon: <SmileFilled />,
-                  },
-                  {
-                    path: '/admin',
-                    name: 'Users',
-                    icon: <UserOutlined />,
-                    children: [
-                      {
-                        path: '/admin/students-management',
-                        name: 'Students List',
-                        breadcrumbName: 'Students List',
-                      },
-                      {
-                        path: '/admin/teachers-management',
-                        name: 'Teachers List',
-                        breadcrumbName: 'Teachers List',
-                      },
-                      { path: '/admin/admins-management', name: 'Admins List' },
-                    ],
-                  },
-                  {
-                    path: '/admin',
-                    name: 'University',
-                    icon: <BookOutlined />,
+                {...adminSidebarProps}
+                // menuDataRender={() => [
+                //   {
+                //     path: '/home',
+                //     name: 'Home',
+                //     icon: <SmileFilled />,
+                //   },
+                //   {
+                //     path: '/admin',
+                //     name: 'Users',
+                //     icon: <UserOutlined />,
+                //     children: [
+                //       {
+                //         path: '/admin/students-management',
+                //         name: 'Students List',
+                //         breadcrumbName: 'Students List',
+                //       },
+                //       {
+                //         path: '/admin/teachers-management',
+                //         name: 'Teachers List',
+                //         breadcrumbName: 'Teachers List',
+                //       },
+                //       { path: '/admin/admins-management', name: 'Admins List' },
+                //     ],
+                //   },
+                //   {
+                //     path: '/admin',
+                //     name: 'University',
+                //     icon: <BookOutlined />,
 
-                    children: [
-                      {
-                        path: '/admin/academic-years-management',
-                        name: 'Academic Year Management',
-                      },
-                      { path: '/admin/semesters-management', name: 'Semester Management' },
-                      { path: '/admin/departments-management', name: 'Department Management' },
-                    ],
-                  },
-                ]}
+                //     children: [
+                //       {
+                //         path: '/admin/academic-years-management',
+                //         name: 'Academic Year Management',
+                //       },
+                //       { path: '/admin/semesters-management', name: 'Semester Management' },
+                //       { path: '/admin/departments-management', name: 'Department Management' },
+                //     ],
+                //   },
+                // ]}
               >
                 <PageContainer
                   token={{

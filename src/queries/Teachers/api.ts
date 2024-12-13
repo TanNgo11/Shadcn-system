@@ -34,6 +34,12 @@ const useApi = (baseURL = 'http://localhost:8080/identity') => {
     return privateApi.delete(`/api/v1/users/teachers/delete/${teacherId}`);
   };
 
+  const deleteTeacherByUsernames = (teacherUsernames: string[]) => {
+    return privateApi.delete(`/api/v1/users/teachers/delete`, {
+      data: { teacherIds: teacherUsernames },
+    });
+  };
+
   return {
     createTeacher,
     getTeachersList,
@@ -41,6 +47,7 @@ const useApi = (baseURL = 'http://localhost:8080/identity') => {
     updateTeacher,
     deleteTeacher,
     deleteTeacherById,
+    deleteTeacherByUsernames,
   };
 };
 

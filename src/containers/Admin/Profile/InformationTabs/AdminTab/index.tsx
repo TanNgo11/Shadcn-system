@@ -1,6 +1,10 @@
+import useApi from '@/queries/Admins/api';
+import { useGetCurrentAdminInfo } from '@/queries/Admins/useGetCurrentAdminInfo';
+import { Callback } from '@/utils/helpers';
 import { Descriptions } from 'antd';
 
 const AdminInfo = () => {
+  const { admin } = useGetCurrentAdminInfo();
   return (
     <Descriptions
       title="User Info"
@@ -12,23 +16,19 @@ const AdminInfo = () => {
         xl: 2,
       }}
     >
-      <Descriptions.Item label="UserName">Zhou Maomao</Descriptions.Item>
-      <Descriptions.Item label="Telephone">1810000000</Descriptions.Item>
-      <Descriptions.Item label="Live">Hangzhou, Zhejiang</Descriptions.Item>
-      <Descriptions.Item label="Remark">empty</Descriptions.Item>
-      <Descriptions.Item label="Address">
-        No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
-      </Descriptions.Item>
-      <Descriptions.Item label="Max SV">123456789</Descriptions.Item>
-      <Descriptions.Item label="Phone Number">0987654321</Descriptions.Item>
-      <Descriptions.Item label="ID Number">A123456789</Descriptions.Item>
-      <Descriptions.Item label="Gender">Male</Descriptions.Item>
-      <Descriptions.Item label="Date of Birth">1990-01-01</Descriptions.Item>
-      <Descriptions.Item label="Email">zhou.maomao@example.com</Descriptions.Item>
-      <Descriptions.Item label="Nationality">Chinese</Descriptions.Item>
-      <Descriptions.Item label="Major">Computer Science</Descriptions.Item>
-      <Descriptions.Item label="Enrollment Year">2010</Descriptions.Item>
-      <Descriptions.Item label="Graduation Year">2014</Descriptions.Item>
+      <Descriptions.Item label="UserName">{admin?.username}</Descriptions.Item>
+      <Descriptions.Item label="Telephone">{admin?.emergencyContactPhoneNumber}</Descriptions.Item>
+      <Descriptions.Item label="Live">{admin?.address}</Descriptions.Item>
+      <Descriptions.Item label="Address">{admin?.address}</Descriptions.Item>
+      <Descriptions.Item label="Admin ID">{admin?.id}</Descriptions.Item>
+      <Descriptions.Item label="Phone Number">{admin?.phoneNumber}</Descriptions.Item>
+      <Descriptions.Item label="ID Number">{admin?.adminId}</Descriptions.Item>
+      <Descriptions.Item label="Gender">{admin?.gender}</Descriptions.Item>
+      <Descriptions.Item label="Date of Birth">{admin?.dateOfBirth}</Descriptions.Item>
+      <Descriptions.Item label="Email">{admin?.email}</Descriptions.Item>
+      <Descriptions.Item label="Nationality">Vietnam</Descriptions.Item>
+      <Descriptions.Item label="Department">{admin?.departmentId}</Descriptions.Item>
+      <Descriptions.Item label="Hired Date">{admin?.hireDate}</Descriptions.Item>
     </Descriptions>
   );
 };
