@@ -3,8 +3,10 @@ import { ProCard } from '@ant-design/pro-components';
 import { Avatar, Col, Divider, Flex, Image, Row, Tag, Typography } from 'antd';
 import './styles.scss';
 import InformationTabs from './InformationTabs';
+import { useGetCurrentAdminInfo } from '@/queries/Admins/useGetCurrentAdminInfo';
 
 const AdminProfile = () => {
+  const { admin } = useGetCurrentAdminInfo();
   return (
     <>
       <Row
@@ -33,10 +35,10 @@ const AdminProfile = () => {
               src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"
             />
             <Typography.Title className="profile-container__title" level={3}>
-              Serati Ma
+              {admin?.username}
             </Typography.Title>
             <Typography.Title className="profile-container__subtitle" level={4}>
-              Serati Ma sub
+              {admin?.firstName} {admin?.lastName}
             </Typography.Title>
             <ProCard layout="default">
               <div className="profile-container__info">
@@ -44,7 +46,7 @@ const AdminProfile = () => {
                   <MailTwoTone />
                 </Typography.Text>
                 <Typography.Text className="profile-container__info--text" copyable>
-                  tan.ngo.cit20@eiu.edu.vn
+                  {admin?.email}
                 </Typography.Text>
               </div>
               <div className="profile-container__info">
@@ -52,7 +54,7 @@ const AdminProfile = () => {
                   <PhoneTwoTone />
                 </Typography.Text>
                 <Typography.Text className="profile-container__info--text" copyable>
-                  0929234798
+                  {admin?.phoneNumber}
                 </Typography.Text>
               </div>
               <div className="profile-container__info">
@@ -60,7 +62,7 @@ const AdminProfile = () => {
                   <HomeTwoTone />
                 </Typography.Text>
                 <Typography.Text className="profile-container__info--text" copyable>
-                  Bến Cát-Chánh Phú Hòa - Việt Nam
+                  {admin?.address}
                 </Typography.Text>
               </div>
             </ProCard>

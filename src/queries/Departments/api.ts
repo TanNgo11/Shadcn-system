@@ -12,8 +12,19 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     return privateApi.get(`/api/v1/departments?${stringify(params)}`);
   };
 
+  // This is no api endpoint
+  const getDepartmentById = (id: string) => {
+    return privateApi.get(`/api/v1/departments/${id}`);
+  };
+
+  const getCoursesInDepartment = (id: string, params: GetPropertiesParams) => {
+    return privateApi.get(`/api/v1/departments/${id}/courses?${stringify(params)}`);
+  };
+
   return {
     getDepartmentList,
+    getDepartmentById,
+    getCoursesInDepartment,
   };
 };
 

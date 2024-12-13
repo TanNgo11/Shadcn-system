@@ -3,18 +3,18 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox, message, Popconfirm } from 'antd';
 import { PopconfirmProps } from 'antd/lib';
-import { DepartmentResponse } from '@/queries/Departments/types';
 import { useNavigate } from 'react-router-dom';
+import { CourseResponse } from './helpers';
 
-type DepartmentsProps = {
-  handleEditDepartment: Callback;
-  handleDeleteDepartment: Callback;
-  handleCellClick: Callback;
+type CoursesProps = {
+  handleEditCourse: Callback;
+  handleDeleteCourse: Callback;
+  // handleCellClick: Callback;
 };
 
-// Notification box to confirm the deletion of a Department
+// Notification box to confirm the deletion of a course
 const confirm: PopconfirmProps['onConfirm'] = (e) => {
-  //handleDeleteDepartment(_record.id, Action.DELETE);
+  //handleDeleteCourse(_record.id, Action.DELETE);
   message.success('Click on Yes');
 };
 
@@ -23,42 +23,53 @@ const cancel: PopconfirmProps['onCancel'] = (e) => {
   message.error('Click on No');
 };
 
-export const allColumns = ({
-  handleCellClick,
-}: DepartmentsProps): ProColumns<DepartmentResponse>[] => [
+export const allColumns = ({}: CoursesProps): ProColumns<CourseResponse>[] => [
   {
     title: '#',
     dataIndex: 'index',
     valueType: 'indexBorder',
     width: 48,
-    render: (_text, record: DepartmentResponse) => (
+    render: (_text, record) => (
       <Checkbox
         onChange={(e: { target: { checked: any } }) => console.log(e.target.checked, record)}
       />
     ),
   },
   {
-    title: 'ID',
-    dataIndex: 'id',
+    title: 'Course Name',
+    dataIndex: 'name',
     valueType: 'text',
-  },
-  {
-    title: 'Department Name',
-    dataIndex: 'departmentName',
-    valueType: 'text',
-    onCell: (_record) => {
+    onCell: () => {
       return {
-        onClick: () => {
-          handleCellClick(_record);
+        onClick: (record) => {
+          window.confirm('Cell clicked ');
         },
       };
     },
   },
-  // {
-  //   title: 'Department Code',
-  //   dataIndex: 'departmentCode',
-  //   valueType: 'text',
-  // },
+  {
+    title: 'Image',
+    dataIndex: 'imageUri',
+    valueType: 'text',
+  },
+  {
+    title: 'Teachers',
+    dataIndex: 'teacherIds',
+    render: (_, record) => record.teacherIds.length,
+    valueType: 'text',
+  },
+  {
+    title: 'Students',
+    dataIndex: 'studentIds',
+    render: (_, record) => record.studentIds.length,
+    valueType: 'text',
+  },
+  {
+    title: 'Department Name',
+    dataIndex: 'departments',
+    render: (_, record) => record.departments.map((dept) => dept.departmentName).join(', '),
+    valueType: 'text',
+  },
   {
     title: 'Option',
     valueType: 'option',
@@ -77,7 +88,7 @@ export const allColumns = ({
         ></Popconfirm> */}
         <DeleteOutlined
           onClick={() => {
-            console.log('Delete department ' + _record.id);
+            console.log('Delete course ' + _record.name);
           }}
         />
       </a>,

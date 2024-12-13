@@ -1,8 +1,8 @@
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Button } from 'antd';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { Button, message, Popconfirm } from 'antd';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { allColumns } from './allColumns';
 import { useNavigate } from 'react-router-dom';
 import { TeacherResponse } from '@/queries/Teachers/types';
@@ -10,28 +10,30 @@ import { useGetTeachersList } from '@/queries/Teachers/useGetTeachersList';
 import { Action } from './helpers';
 import { useDeleteTeacherById } from '@/queries/Teachers/useDeleteTeacherById';
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
-
+import { useDeleteTeacherByUsernames } from '@/queries/Teachers/useDeleteTeacherByUsernames';
+import { PopconfirmProps } from 'antd/lib';
 
 export default function HomePage() {
   const navigate = useNavigate();
   const toast = useNotification();
   const actionRef = useRef<ActionType>();
-  const { handleInvalidateTeachersList } = useGetTeachersList({
+  const [open, setOpen] = useState(false);
+  const [selectedRowUsernames, setSelectedRowUsernames] = useState<string[]>([]);
+  const { teachers, handleInvalidateTeachersList, setParams } = useGetTeachersList({
     defaultParams: {
       current: 1,
       pageSize: 10,
     },
   });
-  const { onDeleteTeacherById } = useDeleteTeacherById({
+
+  // Handle delete teacher
+  const { onDeleteTeacherByUsernames } = useDeleteTeacherByUsernames({
     onSuccess: async () => {
       toast.success({
         message: 'Delete teacher successfully',
         description: 'You have successfully deleted a new teacher.',
       });
-      handleInvalidateTeachersList({
-        current: 1,
-        pageSize: 10,
-      });
+      handleInvalidateTeachersList({});
     },
     onError: (error) => {
       toast.error({
@@ -41,20 +43,19 @@ export default function HomePage() {
     },
   });
 
-  const { teachers } = useGetTeachersList({
-    defaultParams: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
+  // Handle row selection
+  const handleRowSelectionChange = (_: any, selectedRows: TeacherResponse[]) => {
+    const selectedUsernames = selectedRows.map((row) => row.username);
+    setSelectedRowUsernames(selectedUsernames);
+  };
 
   const handleDeleteTeacher = useCallback(
-    (id: string, action: Action) => {
+    (username: string[], action: Action) => {
       if (action === Action.DELETE) {
-        onDeleteTeacherById(id);
+        onDeleteTeacherByUsernames(username);
       }
     },
-    [onDeleteTeacherById],
+    [onDeleteTeacherByUsernames],
   );
 
   const handleEditTeacher = useCallback(
@@ -75,6 +76,20 @@ export default function HomePage() {
     [handleEditTeacher, handleDeleteTeacher],
   );
 
+  // Notification box to confirm the deletion of a teacher
+  const confirm =
+    (handleDeleteTeacher: any, usernames: string[]): PopconfirmProps['onConfirm'] =>
+    () => {
+      if (usernames.length > 0) {
+        handleDeleteTeacher(usernames, Action.DELETE);
+      }
+    };
+
+  const cancel: PopconfirmProps['onCancel'] = (e) => {
+    console.log(e);
+    message.error('Cancel Action');
+  };
+
   return (
     <ProTable<TeacherResponse>
       dataSource={teachers}
@@ -87,6 +102,9 @@ export default function HomePage() {
           success: true,
           total: teachers.length,
         };
+      }}
+      search={{
+        layout: 'vertical',
       }}
       columnsState={{
         persistenceKey: 'pro-table-single-demos',
@@ -120,12 +138,35 @@ export default function HomePage() {
         },
       }}
       pagination={{
-        pageSize: 8,
-        onChange: (page: any) => console.log(page),
+        showSizeChanger: true,
+        onChange: (current: any, pageSize: any) => {
+          setParams((prev) => ({
+            ...prev,
+            current,
+            pageSize,
+          }));
+        },
       }}
       dateFormatter="string"
       headerTitle="Advanced"
+      rowSelection={{
+        onChange: handleRowSelectionChange,
+        defaultSelectedRowKeys: selectedRowUsernames,
+      }}
       toolBarRender={() => [
+        selectedRowUsernames.length > 0 && (
+          <Popconfirm
+            title="Are you sure to delete this teacher?"
+            onCancel={cancel}
+            onConfirm={confirm(handleDeleteTeacher, selectedRowUsernames)}
+            cancelText="Cancel"
+            okText="Yes"
+          >
+            <Button key="button" danger type="primary">
+              Delete
+            </Button>
+          </Popconfirm>
+        ),
         <Button
           key="button"
           icon={<PlusOutlined />}

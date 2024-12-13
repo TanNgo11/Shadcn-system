@@ -13,31 +13,29 @@ type ListTeachersProps = {
 };
 
 // Notification box to confirm the deletion of a teacher
-const confirm: PopconfirmProps['onConfirm'] = (e) => {
-  //handleDeleteTeacher(_record.id, Action.DELETE);
-  message.success('Click on Yes');
-};
+const confirm =
+  (handleDeleteTeacher: Callback, usernames: string[]): PopconfirmProps['onConfirm'] =>
+  () => {
+    if (usernames.length > 0) {
+      handleDeleteTeacher(usernames, Action.DELETE);
+    }
+  };
 
 const cancel: PopconfirmProps['onCancel'] = (e) => {
   console.log(e);
-  message.error('Click on No');
+  message.error('Cancel Action');
 };
 
 export const allColumns = ({
   handleEditTeacher,
   handleDeleteTeacher,
 }: ListTeachersProps): ProColumns<TeacherResponse>[] => [
-  {
-    title: '#',
-    dataIndex: 'index',
-    valueType: 'indexBorder',
-    width: 48,
-    render: (_text, record) => (
-      <Checkbox
-        onChange={(e: { target: { checked: any } }) => console.log(e.target.checked, record)}
-      />
-    ),
-  },
+  // {
+  //   title: '#',
+  //   dataIndex: 'index',
+  //   valueType: 'indexBorder',
+  //   width: 48,
+  // },
   {
     title: 'ID',
     dataIndex: 'id',
@@ -112,19 +110,15 @@ export const allColumns = ({
         <EditOutlined onClick={() => handleEditTeacher(_record.id, Action.EDIT)} />
       </a>,
       <a key="delete">
-        {/* <Popconfirm
+        <Popconfirm
           title="Are you sure to delete this teacher?"
-          onConfirm={confirm}
           onCancel={cancel}
+          onConfirm={confirm(handleDeleteTeacher, [_record.username])}
+          cancelText="Cancel"
           okText="Yes"
-          cancelText="No"
-        ></Popconfirm> */}
-        <DeleteOutlined
-          onClick={() => {
-            console.log('Delete teacher ' + _record.id);
-            handleDeleteTeacher(_record.id.toString(), Action.DELETE);
-          }}
-        />
+        >
+          <DeleteOutlined />
+        </Popconfirm>
       </a>,
     ],
   },

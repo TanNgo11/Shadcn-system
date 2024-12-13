@@ -23,6 +23,11 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   const getAdminById = (adminId: string) => {
     return adminPrivateApi.get(`/api/v1/users/admins/${adminId}`);
   };
+
+  const getCurrentAdminInfo = () => {
+    return privateApi.get(`/api/v1/users/myInfo`);
+  };
+
   const updateStatusAdminByListId = (ids: number[], status: string) => {
     return privateApi.patch(`/api/v1/users/admins/status`, { ids, status });
   };
@@ -32,6 +37,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
     getAdminsList,
     updateAdmin,
     updateStatusAdminByListId,
+    getCurrentAdminInfo,
   };
 };
 

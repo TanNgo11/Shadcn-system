@@ -44,7 +44,7 @@ export default function HomePage() {
 
   const handleCellClick = useCallback(
     (record: DepartmentResponse) => {
-      navigate(`/admin/departments/${record.id}/courses`);
+      navigate(`/admin/departments-management/${record.id}/courses`);
     },
     [navigate],
   );

@@ -144,6 +144,9 @@ export default function HomePage() {
             total: students.length,
           };
         }}
+        search={{
+          layout: 'vertical',
+        }}
         columnsState={{
           persistenceKey: 'pro-table-single-demos',
           persistenceType: 'localStorage',
