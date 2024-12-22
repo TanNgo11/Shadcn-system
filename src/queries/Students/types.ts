@@ -23,6 +23,7 @@ export interface CRUStudentPayload {
 }
 export interface StudentResponse {
   studentId: string;
+  username: string;
   id: string;
   firstName: string;
   lastName: string;

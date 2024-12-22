@@ -3,7 +3,7 @@ import { useGetStudentsList } from '@/queries/Students/useGetStudentsList';
 import { FileExcelOutlined, InboxOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Button, Modal } from 'antd';
+import { Button, message, Modal, Popconfirm, PopconfirmProps } from 'antd';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { allColumns } from './allColumns';
@@ -13,6 +13,7 @@ import Dragger from 'antd/es/upload/Dragger';
 import { UploadProps } from 'antd/lib';
 import { useUploadStudents } from '@/queries/Students/useUploadStudents';
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
+import { useDeleteStudentByUsernames } from '@/queries/Students/useDeleteStudentByUsernames';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -21,18 +22,21 @@ export default function HomePage() {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('Content of the modal');
   const searchParam = useSearchParams();
-  const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
+  const [selectedRowUsernames, setSelectedRowUsernames] = useState<string[]>([]);
   const { students, setParams, handleInvalidateStudentsList } = useGetStudentsList({
     defaultParams: {
       current: 1,
       pageSize: 10,
     },
   });
+
   console.log('student', students);
+  // Handle row selection
   const handleRowSelectionChange = (_: any, selectedRows: StudentResponse[]) => {
-    const selectedIds = selectedRows.map((row) => row.id);
-    setSelectedRowIds(selectedIds);
+    const selectedUsernames = selectedRows.map((row) => row.username);
+    setSelectedRowUsernames(selectedUsernames);
   };
+
   const handleEditStudent = useCallback(
     (id: string, action: Action) => {
       if (action === Action.EDIT) {
@@ -44,12 +48,21 @@ export default function HomePage() {
   const { onUpdateStudentStatus } = useUpdateListStudentStatus();
   const { onUploadStudents } = useUploadStudents();
 
-  const handleDeleteStudent = () => {
-    onUpdateStudentStatus({
-      ids: selectedRowIds.map((id) => Number(id)),
-      status: StudentStatus.INACTIVE,
-    });
-  };
+  const { onDeleteStudentByUsernames } = useDeleteStudentByUsernames({
+    onSuccess: async () => {
+      toast.success({
+        message: 'Delete student successfully',
+        description: 'You have successfully deleted a new student.',
+      });
+      handleInvalidateStudentsList({});
+    },
+    onError: (error) => {
+      toast.error({
+        message: 'Delete student failed',
+        description: error.message,
+      });
+    },
+  });
 
   const columns: ProColumns<StudentResponse>[] = useMemo(
     () => allColumns({ handleEditStudent }),
@@ -73,6 +86,30 @@ export default function HomePage() {
     console.log('Clicked cancel button');
     setOpen(false);
   };
+
+  // Handle delete student
+  const handleDeleteStudent = useCallback(
+    (username: string[], action: Action) => {
+      if (action === Action.DELETE) {
+        onDeleteStudentByUsernames(username);
+      }
+    },
+    [onDeleteStudentByUsernames],
+  );
+
+  const cancel: PopconfirmProps['onCancel'] = (e) => {
+    console.log(e);
+    message.error('Cancel Action');
+  };
+
+  // Notification box to confirm the deletion of a teacher
+  const confirm =
+    (handleDeleteStudent: any, usernames: string[]): PopconfirmProps['onConfirm'] =>
+    () => {
+      if (usernames.length > 0) {
+        handleDeleteStudent(usernames, Action.DELETE);
+      }
+    };
 
   const actionRef = useRef<ActionType>();
 
@@ -154,7 +191,7 @@ export default function HomePage() {
             option: { fixed: 'right', disable: true },
             lastName: { show: false },
             phoneNumber: { show: false },
-            address: { show: false },
+            address: { show: true },
             citizenId: { show: false },
           },
           onChange(value) {
@@ -192,19 +229,27 @@ export default function HomePage() {
         headerTitle="Advanced"
         rowSelection={{
           onChange: handleRowSelectionChange,
-          selectedRowKeys: selectedRowIds,
+          defaultSelectedRowKeys: selectedRowUsernames,
         }}
         toolBarRender={() => [
-          selectedRowIds.length > 0 && (
-            <Button key="button" danger type="primary" onClick={handleDeleteStudent}>
-              Delete
-            </Button>
+          selectedRowUsernames.length > 0 && (
+            <Popconfirm
+              title="Are you sure to delete this teacher?"
+              onCancel={cancel}
+              onConfirm={confirm(handleDeleteStudent, selectedRowUsernames)}
+              cancelText="Cancel"
+              okText="Yes"
+            >
+              <Button key="button" danger type="primary">
+                Delete
+              </Button>
+            </Popconfirm>
           ),
           <Button
             key="button"
             icon={<PlusOutlined />}
             onClick={() => {
-              navigate('/admin/students/create');
+              navigate('/admin/teachers/create');
             }}
             type="primary"
           >

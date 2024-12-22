@@ -31,6 +31,11 @@ export const allColumns = ({
     valueType: 'text',
   },
   {
+    title: 'Username',
+    dataIndex: 'username',
+    valueType: 'text',
+  },
+  {
     title: 'Email',
     dataIndex: 'email',
     valueType: 'text',
