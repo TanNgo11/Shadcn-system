@@ -33,6 +33,12 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
     return identityPrivateApi.post(`/api/v1/users/students/import`, payload);
   };
 
+  const deleteStudentByUsernames = (studentUsernames: string[]) => {
+    return privateApi.delete(`/api/v1/users/students/delete`, {
+      data: { studentUsernames: studentUsernames },
+    });
+  };
+
   return {
     uploadBulkStudent,
     getStudentById,
@@ -40,6 +46,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
     getStudentsList,
     updateStudent,
     updateStatusStudentByListId,
+    deleteStudentByUsernames,
   };
 };
 

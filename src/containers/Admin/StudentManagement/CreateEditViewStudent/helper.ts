@@ -80,17 +80,13 @@ export const studentRegisterFormSchema = z.object({
     .optional(),
   lastName: z.string().optional(),
   address: z.string().optional(),
-  dateOfBirth: z
-    .string()
-    .optional(),
+  dateOfBirth: z.string().optional(),
   phoneNumber: z
     .string()
     .regex(/^\d{10}$/, { message: 'Phone number must be 10 digits' })
     .optional(),
   gender: z.enum(['MALE', 'FEMALE', 'OTHER']).optional(),
-  enrollmentDate: z
-    .string()
-    .optional(),
+  enrollmentDate: z.string().optional(),
   departmentId: z.string().optional(),
   guardianName: z.string().optional(),
   guardianPhoneNumber: z
@@ -114,7 +110,6 @@ export const studentRegisterFormSchema = z.object({
     .optional(),
   repassword: z.string().optional(),
 });
-
 
 export enum AcademicYear {
   'First' = '2020-2024',

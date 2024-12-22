@@ -4,11 +4,12 @@ import useHttpPublicRequest from '@/services/useHttpPublicRequest';
 import { CrudTeacherPayload } from './types';
 import { GetPropertiesParams } from '../helpers';
 import { stringify } from '@/utils';
+import { API_URLS } from '../keys';
 
-const useApi = (baseURL = 'http://localhost:8080/identity') => {
+const useApi = (baseURL = API_URLS.IDENTITY) => {
   const publicApi = useHttpPublicRequest(baseURL);
   const privateApi = useHttpPrivateRequest(baseURL);
-  const teacherPrivateApi = useHttpPrivateRequest('http://localhost:8081/profile');
+  const teacherPrivateApi = useHttpPrivateRequest(API_URLS.PROFILE);
 
   const createTeacher = (payload: CrudTeacherPayload) => {
     return privateApi.post('/api/v1/users/teacher/registration', payload);
