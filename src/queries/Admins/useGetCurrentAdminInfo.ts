@@ -8,7 +8,7 @@ import { AdminResponse } from './types';
 import { adminsApi } from '.';
 
 export function useGetCurrentAdminInfo(
-  options?: UseQueryOptions<ApiResponseType<AdminResponse>, Error> & {},
+  options?: UseQueryOptions<ApiResponseType<AdminResponse>, Error>,
 ) {
   const {
     data,
@@ -25,6 +25,7 @@ export function useGetCurrentAdminInfo(
     {
       notifyOnChangeProps: ['data', 'isFetching'],
       keepPreviousData: true,
+      enabled: true,
       ...options,
     },
   );

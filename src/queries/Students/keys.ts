@@ -1,4 +1,5 @@
 export enum API_STUDENTS_QUERIES {
   STUDENTS_LIST = 'STUDENTS_LIST',
   STUDENT_BY_ID = 'STUDENT_BY_ID',
+  STUDENT_INFO = 'student_info',
 }

@@ -59,3 +59,30 @@ export enum StudentStatus {
   INACTIVE = 'INACTIVE',
   DELETED = 'DELETED',
 }
+
+export interface StudentProfileResponse {
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  dateOfBirth: string;
+  address: string;
+  email: string;
+  phoneNumber: string;
+  gender: string;
+  avatarPath: any;
+  roles: string[];
+  studentId: string;
+  grade: any;
+  enrollmentDate: string;
+  major: any;
+  guardianName: string;
+  guardianPhoneNumber: string;
+  nation: any;
+  religion: string;
+  citizenId: any;
+  faculty: any;
+  degreeLevel: string;
+  schoolYear: any;
+  present: string;
+}

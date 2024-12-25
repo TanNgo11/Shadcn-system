@@ -25,7 +25,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   };
 
   const getCurrentAdminInfo = () => {
-    return privateApi.get(`/api/v1/users/myInfo`);
+    return privateApi.get(`/api/v1/users/me`);
   };
 
   const updateStatusAdminByListId = (ids: number[], status: string) => {

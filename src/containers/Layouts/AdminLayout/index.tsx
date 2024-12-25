@@ -130,17 +130,6 @@ function AdminLayout() {
                               label: 'Logout',
                               onClick: handleLogout,
                             },
-                            {
-                              key: 'About',
-                              icon: <QuestionCircleOutlined />,
-                              label: 'About Antd',
-                              onClick: () => {
-                                window.open(
-                                  'https://procomponents.ant.design/components/layout',
-                                  '_blank',
-                                );
-                              },
-                            },
                           ],
                         }}
                       >
@@ -165,7 +154,7 @@ function AdminLayout() {
                   const defaultDom = (
                     <a>
                       {logo}
-                      {title}
+                      <span style={{ marginLeft: '10px' }}>EIU</span>
                     </a>
                   );
                   if (typeof window === 'undefined') return defaultDom;
@@ -177,25 +166,10 @@ function AdminLayout() {
                     <>
                       {defaultDom}
                       <MenuCard />
-
                       <Link style={{ fontSize: '14px' }} to="/courses">
                         Course
                       </Link>
                     </>
-                  );
-                }}
-                menuFooterRender={(props) => {
-                  if (props?.collapsed) return undefined;
-                  return (
-                    <div
-                      style={{
-                        textAlign: 'center',
-                        paddingBlockStart: 12,
-                      }}
-                    >
-                      <div>© 2021 Made with love</div>
-                      <div>by Ant Design</div>
-                    </div>
                   );
                 }}
                 onMenuHeaderClick={(e) => console.log(e)}
@@ -205,45 +179,6 @@ function AdminLayout() {
                 }}
                 {...settings}
                 {...adminSidebarProps}
-                // menuDataRender={() => [
-                //   {
-                //     path: '/home',
-                //     name: 'Home',
-                //     icon: <SmileFilled />,
-                //   },
-                //   {
-                //     path: '/admin',
-                //     name: 'Users',
-                //     icon: <UserOutlined />,
-                //     children: [
-                //       {
-                //         path: '/admin/students-management',
-                //         name: 'Students List',
-                //         breadcrumbName: 'Students List',
-                //       },
-                //       {
-                //         path: '/admin/teachers-management',
-                //         name: 'Teachers List',
-                //         breadcrumbName: 'Teachers List',
-                //       },
-                //       { path: '/admin/admins-management', name: 'Admins List' },
-                //     ],
-                //   },
-                //   {
-                //     path: '/admin',
-                //     name: 'University',
-                //     icon: <BookOutlined />,
-
-                //     children: [
-                //       {
-                //         path: '/admin/academic-years-management',
-                //         name: 'Academic Year Management',
-                //       },
-                //       { path: '/admin/semesters-management', name: 'Semester Management' },
-                //       { path: '/admin/departments-management', name: 'Department Management' },
-                //     ],
-                //   },
-                // ]}
               >
                 <PageContainer
                   token={{

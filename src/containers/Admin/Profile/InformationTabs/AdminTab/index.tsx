@@ -4,10 +4,13 @@ import { Callback } from '@/utils/helpers';
 import { Descriptions } from 'antd';
 
 const AdminInfo = () => {
-  const { admin } = useGetCurrentAdminInfo();
+  const { admin } = useGetCurrentAdminInfo({
+    enabled: true,
+  });
+
   return (
     <Descriptions
-      title="User Info"
+      title="Admin Info"
       column={{
         xs: 1,
         sm: 1,
@@ -17,7 +20,7 @@ const AdminInfo = () => {
       }}
     >
       <Descriptions.Item label="UserName">{admin?.username}</Descriptions.Item>
-      <Descriptions.Item label="Telephone">{admin?.emergencyContactPhoneNumber}</Descriptions.Item>
+      <Descriptions.Item label="Telephone">{admin?.phoneNumber}</Descriptions.Item>
       <Descriptions.Item label="Live">{admin?.address}</Descriptions.Item>
       <Descriptions.Item label="Address">{admin?.address}</Descriptions.Item>
       <Descriptions.Item label="Admin ID">{admin?.id}</Descriptions.Item>

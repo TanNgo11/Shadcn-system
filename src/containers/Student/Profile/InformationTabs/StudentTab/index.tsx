@@ -1,6 +1,8 @@
+import { useGetCurrentStudentInfo } from '@/queries/Students/useGetCurrentStudentInfo';
 import { Descriptions } from 'antd';
 
 const UserInfo = () => {
+  const { student } = useGetCurrentStudentInfo();
   return (
     <Descriptions
       title="User Info"
@@ -12,23 +14,30 @@ const UserInfo = () => {
         xl: 2,
       }}
     >
-      <Descriptions.Item label="UserName">Zhou Maomao</Descriptions.Item>
-      <Descriptions.Item label="Telephone">1810000000</Descriptions.Item>
-      <Descriptions.Item label="Live">Hangzhou, Zhejiang</Descriptions.Item>
-      <Descriptions.Item label="Remark">empty</Descriptions.Item>
-      <Descriptions.Item label="Address">
-        No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
+      <Descriptions.Item label="Full Name">
+        {`${student?.firstName} ${student?.lastName}`}
       </Descriptions.Item>
-      <Descriptions.Item label="Max SV">123456789</Descriptions.Item>
-      <Descriptions.Item label="Phone Number">0987654321</Descriptions.Item>
-      <Descriptions.Item label="ID Number">A123456789</Descriptions.Item>
-      <Descriptions.Item label="Gender">Male</Descriptions.Item>
-      <Descriptions.Item label="Date of Birth">1990-01-01</Descriptions.Item>
-      <Descriptions.Item label="Email">zhou.maomao@example.com</Descriptions.Item>
-      <Descriptions.Item label="Nationality">Chinese</Descriptions.Item>
-      <Descriptions.Item label="Major">Computer Science</Descriptions.Item>
-      <Descriptions.Item label="Enrollment Year">2010</Descriptions.Item>
-      <Descriptions.Item label="Graduation Year">2014</Descriptions.Item>
+      <Descriptions.Item label="Username">{student?.username}</Descriptions.Item>
+      <Descriptions.Item label="Phone Number">{student?.phoneNumber}</Descriptions.Item>
+      <Descriptions.Item label="Date of Birth">{student?.dateOfBirth}</Descriptions.Item>
+      <Descriptions.Item label="Address">{student?.address}</Descriptions.Item>
+      <Descriptions.Item label="Email">{student?.email}</Descriptions.Item>
+      <Descriptions.Item label="Gender">{student?.gender}</Descriptions.Item>
+      <Descriptions.Item label="Student? ID">{student?.studentId}</Descriptions.Item>
+      <Descriptions.Item label="Major">{student?.major || 'N/A'}</Descriptions.Item>
+      <Descriptions.Item label="Guardian Name">{student?.guardianName || 'N/A'}</Descriptions.Item>
+      <Descriptions.Item label="Guardian Phone Number">
+        {student?.guardianPhoneNumber || 'N/A'}
+      </Descriptions.Item>
+      <Descriptions.Item label="Nationality">{student?.nation || 'N/A'}</Descriptions.Item>
+      <Descriptions.Item label="Religion">{student?.religion || 'N/A'}</Descriptions.Item>
+      <Descriptions.Item label="Citizen ID">{student?.citizenId || 'N/A'}</Descriptions.Item>
+      <Descriptions.Item label="Faculty">{student?.faculty || 'N/A'}</Descriptions.Item>
+      <Descriptions.Item label="Degree Level">{student?.degreeLevel || 'N/A'}</Descriptions.Item>
+      <Descriptions.Item label="School Year">{student?.schoolYear || 'N/A'}</Descriptions.Item>
+      <Descriptions.Item label="Enrollment Date">
+        {student?.enrollmentDate || 'N/A'}
+      </Descriptions.Item>
     </Descriptions>
   );
 };
