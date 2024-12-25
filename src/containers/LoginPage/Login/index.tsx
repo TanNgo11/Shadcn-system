@@ -37,15 +37,7 @@ const Login = ({ isAuth, setIsAuth }: MyComponentProps) => {
           <span>Or via Social Media</span>
           <div className="login-via-social">
             <a>
-              <i className="fab fa-facebook-f"></i>
-            </a>
-
-            <a>
               <i className="fab fa-google"></i>
-            </a>
-
-            <a href="">
-              <i className="fab fa-twitter"></i>
             </a>
           </div>
         </div>

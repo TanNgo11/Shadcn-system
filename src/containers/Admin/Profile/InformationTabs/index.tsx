@@ -8,8 +8,8 @@ const InformationTabs = () => {
   const listTabs = useMemo(() => {
     return [
       {
-        key: 'Student Information',
-        label: 'Student Information',
+        key: 'Admin Information',
+        label: 'Admin Information',
         children: <AdminInfo />,
         icon: <ProfileTwoTone />,
       },
