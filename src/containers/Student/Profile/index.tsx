@@ -6,7 +6,6 @@ import InformationTabs from './InformationTabs';
 
 const Profile = () => {
   return (
-    <>
       <Row
         justify="center"
         className="profile-container"
@@ -139,7 +138,6 @@ const Profile = () => {
           </ProCard>
         </Col>
       </Row>
-    </>
   );
 };
 

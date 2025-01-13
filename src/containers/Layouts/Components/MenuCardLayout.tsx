@@ -10,35 +10,20 @@ const MenuCard = () => {
       style={{
         display: 'flex',
         alignItems: 'center',
+        marginLeft: 190,
       }}
     >
-      <Divider
-        style={{
-          height: '1.5em',
-        }}
-        type="vertical"
-      />
       <Popover
         placement="bottom"
         overlayStyle={{
           width: 'calc(100vw - 24px)',
           padding: '24px',
           paddingTop: 8,
-          height: '307px',
+          height: '100px',
           borderRadius: '0 0 6px 6px',
         }}
         content={
           <div style={{ display: 'flex', padding: '32px 40px' }}>
-            <div style={{ flex: 1 }}>
-              <List title="List" />
-              <List
-                title="List"
-                style={{
-                  marginBlockStart: 32,
-                }}
-              />
-            </div>
-
             <div
               style={{
                 width: '308px',
@@ -50,7 +35,7 @@ const MenuCard = () => {
                 className={css`
                   font-size: 14px;
                   color: ${token.colorText};
-                  line-height: 22px;
+                  line-height: 20px;
                 `}
               >
                 Menu

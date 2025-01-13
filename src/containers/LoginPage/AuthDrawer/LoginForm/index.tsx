@@ -12,6 +12,7 @@ import { useAuthStore } from '@/zustand/auth/useAuthStore';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Typography } from 'antd';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 

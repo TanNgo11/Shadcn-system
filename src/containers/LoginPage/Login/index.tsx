@@ -25,14 +25,6 @@ const Login = ({ isAuth, setIsAuth }: MyComponentProps) => {
             >
               Login
             </a>
-
-            <a
-              href="#!"
-              className="login-register-btn"
-              onClick={() => setIsAuth({ open: true, form: 'register' })}
-            >
-              Register
-            </a>
           </div>
           <span>Or via Social Media</span>
           <div className="login-via-social">
