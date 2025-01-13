@@ -2,10 +2,9 @@
 const BASE_URLS = {
   DEFAULT: import.meta.env.VITE_API_BASE_URL_IDENTITY,
   PROFILE: import.meta.env.VITE_API_BASE_URL_PROFILE,
-  NOTIFICATION: import.meta.env.VITE_NOTIFICATION_API_BASE_URL,
+  NOTIFICATION: import.meta.env.VITE_API_BASE_URL_NOTIFICATION,
   COURSE: import.meta.env.VITE_API_BASE_URL_COURSE,
 };
-
 // Enum for endpoints
 export enum API_QUERIES {
   IDENTITY = '/identity',

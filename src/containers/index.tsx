@@ -9,6 +9,7 @@ import StudentLayout from './Layouts/StudenLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
 
 const HomePage = React.lazy(() => import('@/containers/Student/HomePage'));
+const AdminDashboardPage = React.lazy(() => import('@/containers/Admin/Dashboard'));
 const NotFoundPage = React.lazy(() => import('@/containers/StartupContainers/NotFoundPage'));
 const StudentProfilePage = React.lazy(() => import('@/containers/Student/Profile'));
 const TeacherProfilePage = React.lazy(() => import('@/containers/Teacher/Profile'));
@@ -48,11 +49,7 @@ const appRoutes: RouteObject[] = [
     children: [
       {
         index: true,
-        path: '',
-        element: <HomePage />,
-      },
-      {
-        path: 'home',
+        path: 'dashboard',
         element: <HomePage />,
       },
       {
@@ -97,6 +94,10 @@ const appRoutes: RouteObject[] = [
     children: [
       {
         index: true,
+        path: 'dashboard',
+        element: <AdminDashboardPage />,
+      },
+      {
         path: 'students-management',
         element: <StudentManagementPage />,
       },

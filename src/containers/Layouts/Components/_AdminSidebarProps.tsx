@@ -1,12 +1,13 @@
 import { BookOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
+import { DatabaseIcon } from 'lucide-react';
 
 export default {
   route: {
     path: '/',
     routes: [
       {
-        path: '/home',
-        name: 'Home',
+        path: '/admin/dashboard',
+        name: 'Dashboard',
         icon: <SmileOutlined />,
       },
       {
