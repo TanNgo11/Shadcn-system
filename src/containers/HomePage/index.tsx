@@ -202,7 +202,7 @@ export default function HomePage() {
           }}
           type="primary"
         >
-          Them moi
+          Add
         </Button>,
         <Dropdown
           key="menu"

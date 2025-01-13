@@ -1,3 +1,4 @@
+import { BaseColor } from '@/components/BaseColor';
 import { PlusCircleFilled, SearchOutlined } from '@ant-design/icons';
 import { Input, theme } from 'antd';
 
@@ -21,12 +22,13 @@ const SearchInput = () => {
         style={{
           borderRadius: 4,
           marginInlineEnd: 12,
-          backgroundColor: token.colorBgTextHover,
+          backgroundColor: BaseColor.backgroundLight,
+          border: `1px solid ${BaseColor.borderLight}`,
         }}
         prefix={
           <SearchOutlined
             style={{
-              color: token.colorTextLightSolid,
+              color: BaseColor.gray600,
             }}
           />
         }

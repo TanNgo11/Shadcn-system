@@ -27,7 +27,7 @@ import { useAuthStore } from '@/zustand/auth/useAuthStore';
 import { useNotification } from '../../StartupContainers/ToastContainer';
 
 function StudentLayout() {
-  const { clearAuth } = useAuthStore();
+  const { clearAuth, user } = useAuthStore();
   const toast = useNotification();
   const navigate = useNavigate();
   const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
@@ -56,6 +56,7 @@ function StudentLayout() {
     });
     navigate('/login');
   };
+
   return (
     <Suspense fallback={<LoadingContainer />}>
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
@@ -74,26 +75,6 @@ function StudentLayout() {
             >
               <ProLayout
                 prefixCls="my-prefix"
-                bgLayoutImgList={[
-                  {
-                    src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
-                    left: 85,
-                    bottom: 100,
-                    height: '303px',
-                  },
-                  {
-                    src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
-                    bottom: -68,
-                    right: -45,
-                    height: '303px',
-                  },
-                  {
-                    src: 'https://img.alicdn.com/imgextra/i3/O1CN018NxReL1shX85Yz6Cx_!!6000000005798-2-tps-884-496.png',
-                    bottom: 0,
-                    left: 0,
-                    width: '331px',
-                  },
-                ]}
                 {...defaultProps}
                 location={{
                   pathname,
@@ -103,14 +84,11 @@ function StudentLayout() {
                     colorBgMenuItemSelected: 'rgba(0,0,0,0.04)',
                   },
                 }}
-                siderMenuType="sub"
-                menu={{
-                  collapsedShowGroupTitle: true,
-                }}
+                siderMenuType="group"
                 avatarProps={{
                   src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-                  size: 'small',
-                  title: 'Ngo Thanh Tan',
+                  size: 'default',
+                  title: `${user?.firstName || ''} ${user?.lastName || ''} `,
                   render: (_props, dom) => {
                     return (
                       <Dropdown
@@ -147,12 +125,14 @@ function StudentLayout() {
                     <GithubFilled key="GithubFilled" />,
                   ];
                 }}
+                title="EIU"
+                logo="https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ"
                 headerTitleRender={(logo, title, _) => {
                   const defaultDom = (
-                    <a>
+                    <Link to={'/student/home'}>
                       {logo}
                       {title}
-                    </a>
+                    </Link>
                   );
                   if (typeof window === 'undefined') return defaultDom;
                   if (document.body.clientWidth < 1400) {
@@ -179,12 +159,11 @@ function StudentLayout() {
                         paddingBlockStart: 12,
                       }}
                     >
-                      <div>© 2021 Made with love</div>
-                      <div>by Ant Design</div>
+                      <div>© 2024 Made with love</div>
+                      <div>by CTTH</div>
                     </div>
                   );
                 }}
-                onMenuHeaderClick={(e) => console.log(e)}
                 menuItemRender={(item, dom) => <Link to={item.path || '/'}>{dom}</Link>}
                 breadcrumbRender={(routers = []) => {
                   return [
@@ -206,7 +185,6 @@ function StudentLayout() {
                     path: '/admin',
                     name: 'Admin',
                     icon: <CrownFilled />,
-
                     children: [
                       {
                         path: '/admin/student-management',
@@ -222,7 +200,7 @@ function StudentLayout() {
                   token={{
                     paddingInlinePageContainerContent: num,
                   }}
-                  subTitle="Subtitle"
+                  title={false}
                 >
                   <ProCard
                     style={{
@@ -230,24 +208,9 @@ function StudentLayout() {
                       minHeight: 800,
                     }}
                   >
-                    <div />
                     <Outlet />
                   </ProCard>
                 </PageContainer>
-
-                <SettingDrawer
-                  pathname={pathname}
-                  enableDarkTheme
-                  getContainer={(e: any) => {
-                    if (typeof window === 'undefined') return e;
-                    return document.getElementById('test-pro-layout');
-                  }}
-                  settings={settings}
-                  onSettingChange={(changeSetting) => {
-                    setSetting(changeSetting);
-                  }}
-                  disableUrlParams={false}
-                />
               </ProLayout>
             </ConfigProvider>
           </ProConfigProvider>

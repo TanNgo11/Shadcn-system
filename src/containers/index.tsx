@@ -1,15 +1,14 @@
 import PublicLayout from '@/containers/Layouts/PublicLayout';
-import StudentLayout from './Layouts/StudenLayout';
 import LoginPage from '@/containers/LoginPage';
 import RoleBasedRoute from '@/hooks/RoleBasedRoute';
 import { Role } from '@/zustand/auth/types';
 import React from 'react';
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import AdminLayout from './Layouts/AdminLayout';
+import StudentLayout from './Layouts/StudenLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
-import { AcademicYear } from './Admin/StudentManagement/CreateEditViewStudent/helper';
 
-const HomePage = React.lazy(() => import('@/containers/HomePage'));
+const HomePage = React.lazy(() => import('@/containers/Student/HomePage'));
 const NotFoundPage = React.lazy(() => import('@/containers/StartupContainers/NotFoundPage'));
 const StudentProfilePage = React.lazy(() => import('@/containers/Student/Profile'));
 const TeacherProfilePage = React.lazy(() => import('@/containers/Teacher/Profile'));
@@ -33,7 +32,6 @@ const DepartmentManagementPage = React.lazy(
   () => import('@/containers/Admin/DepartmentManagement'),
 );
 const TeacherManagementPage = React.lazy(() => import('@/containers/Admin/TeacherManagement'));
-// const CreateEditTeacherPage = React.lazy(() => import('@/containers/Admin/CreateEditTeacher'));
 const AdminManagementPage = React.lazy(() => import('@/containers/Admin/AdminManagement'));
 const CoursesInDepartmentPage = React.lazy(
   () => import('@/containers/Admin/DepartmentManagement/ViewCoursesDepartment'),
@@ -46,10 +44,14 @@ const appRoutes: RouteObject[] = [
         <StudentLayout />
       </RoleBasedRoute>
     ),
-    path: '/',
+    path: '/student',
     children: [
       {
         index: true,
+        path: '',
+        element: <HomePage />,
+      },
+      {
         path: 'home',
         element: <HomePage />,
       },
@@ -65,10 +67,6 @@ const appRoutes: RouteObject[] = [
         path: 'course/:id',
         element: <CourseDetailPage />,
       },
-      {
-        path: '*',
-        element: <NotFoundPage />,
-      },
     ],
   },
   {
@@ -77,8 +75,15 @@ const appRoutes: RouteObject[] = [
     children: [
       {
         index: true,
+        element: <LoginPage />,
+      },
+      {
         path: 'login',
         element: <LoginPage />,
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },
