@@ -90,6 +90,9 @@ export default function HomePage() {
           listsHeight: 400,
         },
       }}
+      search={{
+        layout: 'vertical',
+      }}
       form={{
         syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
           if (type === 'get') {

@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/charts": "^2.2.6",
     "@ant-design/icons": "^5.5.1",
     "@ant-design/pro-components": "^2.8.1",
     "@ant-design/pro-table": "^3.18.1",
@@ -44,6 +45,7 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.27.0",
     "react-toastify": "^10.0.6",
+    "react-vite-ui": "file:",
     "tailwindcss-animate": "^1.0.7",
     "umi-request": "^1.4.0",
     "zod": "^3.23.8",
