@@ -5,7 +5,6 @@ import { GetPropertiesParams } from '../helpers';
 import { stringify } from '@/utils';
 
 const useApi = (baseURL = API_URLS.COURSE) => {
-  const publicApi = useHttpPublicRequest(baseURL);
   const privateApi = useHttpPrivateRequest(baseURL);
 
   const getDepartmentList = (params: GetPropertiesParams) => {

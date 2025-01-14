@@ -7,6 +7,7 @@ import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-d
 import AdminLayout from './Layouts/AdminLayout';
 import StudentLayout from './Layouts/StudenLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
+import CourseManagement from './Admin/CourseManagement';
 
 const HomePage = React.lazy(() => import('@/containers/Student/HomePage'));
 const AdminDashboardPage = React.lazy(() => import('@/containers/Admin/Dashboard'));
@@ -37,6 +38,7 @@ const AdminManagementPage = React.lazy(() => import('@/containers/Admin/AdminMan
 const CoursesInDepartmentPage = React.lazy(
   () => import('@/containers/Admin/DepartmentManagement/ViewCoursesDepartment'),
 );
+const CourseManagementPage = React.lazy(() => import('@/containers/Admin/CourseManagement'));
 
 const appRoutes: RouteObject[] = [
   {
@@ -144,6 +146,10 @@ const appRoutes: RouteObject[] = [
       {
         path: 'departments-management/:id/courses',
         element: <CoursesInDepartmentPage />,
+      },
+      {
+        path: 'courses-management',
+        element: <CourseManagementPage />,
       },
       {
         path: 'profile',
