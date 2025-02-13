@@ -47,6 +47,7 @@ export interface StudentResponse {
   present: Present;
   status: string;
   academicYearId: string;
+  fullName: string;
 }
 export enum Present {
   DROPPED_OUT = 'DROPPED_OUT',
