@@ -42,9 +42,11 @@ export function useGetStudentsList(
   const handleInvalidateStudentsList = (params: TableParams) =>
     queryClient.invalidateQueries([API_STUDENTS_QUERIES.STUDENTS_LIST, { ...params }]);
 
-  const { result: { totalPages, pageSize, totalElements, data: students = [] } = {} } = data || {};
+  const { result: { current, totalPages, pageSize, totalElements, data: students = [] } = {} } =
+    data || {};
 
   return {
+    current,
     totalElements,
     pageSize,
     totalPages,

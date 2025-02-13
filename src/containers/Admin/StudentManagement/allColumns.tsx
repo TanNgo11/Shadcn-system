@@ -17,10 +17,12 @@ export const allColumns = ({
     title: 'ID',
     dataIndex: 'id',
     valueType: 'text',
+    sorter: true, // Enables sorting by this column
   },
   {
     title: 'Full Name',
     valueType: 'text',
+    dataIndex: 'fullName',
     render: (_: any, record: { firstName: string; lastName: string }) => (
       <p>{`${record?.firstName ?? ''} ${record?.lastName ?? ''}`}</p>
     ),
@@ -29,58 +31,55 @@ export const allColumns = ({
     title: 'Student ID',
     dataIndex: 'studentId',
     valueType: 'text',
+    sorter: true,
   },
   {
     title: 'Username',
     dataIndex: 'username',
     valueType: 'text',
+    sorter: true,
+    search: true, // Enables search input in this column
   },
   {
     title: 'Email',
     dataIndex: 'email',
     valueType: 'text',
+    sorter: true,
+    search: true,
   },
   {
     title: 'Phone',
     dataIndex: 'phoneNumber',
     valueType: 'text',
+    search: true,
   },
   {
     title: 'Address',
     dataIndex: 'address',
     valueType: 'text',
+    search: true,
   },
   {
     title: 'Gender',
     dataIndex: 'gender',
-    valueType: 'text',
-    render: (_: any, { gender }: StudentResponse) => {
-      const normalizedGender = gender?.toLowerCase();
-      return (
-        <p>
-          {normalizedGender === Gender.MALE.toLowerCase()
-            ? 'Male'
-            : normalizedGender === Gender.FEMALE.toLowerCase()
-              ? 'Female'
-              : 'Others'}
-        </p>
-      );
+    valueType: 'select', // Dropdown for gender
+    valueEnum: {
+      MALE: { text: 'Male' },
+      FEMALE: { text: 'Female' },
+      OTHER: { text: 'Others' },
     },
   },
-  // {
-  //   title: 'Citizen ID',
-  //   dataIndex: 'citizenId',
-  //   valueType: 'text',
-  // },
   {
     title: 'Academic Year',
     dataIndex: 'academicYearId',
     valueType: 'text',
+    sorter: true,
   },
   {
     title: 'Date of Birth',
     dataIndex: 'dateOfBirth',
-    valueType: 'text',
+    valueType: 'date', // Enables date input for searching
+    sorter: true,
   },
   {
     title: 'Present',
@@ -93,11 +92,10 @@ export const allColumns = ({
     render: (_, record) => <StudentChip status={record.status} />,
   },
   {
-    title: 'option',
+    title: 'Options',
     valueType: 'option',
     key: 'option',
-
-    render: (_text, record, _) => [
+    render: (_text, record) => [
       <a key="editable">
         <EditOutlined onClick={() => handleEditStudent(record.id, Action.EDIT)} />
       </a>,

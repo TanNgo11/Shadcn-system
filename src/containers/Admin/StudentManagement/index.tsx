@@ -2,18 +2,19 @@ import { StudentResponse, StudentStatus } from '@/queries/Students/types';
 import { useGetStudentsList } from '@/queries/Students/useGetStudentsList';
 import { FileExcelOutlined, InboxOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { ProTable } from '@ant-design/pro-components';
-import { Button, message, Modal, Popconfirm, PopconfirmProps } from 'antd';
+import { PageLoading, ProTable } from '@ant-design/pro-components';
+import { Button, message, Modal, Popconfirm, PopconfirmProps, Spin } from 'antd';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { allColumns } from './allColumns';
-import { Action } from './helpers';
+import { Action, splitFullName, transformSortParams } from './helpers';
 import { useUpdateListStudentStatus } from '@/queries/Students/useUpdateListStudentStatus';
 import Dragger from 'antd/es/upload/Dragger';
 import { UploadProps } from 'antd/lib';
 import { useUploadStudents } from '@/queries/Students/useUploadStudents';
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
 import { useDeleteStudentByUsernames } from '@/queries/Students/useDeleteStudentByUsernames';
+import './styles.scss';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -23,7 +24,15 @@ export default function HomePage() {
   const [modalText, setModalText] = useState('Content of the modal');
   const searchParam = useSearchParams();
   const [selectedRowUsernames, setSelectedRowUsernames] = useState<string[]>([]);
-  const { students, setParams, handleInvalidateStudentsList } = useGetStudentsList({
+  const {
+    students,
+    setParams,
+    handleInvalidateStudentsList,
+    totalPages,
+    current,
+    pageSize,
+    totalElements,
+  } = useGetStudentsList({
     defaultParams: {
       current: 1,
       pageSize: 10,
@@ -46,7 +55,18 @@ export default function HomePage() {
     [navigate],
   );
   const { onUpdateStudentStatus } = useUpdateListStudentStatus();
-  const { onUploadStudents } = useUploadStudents();
+  const { onUploadStudents, isLoading } = useUploadStudents({
+    onSuccess: async () => {
+      toast.success({
+        message: 'Create student successfully',
+        description: 'You have successfully created a new student.',
+      });
+      handleInvalidateStudentsList({
+        current: 1,
+        pageSize: 10,
+      });
+    },
+  });
 
   const { onDeleteStudentByUsernames } = useDeleteStudentByUsernames({
     onSuccess: async () => {
@@ -122,15 +142,7 @@ export default function HomePage() {
         formData.append('file', file as File);
 
         onUploadStudents(formData);
-        if (onSuccess) onSuccess('ok');
-        toast.success({
-          message: 'Create student successfully',
-          description: 'You have successfully created a new student.',
-        });
-        handleInvalidateStudentsList({
-          current: 1,
-          pageSize: 10,
-        });
+
         setOpen(false);
       } catch (error) {}
     },
@@ -145,121 +157,155 @@ export default function HomePage() {
       console.log('Dropped files', e.dataTransfer.files);
     },
   };
+
   return (
     <>
-      <Modal
-        title="Title"
-        open={open}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-      >
-        <p>
-          {
-            <Dragger {...props}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">Click or drag file to this area to upload</p>
-              <p className="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibited from uploading company data
-                or other banned files.
-              </p>
-            </Dragger>
-          }
-        </p>
-      </Modal>
-      <ProTable<StudentResponse>
-        dataSource={students}
-        columns={columns}
-        actionRef={actionRef}
-        cardBordered
-        request={async (_params, _sort, _filter) => {
-          return {
-            data: students,
-            success: true,
-            total: students.length,
-          };
-        }}
-        search={{
-          layout: 'vertical',
-        }}
-        columnsState={{
-          persistenceKey: 'pro-table-single-demos',
-          persistenceType: 'localStorage',
-          defaultValue: {
-            option: { fixed: 'right', disable: true },
-            lastName: { show: false },
-            phoneNumber: { show: false },
-            address: { show: true },
-            citizenId: { show: false },
-          },
-          onChange(value) {
-            console.log('value: ', value);
-          },
-        }}
-        rowKey="id"
-        options={{
-          setting: {
-            listsHeight: 400,
-          },
-        }}
-        form={{
-          syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
-            if (type === 'get') {
-              return {
-                ...values,
-                created_at: [values.startTime, values.endTime],
-              };
+      <Spin spinning={isLoading} tip="Loading...">
+        <Modal
+          title="Title"
+          open={open}
+          onOk={handleOk}
+          confirmLoading={confirmLoading}
+          onCancel={handleCancel}
+        >
+          <p>
+            {
+              <Dragger {...props}>
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                <p className="ant-upload-hint">
+                  Support for a single or bulk upload. Strictly prohibited from uploading company
+                  data or other banned files.
+                </p>
+              </Dragger>
             }
-            return values;
-          },
-        }}
-        pagination={{
-          showSizeChanger: true,
-          onChange: (current: any, pageSize: any) => {
-            setParams((prev) => ({
-              ...prev,
-              current,
-              pageSize,
-            }));
-          },
-        }}
-        dateFormatter="string"
-        headerTitle="Advanced"
-        rowSelection={{
-          onChange: handleRowSelectionChange,
-          defaultSelectedRowKeys: selectedRowUsernames,
-        }}
-        toolBarRender={() => [
-          selectedRowUsernames.length > 0 && (
-            <Popconfirm
-              title="Are you sure to delete this teacher?"
-              onCancel={cancel}
-              onConfirm={confirm(handleDeleteStudent, selectedRowUsernames)}
-              cancelText="Cancel"
-              okText="Yes"
+          </p>
+        </Modal>
+        <ProTable<StudentResponse>
+          dataSource={students}
+          columns={columns}
+          actionRef={actionRef}
+          cardBordered
+          request={async (_params, _sort, _filter) => {
+            if (_sort && Object.keys(_sort).length > 0) {
+              const { sortBy, sortDirection } = transformSortParams(
+                Object.keys(_sort).reduce(
+                  (acc, key) => {
+                    acc[key] = _sort[key] as string;
+                    return acc;
+                  },
+                  {} as Record<string, string>,
+                ),
+              );
+
+              setParams({
+                ..._params,
+                current: 1,
+                pageSize: _params.pageSize,
+                sortDirection: sortDirection,
+                sortBy: sortBy,
+              });
+            } else {
+              setParams({
+                ..._params,
+                current: 1,
+                pageSize: _params.pageSize,
+                sortDirection: undefined,
+                sortBy: undefined,
+              });
+            }
+
+            return {
+              data: students,
+              success: true,
+              total: students.length,
+            };
+          }}
+          search={{
+            layout: 'vertical',
+          }}
+          columnsState={{
+            persistenceKey: 'pro-table-single-demos',
+            persistenceType: 'localStorage',
+            defaultValue: {
+              option: { fixed: 'right', disable: true },
+              lastName: { show: false },
+              phoneNumber: { show: false },
+              address: { show: true },
+              citizenId: { show: false },
+            },
+            onChange(value) {
+              console.log('value: ', value);
+            },
+          }}
+          rowKey="id"
+          options={{
+            setting: {
+              listsHeight: 400,
+            },
+          }}
+          form={{
+            syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
+              if (type === 'get') {
+                return {
+                  ...values,
+                  created_at: [values.startTime, values.endTime],
+                };
+              }
+              return values;
+            },
+          }}
+          pagination={{
+            showSizeChanger: true,
+            current: current,
+            pageSize: pageSize,
+            total: totalElements,
+            onChange: (current: any, pageSize: any) => {
+              setParams((prev) => ({
+                ...prev,
+                current,
+                pageSize,
+              }));
+            },
+          }}
+          dateFormatter="string"
+          headerTitle="Advanced"
+          rowSelection={{
+            onChange: handleRowSelectionChange,
+            defaultSelectedRowKeys: selectedRowUsernames,
+          }}
+          toolBarRender={() => [
+            selectedRowUsernames.length > 0 && (
+              <Popconfirm
+                title="Are you sure to delete this teacher?"
+                onCancel={cancel}
+                onConfirm={confirm(handleDeleteStudent, selectedRowUsernames)}
+                cancelText="Cancel"
+                okText="Yes"
+              >
+                <Button key="button" danger type="primary">
+                  Delete
+                </Button>
+              </Popconfirm>
+            ),
+            <Button
+              key="button"
+              icon={<PlusOutlined />}
+              onClick={() => {
+                navigate('/admin/teachers/create');
+              }}
+              type="primary"
             >
-              <Button key="button" danger type="primary">
-                Delete
-              </Button>
-            </Popconfirm>
-          ),
-          <Button
-            key="button"
-            icon={<PlusOutlined />}
-            onClick={() => {
-              navigate('/admin/teachers/create');
-            }}
-            type="primary"
-          >
-            Add New
-          </Button>,
-          <Button onClick={showModal} key="excel-button" icon={<FileExcelOutlined />}>
-            Import Excel
-          </Button>,
-        ]}
-      />
+              Add New
+            </Button>,
+            <Button onClick={showModal} key="excel-button" icon={<FileExcelOutlined />}>
+              Import Excel
+            </Button>,
+          ]}
+        />
+      </Spin>
     </>
   );
 }
