@@ -58,7 +58,7 @@ export default function HomePage() {
   const handleEditAcademicYear = useCallback(
     (id: string, action: Action) => {
       if (action === Action.EDIT) {
-        navigate(`/admin/academic-years/${id}`);
+        navigate(`${id}`);
       }
     },
     [navigate],
@@ -135,7 +135,7 @@ export default function HomePage() {
           key="button"
           icon={<PlusOutlined />}
           onClick={() => {
-            navigate('/admin/academic-year/create');
+            navigate('/admin/academic-years-management/create');
           }}
           type="primary"
         >

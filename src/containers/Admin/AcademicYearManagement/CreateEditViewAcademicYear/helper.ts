@@ -18,9 +18,13 @@ export interface AcademicYearPayload extends Omit<AcademicYearResponse, 'id'> {
 }
 
 // This is the initial value for the AcademicYear form
-// export const initAcademicYearValue: AcademicYearPayload = {
-//   id: 0,
-// };
+export const initAcademicYearValue: AcademicYearPayload = {
+  startYear: '',
+  endYear: '',
+};
 
 // The AcademicYear form schema is used to validate the AcademicYear form
-export const academicYearRegisterFromSchema = z.object({});
+export const academicYearRegisterFormSchema = z.object({
+  startYear: z.string().min(4, { message: 'Start year is required' }),
+  endYear: z.string().min(4, { message: 'End year is required' }),
+});

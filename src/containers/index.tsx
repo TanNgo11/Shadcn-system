@@ -21,9 +21,13 @@ const StudentManagementPage = React.lazy(() => import('@/containers/Admin/Studen
 const AcademicYearManagementPage = React.lazy(
   () => import('@/containers/Admin/AcademicYearManagement'),
 );
+const CreateEditAcademicYearPage = React.lazy(
+  () => import('@/containers/Admin/AcademicYearManagement/CreateEditViewAcademicYear'),
+);
 const CreateEditStudentPage = React.lazy(
   () => import('@/containers/Admin/StudentManagement/CreateEditViewStudent'),
 );
+
 const CreateEditTeacherPage = React.lazy(
   () => import('@/containers/Admin/TeacherManagement/CreateEditViewTeacher'),
 );
@@ -116,9 +120,18 @@ const appRoutes: RouteObject[] = [
         element: <AcademicYearManagementPage />,
       },
       {
+        path: 'academic-years-management/create',
+        element: <CreateEditAcademicYearPage />,
+      },
+      {
+        path: 'academic-years-management/:id',
+        element: <CreateEditAcademicYearPage />,
+      },
+      {
         path: 'departments-management',
         element: <DepartmentManagementPage />,
       },
+
       {
         path: 'students/create',
         element: <CreateEditStudentPage />,
