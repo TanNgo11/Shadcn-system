@@ -23,7 +23,10 @@ const cancel: PopconfirmProps['onCancel'] = (e) => {
   message.error('Click on No');
 };
 
-export const allColumns = ({}: ListAcademicYearsProps): ProColumns<AcademicYearResponse>[] => [
+export const allColumns = ({
+  handleEditAcademicYear,
+  handleDeleteAcademicYear,
+}: ListAcademicYearsProps): ProColumns<AcademicYearResponse>[] => [
   {
     title: '#',
     dataIndex: 'index',
@@ -54,23 +57,20 @@ export const allColumns = ({}: ListAcademicYearsProps): ProColumns<AcademicYearR
     title: 'Option',
     valueType: 'option',
     key: 'option',
-    render: (_text, _record, _) => [
+    render: (_text, record) => [
       <a key="editable">
-        <EditOutlined onClick={() => console.log('edit academic year')} />
+        <EditOutlined onClick={() => handleEditAcademicYear(record.id, Action.EDIT)} />
       </a>,
       <a key="delete">
-        {/* <Popconfirm
-          title="Are you sure to delete this AcademicYear?"
-          onConfirm={confirm}
+        <Popconfirm
+          title="Are you sure to delete this Academic Year?"
+          onConfirm={() => handleDeleteAcademicYear(record.id, Action.DELETE)}
           onCancel={cancel}
           okText="Yes"
           cancelText="No"
-        ></Popconfirm> */}
-        <DeleteOutlined
-          onClick={() => {
-            console.log('Delete AcademicYear ' + _record.id);
-          }}
-        />
+        >
+          <DeleteOutlined />
+        </Popconfirm>
       </a>,
     ],
   },
