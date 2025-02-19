@@ -11,7 +11,7 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': 'warn',
-    'no-unused-vars': 'disable',
+    'no-unused-vars': 0,
     semi: ['error', 'always'],
     'no-console': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -20,9 +20,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     eqeqeq: ['error', 'always'],
     'no-undef': 'error',
-    'no-debugger': 'warn', 
-  
+    'no-debugger': 'warn',
     '@typescript-eslint/no-unused-vars': 'off',
-   
   },
 };

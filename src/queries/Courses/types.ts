@@ -17,3 +17,13 @@ export interface ImageUploadPayload {
   courseId: string;
   file: File;
 }
+
+export interface BaseCoursePayload {
+  code?: string;
+  name?: string;
+  imageUri?: string;
+  description?: string;
+  credit?: number;
+  status?: string;
+  //requiredBaseCourses: BaseCourse[];
+}
