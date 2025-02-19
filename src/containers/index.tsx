@@ -24,6 +24,9 @@ const AcademicYearManagementPage = React.lazy(
 const CreateEditAcademicYearPage = React.lazy(
   () => import('@/containers/Admin/Education/AcademicYearManagement/CreateEditViewAcademicYear'),
 );
+const CreateEditBaseCourse = React.lazy(
+  () => import('@/containers/Admin/CourseManagement/CreateEditViewCourses'),
+);
 const CreateEditStudentPage = React.lazy(
   () => import('@/containers/Admin/UserManagement/StudentManagement/CreateEditViewStudent'),
 );
@@ -163,6 +166,10 @@ const appRoutes: RouteObject[] = [
       {
         path: 'courses-management',
         element: <CourseManagementPage />,
+      },
+      {
+        path: 'courses-management/create',
+        element: <CreateEditBaseCourse />,
       },
       {
         path: 'profile',

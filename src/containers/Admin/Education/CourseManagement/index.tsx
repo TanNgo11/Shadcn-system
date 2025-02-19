@@ -99,7 +99,7 @@ export default function CourseManagement() {
           key="button"
           icon={<PlusOutlined />}
           onClick={() => {
-            navigate(`/admin/departments-management`);
+            navigate(`/admin/courses-management/create`);
           }}
           type="default"
         >

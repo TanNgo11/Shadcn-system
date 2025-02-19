@@ -9,11 +9,21 @@ export interface CourseResponse {
 export interface BaseCourseResponse {
   code: string;
   name: string;
-  imageUri: string | null;
+  imageUri: string;
   description: string;
   credit: number;
   status: string;
   requiredBaseCourses: BaseCourse[];
+}
+
+export interface BaseCoursePayload {
+  code?: string;
+  name?: string;
+  imageUri?: string;
+  description?: string;
+  credit?: number;
+  status?: string;
+  //requiredBaseCourses?: BaseCourse[];
 }
 
 export interface Department {
