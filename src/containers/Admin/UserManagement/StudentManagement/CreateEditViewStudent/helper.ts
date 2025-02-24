@@ -33,7 +33,7 @@ export interface StudentResponse {
 export interface StudentPayload extends Omit<StudentResponse, 'id'> {
   id?: number;
   password: string;
-  repassword: string;
+  rePassword: string;
 }
 
 export const initStudentValue: StudentPayload = {
@@ -64,7 +64,7 @@ export const initStudentValue: StudentPayload = {
   present: Present.STUDYING,
   avatarPath: null,
   password: '',
-  repassword: '',
+  rePassword: '',
 };
 
 export const studentRegisterFormSchema = z.object({

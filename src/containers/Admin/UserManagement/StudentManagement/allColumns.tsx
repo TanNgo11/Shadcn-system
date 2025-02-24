@@ -2,9 +2,9 @@ import { StudentResponse } from '@/queries/Students/types';
 import { Callback } from '@/utils/helpers';
 import { EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
-import { Gender } from '../components/types';
-import { Action } from './helpers';
+import { Button } from 'antd/lib';
 import StudentChip from './ChipCommon';
+import { Action } from './helpers';
 
 type ListStudentsProps = {
   handleEditStudent: Callback;
@@ -17,13 +17,14 @@ export const allColumns = ({
     title: 'ID',
     dataIndex: 'id',
     valueType: 'text',
+    width: 40,
     sorter: true, // Enables sorting by this column
   },
   {
     title: 'Full Name',
     valueType: 'text',
     dataIndex: 'fullName',
-    render: (_: any, record: { firstName: string; lastName: string }) => (
+    render: (_, record: { firstName: string; lastName: string }) => (
       <p>{`${record?.firstName ?? ''} ${record?.lastName ?? ''}`}</p>
     ),
   },
@@ -31,14 +32,13 @@ export const allColumns = ({
     title: 'Student ID',
     dataIndex: 'studentId',
     valueType: 'text',
-    sorter: true,
   },
   {
     title: 'Username',
     dataIndex: 'username',
     valueType: 'text',
     sorter: true,
-    search: true, // Enables search input in this column
+    search: true, 
   },
   {
     title: 'Email',
@@ -57,6 +57,7 @@ export const allColumns = ({
     title: 'Address',
     dataIndex: 'address',
     valueType: 'text',
+    ellipsis: true,
     search: true,
   },
   {
@@ -95,10 +96,12 @@ export const allColumns = ({
     title: 'Options',
     valueType: 'option',
     key: 'option',
+    width: 80,
+    fixed: 'right',
     render: (_text, record) => [
-      <a key="editable">
+      <Button variant="solid" key="editable">
         <EditOutlined onClick={() => handleEditStudent(record.id, Action.EDIT)} />
-      </a>,
+      </Button>,
     ],
   },
 ];

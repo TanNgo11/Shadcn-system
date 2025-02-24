@@ -3,7 +3,7 @@ import { Callback } from '@/utils/helpers';
 import { EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox } from 'antd';
-import { Gender } from '../components/types';
+import { Gender } from '../../components/types';
 
 type ListAdminsProps = {
   handleViewAdminDetail: Callback;
