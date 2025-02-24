@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { isEmpty } from '@/utils';
 import { API_DEPARTMENT } from './keys';
 import { departmentApis } from '.';
-import { CourseResponse } from '@/containers/Admin/DepartmentManagement/ViewCoursesDepartment/helpers';
+import { CourseResponse } from '@/containers/Admin/University/DepartmentManagement/ViewCoursesDepartment/helpers';
 
 export function useGetCoursesInDepartmentById(
   options?: UseQueryOptions<ApiResponseType<PaginationResponseType<CourseResponse[]>>, Error> & {

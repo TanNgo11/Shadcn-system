@@ -1,5 +1,5 @@
 import { ApiResponseType, responseWrapper } from './../helpers';
-import { CourseResponse } from '@/containers/Admin/DepartmentManagement/ViewCoursesDepartment/helpers';
+import { CourseResponse } from '@/containers/Admin/University/DepartmentManagement/ViewCoursesDepartment/helpers';
 import { PaginationResponseType, TableParams } from '../helpers';
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { TableAction } from 'antd/es/table/interface';
@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { API_COURSE_QUERIES } from './keys';
 import { courseApis } from '.';
 import { isEmpty } from '@/utils';
-import { BaseCourseResponse } from '@/containers/Admin/CourseManagement/helpers';
+import { BaseCourseResponse } from '@/containers/Admin/Education/CourseManagement/helpers';
 
 export function useGetAllCourse(
   options?: UseQueryOptions<

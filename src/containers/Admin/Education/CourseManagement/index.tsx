@@ -1,12 +1,11 @@
-import { useGetAllCourse } from '@/queries/Courses/useGetAllCourses';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CourseResponse } from '../DepartmentManagement/ViewCoursesDepartment/helpers';
-import { allColumns } from './allColumns';
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
+import { useGetAllCourse } from '@/queries/Courses/useGetAllCourses';
+import { PlusOutlined } from '@ant-design/icons';
+import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { Button } from 'antd';
-import { BackwardOutlined, PlusOutlined } from '@ant-design/icons';
+import { useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { allColumns } from './allColumns';
 import { BaseCourseResponse } from './helpers';
 
 export default function CourseManagement() {
