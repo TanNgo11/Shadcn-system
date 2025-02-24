@@ -57,7 +57,7 @@ export default {
           },
           {
             path: '/admin/semesters-management',
-            name: 'Semesters',
+            name: 'Open Courses',
             breadcrumbName: 'Semesters',
           },
           {
