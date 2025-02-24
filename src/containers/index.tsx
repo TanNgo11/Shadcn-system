@@ -17,7 +17,7 @@ const TeacherProfilePage = React.lazy(() => import('@/containers/Teacher/Profile
 const AdminProfilePage = React.lazy(() => import('@/containers/Admin/Profile'));
 const CoursesPage = React.lazy(() => import('@/containers/CoursesPage'));
 const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/CourseDetailPage'));
-const StudentManagementPage = React.lazy(() => import('@/containers/Admin/StudentManagement'));
+const StudentManagementPage = React.lazy(() => import('@/containers/Admin/UserManagement/StudentManagement'));
 const AcademicYearManagementPage = React.lazy(
   () => import('@/containers/Admin/AcademicYearManagement'),
 );
@@ -25,26 +25,44 @@ const CreateEditAcademicYearPage = React.lazy(
   () => import('@/containers/Admin/AcademicYearManagement/CreateEditViewAcademicYear'),
 );
 const CreateEditStudentPage = React.lazy(
-  () => import('@/containers/Admin/StudentManagement/CreateEditViewStudent'),
+  () => import('@/containers/Admin/UserManagement/StudentManagement/CreateEditViewStudent'),
 );
 
 const CreateEditTeacherPage = React.lazy(
-  () => import('@/containers/Admin/TeacherManagement/CreateEditViewTeacher'),
+  () => import('@/containers/Admin/UserManagement/TeacherManagement/CreateEditViewTeacher'),
 );
 const CreateEditAdminPage = React.lazy(
-  () => import('@/containers/Admin/AdminManagement/CreateEditViewAdmin'),
+  () => import('@/containers/Admin/UserManagement/AdminManagement/CreateEditViewAdmin'),
 );
 const DepartmentManagementPage = React.lazy(
   () => import('@/containers/Admin/DepartmentManagement'),
 );
-const TeacherManagementPage = React.lazy(() => import('@/containers/Admin/TeacherManagement'));
-const AdminManagementPage = React.lazy(() => import('@/containers/Admin/AdminManagement'));
+const TeacherManagementPage = React.lazy(() => import('@/containers/Admin/UserManagement/TeacherManagement'));
+const AdminManagementPage = React.lazy(() => import('@/containers/Admin/UserManagement/AdminManagement'));
 const CoursesInDepartmentPage = React.lazy(
   () => import('@/containers/Admin/DepartmentManagement/ViewCoursesDepartment'),
 );
 const CourseManagementPage = React.lazy(() => import('@/containers/Admin/CourseManagement'));
 
 const appRoutes: RouteObject[] = [
+  {
+    element: <PublicLayout />,
+    path: '/',
+    children: [
+      {
+        index: true,
+        element: <LoginPage />,
+      },
+      {
+        path: 'login',
+        element: <LoginPage />,
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
+      },
+    ],
+  },
   {
     element: (
       <RoleBasedRoute requiredRole={Role.STUDENT}>
@@ -69,24 +87,6 @@ const appRoutes: RouteObject[] = [
       {
         path: 'course/:id',
         element: <CourseDetailPage />,
-      },
-    ],
-  },
-  {
-    element: <PublicLayout />,
-    path: '/',
-    children: [
-      {
-        index: true,
-        element: <LoginPage />,
-      },
-      {
-        path: 'login',
-        element: <LoginPage />,
-      },
-      {
-        path: '*',
-        element: <NotFoundPage />,
       },
     ],
   },

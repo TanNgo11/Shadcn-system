@@ -184,7 +184,6 @@ function AdminLayout() {
                   token={{
                     paddingInlinePageContainerContent: num,
                   }}
-                  subTitle="Subtitle"
                 >
                   <ProCard
                     style={{

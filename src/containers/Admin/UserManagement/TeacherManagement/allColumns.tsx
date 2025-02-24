@@ -3,7 +3,7 @@ import { Callback } from '@/utils/helpers';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox, message, Popconfirm } from 'antd';
-import { Gender } from '../components/types';
+import { Gender } from '../../components/types';
 import { Action } from './helpers';
 import { PopconfirmProps } from 'antd/lib';
 
