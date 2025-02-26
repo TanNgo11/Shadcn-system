@@ -25,5 +25,4 @@ export interface BaseCoursePayload {
   description?: string;
   credit?: number;
   status?: string;
-  //requiredBaseCourses: BaseCourse[];
 }

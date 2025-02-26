@@ -63,7 +63,7 @@ export const allColumns = ({
   {
     title: 'Gender',
     dataIndex: 'gender',
-    valueType: 'select', // Dropdown for gender
+    valueType: 'select',
     valueEnum: {
       MALE: { text: 'Male' },
       FEMALE: { text: 'Female' },
@@ -79,7 +79,7 @@ export const allColumns = ({
   {
     title: 'Date of Birth',
     dataIndex: 'dateOfBirth',
-    valueType: 'date', // Enables date input for searching
+    valueType: 'date', 
     sorter: true,
   },
   {

@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useQuery, UseQueryOptions, useQueryClient } from 'react-query';
 
-import { ApiResponseType, PaginationResponseType, TableParams } from '../helpers';
+import { ApiResponseType, PaginationResponseType, TableParams, responseWrapper } from '../helpers';
 
 import { isEmpty } from '@/utils';
-import { responseWrapper } from '../helpers';
 import { API_STUDENTS_QUERIES } from './keys';
 import { StudentResponse } from './types';
 import { studentsApi } from '.';

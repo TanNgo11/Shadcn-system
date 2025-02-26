@@ -1,11 +1,10 @@
+import { AcademicYearResponse } from '@/queries/AcademicYear/types';
 import { Callback } from '@/utils/helpers';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
-import { Checkbox, message, Popconfirm } from 'antd';
-import { Gender } from '../components/types';
-import { Action } from './helpers';
+import { message, Popconfirm } from 'antd';
 import { PopconfirmProps } from 'antd/lib';
-import { AcademicYearResponse } from '@/queries/AcademicYear/types';
+import { Action } from './helpers';
 
 type ListAcademicYearsProps = {
   handleEditAcademicYear: Callback;
@@ -27,17 +26,7 @@ export const allColumns = ({
   handleEditAcademicYear,
   handleDeleteAcademicYear,
 }: ListAcademicYearsProps): ProColumns<AcademicYearResponse>[] => [
-  {
-    title: '#',
-    dataIndex: 'index',
-    valueType: 'indexBorder',
-    width: 48,
-    render: (_text, record) => (
-      <Checkbox
-        onChange={(e: { target: { checked: any } }) => console.log(e.target.checked, record)}
-      />
-    ),
-  },
+
   {
     title: 'ID',
     dataIndex: 'id',

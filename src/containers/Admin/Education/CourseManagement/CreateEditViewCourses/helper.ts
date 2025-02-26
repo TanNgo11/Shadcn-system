@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { BaseCoursePayload, BaseCourseResponse } from '../../Education/CourseManagement/helpers';
+import { BaseCoursePayload, BaseCourseResponse } from '../helpers';
 //import { BaseCoursePayload, BaseCourseResponse } from '../helpers';
 
 // export enum AcademicYearStatus {

@@ -34,3 +34,4 @@ export const API_URLS = {
   NOTIFICATION: getApiUrl(API_QUERIES.NOTIFICATION),
   COURSE: getApiUrl(API_QUERIES.COURSE),
 } as const;
+

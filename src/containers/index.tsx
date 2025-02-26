@@ -7,7 +7,6 @@ import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-d
 import AdminLayout from './Layouts/AdminLayout';
 import StudentLayout from './Layouts/StudenLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
-import CourseManagement from './Admin/Education/CourseManagement';
 
 const HomePage = React.lazy(() => import('@/containers/Student/HomePage'));
 const AdminDashboardPage = React.lazy(() => import('@/containers/Admin/Dashboard'));
@@ -25,7 +24,7 @@ const CreateEditAcademicYearPage = React.lazy(
   () => import('@/containers/Admin/Education/AcademicYearManagement/CreateEditViewAcademicYear'),
 );
 const CreateEditBaseCourse = React.lazy(
-  () => import('@/containers/Admin/CourseManagement/CreateEditViewCourses'),
+  () => import('@/containers/Admin/Education/CourseManagement/CreateEditViewCourses'),
 );
 const CreateEditStudentPage = React.lazy(
   () => import('@/containers/Admin/UserManagement/StudentManagement/CreateEditViewStudent'),
@@ -46,7 +45,8 @@ const CoursesInDepartmentPage = React.lazy(
   () => import('@/containers/Admin/University/DepartmentManagement/ViewCoursesDepartment'),
 );
 const CourseManagementPage = React.lazy(() => import('@/containers/Admin/Education/CourseManagement'));
-
+const OpenCoursePage = React.lazy(() => import('@/containers/Admin/Education/CourseManagement/OpenCourse'));
+const SemesterManagementPage = React.lazy(() => import('@/containers/Admin/Education/SemesterManagement'));
 const appRoutes: RouteObject[] = [
   {
     element: <PublicLayout />,
@@ -101,6 +101,7 @@ const appRoutes: RouteObject[] = [
     ),
     path: '/admin',
     children: [
+      // Admin routes
       {
         index: true,
         path: 'dashboard',
@@ -134,7 +135,6 @@ const appRoutes: RouteObject[] = [
         path: 'departments-management',
         element: <DepartmentManagementPage />,
       },
-
       {
         path: 'students/create',
         element: <CreateEditStudentPage />,
@@ -172,8 +172,20 @@ const appRoutes: RouteObject[] = [
         element: <CreateEditBaseCourse />,
       },
       {
+        path: 'semester-management/:id',
+        element: <SemesterManagementPage />,
+      },
+      {
+        path: 'open-course',
+        element: <OpenCoursePage />,
+      },
+      {
         path: 'profile',
         element: <AdminProfilePage />,
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },

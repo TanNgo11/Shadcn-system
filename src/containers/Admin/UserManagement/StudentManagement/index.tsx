@@ -26,7 +26,6 @@ export default function HomePage() {
     students,
     setParams,
     handleInvalidateStudentsList,
-
     totalElements,
   } = useGetStudentsList({
     defaultParams: {
@@ -138,7 +137,9 @@ export default function HomePage() {
         onUploadStudents(formData);
 
         setOpen(false);
-      } catch (error) {}
+      } catch (error) {
+        console.error('Upload failed:', error);
+      }
     },
     onChange: (info) => {
       if (info.file.status === 'done') {
@@ -229,7 +230,7 @@ export default function HomePage() {
           total: totalElements,
         }}
         dateFormatter="string"
-        headerTitle="Advanced"
+        headerTitle="Student Management"
         rowSelection={{
           onChange: handleRowSelectionChange,
           defaultSelectedRowKeys: selectedRowUsernames,
