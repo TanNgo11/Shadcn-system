@@ -1,91 +1,101 @@
 import { BookOutlined, HomeOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
-import { DatabaseIcon, School2Icon } from 'lucide-react';
-import { FaSchool } from 'react-icons/fa6';
+export const PATHS = {
+  // Admin
+  DASHBOARD: '/admin/dashboard',
+  STUDENTS_MANAGEMENT: '/admin/students-management',
+  TEACHERS_MANAGEMENT: '/admin/teachers-management',
+  ADMINS_MANAGEMENT: '/admin/admins-management',
+  ACADEMIC_YEARS_MANAGEMENT: '/admin/academic-years-management',
+  COURSES_MANAGEMENT: '/admin/courses-management',
+  CLASSES_MANAGEMENT: '/admin/classes-management',
+  DEPARTMENTS_MANAGEMENT: '/admin/departments-management',
+  ROOM_MANAGEMENT: '/admin/room-management',
+  SEMESTER_MANAGEMENT: '/admin/semester-management/:id',
+
+  //Open Course
+  OPEN_COURSE: '/admin/open-course',
+
+  // User
+  USER: '/user',
+
+  // Education
+  EDUCATION: '/education',
+
+  // University
+  UNIVERSITY: '/university',
+};
 
 export default {
   route: {
     path: '/',
     routes: [
+      // Admin
       {
-        path: '/admin/dashboard',
+        path: PATHS.DASHBOARD,
         name: 'Dashboard',
         icon: <SmileOutlined />,
         breadcrumbName: 'Dashboard',
       },
       {
-        path: '/user',
+        path: PATHS.USER,
         name: 'User',
         icon: <UserOutlined />,
         access: 'canAdmin',
         component: './Admin',
         breadcrumbName: 'User',
         routes: [
+          // Admin
           {
-            path: '/admin/students-management',
+            path: PATHS.STUDENTS_MANAGEMENT,
             name: 'Students',
-            breadcrumbName: 'Students',
           },
           {
-            path: '/admin/teachers-management',
+            path: PATHS.TEACHERS_MANAGEMENT,
             name: 'Teachers',
-            breadcrumbName: 'Teachers',
           },
           {
-            path: '/admin/admins-management',
+            path: PATHS.ADMINS_MANAGEMENT,
             name: 'Admins',
-            breadcrumbName: 'Admins',
           },
         ],
       },
       {
         name: 'Education',
         icon: <BookOutlined />,
-        path: '/education',
+        path: PATHS.EDUCATION,
         routes: [
+          // Admin
           {
-            path: '/admin/academic-years-management',
+            path: PATHS.ACADEMIC_YEARS_MANAGEMENT,
             name: 'Academic Years',
-            breadcrumbName: 'Academic Years',
-            // routes: [
-            //   {
-            //     path: 'sub-sub-page1',
-            //     name: 'sub-sub-page1',
-            //     icon: <CrownFilled />,
-            //     component: './Welcome',
-            //   },
-            // ],
           },
           {
-            path: '/admin/semesters-management',
-            name: 'Open Courses',
-            breadcrumbName: 'Semesters',
+            path: PATHS.OPEN_COURSE,
+            name: 'Open courses',
           },
           {
-            path: '/admin/courses-management',
+            path: PATHS.COURSES_MANAGEMENT,
             name: 'Courses',
-            breadcrumbName: 'Courses',
           },
           {
-            path: '/admin/classes-management',
+            path: PATHS.CLASSES_MANAGEMENT,
             name: 'Classes',
-            breadcrumbName: 'Classes',
           },
         ],
       },
       {
         name: 'University',
         icon: <HomeOutlined />,
-        path: '/university',
+        path: PATHS.UNIVERSITY,
         routes: [
+          // Admin
           {
-            path: '/admin/departments-management',
+            path: PATHS.DEPARTMENTS_MANAGEMENT,
             name: 'Departments',
-            breadcrumbName: 'Departments',
           },
           {
-            path: '/admin/room-management',
+            path: PATHS.ROOM_MANAGEMENT,
             name: 'Rooms',
-            breadcrumbName: 'Rooms',
           },
         ],
       },

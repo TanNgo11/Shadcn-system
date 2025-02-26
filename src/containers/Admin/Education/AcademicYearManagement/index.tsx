@@ -1,43 +1,18 @@
+import { AcademicYearResponse } from '@/queries/AcademicYear/types';
+import { useGetAcademicYearList } from '@/queries/AcademicYear/useGetAcademicYearList';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import { Button } from 'antd';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { allColumns } from './allColumns';
+import { useCallback, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { allColumns } from './allColumns';
 import { Action } from './helpers';
-import { useNotification } from '@/containers/StartupContainers/ToastContainer';
-import { useGetAcademicYearList } from '@/queries/AcademicYear/useGetAcademicYearList';
-import { AcademicYearResponse } from '@/queries/AcademicYear/types';
+import { PATHS } from '@/containers/Layouts/Components/_AdminSidebarProps';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const toast = useNotification();
   const actionRef = useRef<ActionType>();
-  const { handleInvalidateAcademicYearList } = useGetAcademicYearList({
-    defaultParams: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
-  // const { onDeleteAcademicYearById } = useDeleteAcademicYearById({
-  //   onSuccess: async () => {
-  //     toast.success({
-  //       message: 'Delete Academic year successfully',
-  //       description: 'You have successfully deleted a new AcademicYear.',
-  //     });
-  //     handleInvalidateAcademicYearList({
-  //       current: 1,
-  //       pageSize: 10,
-  //     });
-  //   },
-  //   onError: (error) => {
-  //     toast.error({
-  //       message: 'Delete Academic Year failed',
-  //       description: error.message,
-  //     });
-  //   },
-  // });
 
   const { academicYears } = useGetAcademicYearList({
     defaultParams: {
@@ -129,7 +104,15 @@ export default function HomePage() {
         onChange: (page: any) => console.log(page),
       }}
       dateFormatter="string"
-      headerTitle="Advanced"
+      headerTitle="Academic Year List"
+      onRow={(record, _) => {
+        return {
+          onClick: () => {
+            navigate(PATHS.SEMESTER_MANAGEMENT.replace(':id', record.id));
+          },
+          style: { cursor: 'pointer' },
+        };
+      }}
       toolBarRender={() => [
         <Button
           key="button"

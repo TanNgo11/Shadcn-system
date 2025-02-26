@@ -1,4 +1,4 @@
-import { isEmpty } from "./validations";
+import { isEmpty } from './validations';
 
 export const stringify = (
   params: { [key: string]: number | number[] | string | string[] | boolean },

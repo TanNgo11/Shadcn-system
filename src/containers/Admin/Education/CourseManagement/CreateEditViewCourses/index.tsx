@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { baseCourseCreationSchema, initBaseCourseValue } from './helper';
 import useCreateBaseCourse from '@/queries/Courses/useCreateBaseCourse';
 import { useGetAllCourse } from '@/queries/Courses/useGetAllCourses';
-import { BaseCoursePayload } from '../../Education/CourseManagement/helpers';
+import { BaseCoursePayload } from '../helpers';
 
 const CreateEditBaseCourse = () => {
   const toast = useNotification();
@@ -65,7 +65,7 @@ const CreateEditBaseCourse = () => {
 
   return (
     <Form onFinish={handleSubmit(onSubmit)}>
-      <Card title={id ? 'Edit Academic Year' : 'Create Academic Year'}>
+      <Card title={id ? 'Edit Course ' : 'Create Course'}>
         <Row gutter={16}>
           <Col span={8}>
             <Form.Item label="Code">

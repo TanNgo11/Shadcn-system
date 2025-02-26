@@ -11,14 +11,13 @@ import { BaseCourseResponse } from './helpers';
 export default function CourseManagement() {
   const toast = useNotification();
   const navigate = useNavigate();
-  const { courses, setParams, handleInvalidateCoursesList } = useGetAllCourse({
+  const { courses } = useGetAllCourse({
     tableParams: {
       current: 1,
       pageSize: 10,
     },
   });
   const actionRef = useRef<ActionType>();
-  const [open, setOpen] = useState(false);
 
   const handleEditCourse = () => {
     toast.error({
@@ -56,24 +55,7 @@ export default function CourseManagement() {
           total: courses.length,
         };
       }}
-      columnsState={{
-        persistenceKey: 'pro-table-single-demos',
-        persistenceType: 'localStorage',
-        defaultValue: {
-          option: { fixed: 'right', disable: true },
-          startYear: { show: true },
-          endYear: { show: true },
-        },
-        onChange(value) {
-          console.log('value: ', value);
-        },
-      }}
       rowKey="id"
-      options={{
-        setting: {
-          listsHeight: 400,
-        },
-      }}
       search={{
         layout: 'vertical',
       }}
@@ -93,7 +75,7 @@ export default function CourseManagement() {
         onChange: (page: any) => console.log(page),
       }}
       dateFormatter="string"
-      headerTitle="Advanced"
+      headerTitle="Course Management"
       toolBarRender={() => [
         <Button
           key="button"

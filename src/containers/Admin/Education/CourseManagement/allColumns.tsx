@@ -22,7 +22,10 @@ const cancel: PopconfirmProps['onCancel'] = (e) => {
   message.error('Click on No');
 };
 
-export const allColumns = ({}: CoursesProps): ProColumns<BaseCourseResponse>[] => [
+export const allColumns = ({
+  handleEditCourse,
+  handleDeleteCourse,
+}: CoursesProps): ProColumns<BaseCourseResponse>[] => [
   {
     title: '#',
     dataIndex: 'index',
@@ -78,21 +81,18 @@ export const allColumns = ({}: CoursesProps): ProColumns<BaseCourseResponse>[] =
     key: 'option',
     render: (_text, _record, _) => [
       <a key="editable">
-        <EditOutlined onClick={() => console.log('edit department')} />
+        <EditOutlined onClick={() => handleEditCourse(_record)} />
       </a>,
       <a key="delete">
-        {/* <Popconfirm
-          title="Are you sure to delete this Department?"
-          onConfirm={confirm}
+        <Popconfirm
+          title="Are you sure to delete this course?"
+          onConfirm={() => handleDeleteCourse(_record)}
           onCancel={cancel}
           okText="Yes"
           cancelText="No"
-        ></Popconfirm> */}
-        <DeleteOutlined
-          onClick={() => {
-            console.log('Delete base course ' + _record.name);
-          }}
-        />
+        >
+          <DeleteOutlined />
+        </Popconfirm>
       </a>,
     ],
   },

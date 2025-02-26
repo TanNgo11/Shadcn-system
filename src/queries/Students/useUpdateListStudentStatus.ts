@@ -1,9 +1,8 @@
-// src/hooks/useUpdateStudent.ts
-
 import { ApiResponseType, responseWrapper } from '@/queries/helpers';
 import { UseMutationOptions, useMutation } from 'react-query';
-import { CRUStudentPayload, StudentStatus } from './types';
 import { studentsApi } from '.';
+import { API_STUDENTS_QUERIES } from './keys';
+import { StudentStatus } from './types';
 
 export function useUpdateListStudentStatus(
   options?: UseMutationOptions<
@@ -21,6 +20,9 @@ export function useUpdateListStudentStatus(
   } = useMutation<ApiResponseType<void>, Error, { ids: number[]; status: StudentStatus }>({
     mutationFn: ({ ids, status }) =>
       responseWrapper(studentsApi.updateStatusStudentByListId, [ids, status]),
+    meta: {
+      invalidates: [API_STUDENTS_QUERIES.STUDENTS_LIST],
+    },
     ...options,
   });
 
