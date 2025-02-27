@@ -1,43 +1,43 @@
 import { useGetDepartmentList } from '@/queries/Departments/useGetDepartmentList';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import { Card, Select } from 'antd';
-import React, { useMemo, useRef } from 'react';
+import { Button, Card, Select, Typography } from 'antd';
+import React, { useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { any } from 'zod';
 import { BaseCoursePayload, CourseResponse } from '../helpers';
 import { allColumns } from './allColumns';
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
-import OpenBaseCoursesModal from './openModal';
+import OpenBaseCoursesModal from './OpenBaseCoursesModal';
 import { useGetOpenCoursesInDepartmentById } from '@/queries/Semester/useGetOpenCoursesInDepartmentById';
-
+import { useModal } from '@/hooks/useModal';
 
 const OpenCourse: React.FC<Props> = () => {
   const toast = useNotification();
+
   const { id } = useParams<{ id: string }>();
-  const [departmentId, setDepartmentId] = React.useState<string>("");
+  const [departmentId, setDepartmentId] = React.useState<string>('');
   const actionRef = useRef<ActionType>();
 
-  const {departments } = useGetDepartmentList({
+  const { departments } = useGetDepartmentList({
     defaultParams: {
       current: 1,
       pageSize: 10,
-      },
-    }
-  );
+    },
+  });
 
-    const handleEditCourse = () => {
-      toast.error({
-        message: 'Edit Course',
-        description: 'The course could not be edited.',
-      });
-    };
+  const handleEditCourse = () => {
+    toast.error({
+      message: 'Edit Course',
+      description: 'The course could not be edited.',
+    });
+  };
 
-    const handleDeleteCourse = () => {
-      toast.error({
-        message: 'Delete Course',
-        description: 'The course could not be deleted.',
-      });
-    };
+  const handleDeleteCourse = () => {
+    toast.error({
+      message: 'Delete Course',
+      description: 'The course could not be deleted.',
+    });
+  };
 
   // Get open courses in department
   const { semesters: openCourses } = useGetOpenCoursesInDepartmentById({
@@ -51,23 +51,22 @@ const OpenCourse: React.FC<Props> = () => {
 
   // Handle open base courses modal
   const handleOpenBaseCourses = () => {
-    return ;
+    return;
   };
 
-
-  
-    const columns: ProColumns<CourseResponse>[] = useMemo(
-      () =>
-        allColumns({
-          handleDeleteCourse,
-          handleEditCourse,
-        }),
-      [handleEditCourse, handleDeleteCourse],
-    );
-
+  const columns: ProColumns<CourseResponse>[] = useMemo(
+    () =>
+      allColumns({
+        handleDeleteCourse,
+        handleEditCourse,
+      }),
+    [handleEditCourse, handleDeleteCourse],
+  );
+  const { isOpen, open, close } = useModal();
   return (
     <>
       <Card style={{ marginBottom: 20 }}>
+        <Typography.Title level={4}>Open Courses</Typography.Title>
         <Select
           placeholder="Select department"
           style={{ width: 200 }}
@@ -81,7 +80,10 @@ const OpenCourse: React.FC<Props> = () => {
             </Select.Option>
           ))}
         </Select>
-        <OpenBaseCoursesModal department={departmentId} />
+        <Button type="primary" onClick={open} style={{ margin: '0 10px' }}>
+          Select Base Courses
+        </Button>
+        <OpenBaseCoursesModal department={departmentId} open={isOpen} onClose={close} />
       </Card>
 
       <ProTable<CourseResponse>
@@ -96,9 +98,7 @@ const OpenCourse: React.FC<Props> = () => {
           };
         }}
         rowKey="id"
-        search={{
-          layout: 'vertical',
-        }}
+        search={false}
         form={{
           syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
             if (type === 'get') {

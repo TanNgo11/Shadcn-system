@@ -151,12 +151,14 @@ function AdminLayout() {
                   ];
                 }}
                 headerTitleRender={(logo, title, _) => {
-                  const defaultDom = (
-                    <a>
-                      {logo}
-                      <span style={{ marginLeft: '10px' }}>EIU</span>
-                    </a>
-                  );
+                 const customLogo = (
+                   <img src="/logoAndName.webp" alt="Logo" style={{ height: '46px',marginLeft:'12px' }} />
+                 );
+                 const defaultDom = (
+                   <a>
+                     {customLogo}
+                   </a>
+                 );
                   if (typeof window === 'undefined') return defaultDom;
                   if (document.body.clientWidth < 1400) {
                     return defaultDom;

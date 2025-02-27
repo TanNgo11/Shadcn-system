@@ -1,19 +1,15 @@
 import { Callback } from '@/utils/helpers';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
-import { Checkbox, message, Popconfirm } from 'antd';
+import { Checkbox, message } from 'antd';
 import { PopconfirmProps } from 'antd/lib';
-import { BaseCourseResponse } from '../helpers';
+import { BaseCourseResponse } from '../../helpers';
 
 type CoursesProps = {
   handleEditCourse: Callback;
   handleDeleteCourse: Callback;
-  // handleCellClick: Callback;
 };
 
-// Notification box to confirm the deletion of a course
 const confirm: PopconfirmProps['onConfirm'] = (e) => {
-  //handleDeleteCourse(_record.id, Action.DELETE);
   message.success('Click on Yes');
 };
 
@@ -22,8 +18,10 @@ const cancel: PopconfirmProps['onCancel'] = (e) => {
   message.error('Click on No');
 };
 
-export const allColumns = ({
-}: CoursesProps): ProColumns<BaseCourseResponse>[] => [
+export const allColumns = (p0: {
+  handleDeleteCourse: () => void;
+  handleEditCourse: () => void;
+}): ProColumns<BaseCourseResponse>[] => [
   {
     title: '#',
     dataIndex: 'index',
