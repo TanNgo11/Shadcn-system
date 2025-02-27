@@ -53,8 +53,17 @@ const AdminManagementPage = React.lazy(
 const CoursesInDepartmentPage = React.lazy(
   () => import('@/containers/Admin/University/DepartmentManagement/ViewCoursesDepartment'),
 );
-const CourseManagementPage = React.lazy(() => import('@/containers/Admin/CourseManagement'));
+const CourseManagementPage = React.lazy(
+  () => import('@/containers/Admin/Education/CourseManagement'),
+);
 const ChatPage = React.lazy(() => import('@/containers/Chat'));
+
+const SemesterManagementPage = React.lazy(
+  () => import('@/containers/Admin/Education/SemesterManagement'),
+);
+const OpenCoursePage = React.lazy(
+  () => import('@/containers/Admin/Education/CourseManagement/OpenCourse'),
+);
 
 const appRoutes: RouteObject[] = [
   {
