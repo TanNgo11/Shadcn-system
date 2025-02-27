@@ -6,6 +6,7 @@ import { Button } from 'antd';
 import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { allColumns } from './allColumns';
+import { record } from 'zod';
 
 const SemesterManagement: React.FC<Props> = () => {
   const { id } = useParams<{ id: string }>();
@@ -52,17 +53,17 @@ const SemesterManagement: React.FC<Props> = () => {
       dateFormatter="string"
       headerTitle="Semester Management"
       options={false}
-      toolBarRender={() => [
-        <Button
-          key="button"
-          onClick={() => {
-            navigate(PATHS.OPEN_COURSE);
-          }}
-          type="primary"
-        >
-          Open Course
-        </Button>,
-      ]}
+      onRow={(record, _) => {
+        if (record.registrationOpen && record.semesterActive) {
+          return {
+            onClick: () => {
+              navigate(PATHS.OPEN_COURSE.replace(':id', record.id));
+            },
+            style: { cursor: 'pointer' },
+          };
+        }
+        return {};
+      }}
     />
   );
 };

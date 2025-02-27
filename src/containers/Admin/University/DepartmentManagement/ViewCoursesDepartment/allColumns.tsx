@@ -3,8 +3,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox, message, Popconfirm } from 'antd';
 import { PopconfirmProps } from 'antd/lib';
-import { useNavigate } from 'react-router-dom';
-import { CourseResponse } from './helpers';
+import { BaseCourseResponse } from '@/queries/Courses/types';
 
 type CoursesProps = {
   handleEditCourse: Callback;
@@ -23,7 +22,7 @@ const cancel: PopconfirmProps['onCancel'] = (e) => {
   message.error('Click on No');
 };
 
-export const allColumns = ({}: CoursesProps): ProColumns<CourseResponse>[] => [
+export const allColumns = ({}: CoursesProps): ProColumns<BaseCourseResponse>[] => [
   {
     title: '#',
     dataIndex: 'index',
@@ -48,28 +47,49 @@ export const allColumns = ({}: CoursesProps): ProColumns<CourseResponse>[] => [
     },
   },
   {
-    title: 'Image',
-    dataIndex: 'imageUri',
+    title: 'Course Code',
+    dataIndex: 'code',
     valueType: 'text',
   },
   {
-    title: 'Teachers',
-    dataIndex: 'teacherIds',
-    render: (_, record) => record.teacherIds.length,
+    title: 'Description',
+    dataIndex: 'description',
     valueType: 'text',
   },
   {
-    title: 'Students',
-    dataIndex: 'studentIds',
-    render: (_, record) => record.studentIds.length,
+    title: 'Credit',
+    dataIndex: 'credit',
     valueType: 'text',
   },
   {
-    title: 'Department Name',
-    dataIndex: 'departments',
-    render: (_, record) => record.departments.map((dept) => dept.departmentName).join(', '),
+    title: 'Status',
+    dataIndex: 'status',
     valueType: 'text',
   },
+  // {
+  //   title: 'Image',
+  //   dataIndex: 'imageUri',
+  //   valueType: 'text',
+  // },
+  // {
+  //   title: 'Teachers',
+  //   dataIndex: 'teacherIds',
+  //   render: (_, record) => record.teacherIds.length,
+  //   valueType: 'text',
+  // },
+  // {
+  //   title: 'Students',
+  //   dataIndex: 'studentIds',
+  //   render: (_, record) => record.studentIds.length,
+  //   valueType: 'text',
+  // },
+  // {
+  //   title: 'Department Name',
+  //   dataIndex: 'departments',
+  //   render: (_, record) => record.departments.map((dept) => dept.departmentName).join(', '),
+  //   valueType: 'text',
+  // },
+
   {
     title: 'Option',
     valueType: 'option',

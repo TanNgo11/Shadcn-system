@@ -20,10 +20,15 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     return privateApi.get(`/api/v1/departments/${id}/courses?${stringify(params)}`);
   };
 
+  const getBaseCoursesInDepartment = (id: string, params: GetPropertiesParams) => {
+    return privateApi.get(`/api/v1/departments/${id}/base-courses?${stringify(params)}`);
+  };
+
   return {
     getDepartmentList,
     getDepartmentById,
     getCoursesInDepartment,
+    getBaseCoursesInDepartment,
   };
 };
 

@@ -5,17 +5,18 @@ import { useCallback, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CourseResponse } from './helpers';
 import { allColumns } from './allColumns';
-import { useGetCoursesInDepartmentById } from '@/queries/Departments/useGetCoursesInDepartmentById';
+import { useGetBaseCoursesInDepartmentById } from '@/queries/Departments/useGetBaseCoursesInDepartmentById';
 import React from 'react';
 import { Button } from 'antd';
 import { BackwardOutlined, PlusOutlined } from '@ant-design/icons';
+import { BaseCourseResponse } from '@/queries/Courses/types';
 
 export default function ViewCoursesDepartment() {
   const toast = useNotification();
   const navigate = useNavigate();
   const { id } = useParams();
   const departmentId = id || '';
-  const { courses } = useGetCoursesInDepartmentById({
+  const { baseCourses } = useGetBaseCoursesInDepartmentById({
     id: departmentId,
     defaultParams: {
       current: 1,
@@ -47,7 +48,7 @@ export default function ViewCoursesDepartment() {
     });
   };
 
-  const columns: ProColumns<CourseResponse>[] = useMemo(
+  const columns: ProColumns<BaseCourseResponse>[] = useMemo(
     () =>
       allColumns({
         handleEditCourse,
@@ -59,16 +60,16 @@ export default function ViewCoursesDepartment() {
   const actionRef = React.useRef<ActionType>();
 
   return (
-    <ProTable<CourseResponse>
-      dataSource={courses}
+    <ProTable<BaseCourseResponse>
+      dataSource={baseCourses}
       columns={columns}
       actionRef={actionRef}
       cardBordered
       request={async (_params, _sort, _filter) => {
         return {
-          data: courses,
+          data: baseCourses,
           success: true,
-          total: courses.length,
+          total: baseCourses.length,
         };
       }}
       columnsState={{

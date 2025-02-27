@@ -3,7 +3,8 @@ export type SemesterResponse = {
   name: string;
   startDate: string;
   endDate: string;
-  status: string;
+  semesterActive: boolean;
+  registrationOpen: boolean;
   academicYear: AcademicYear;
 };
 
@@ -12,4 +13,13 @@ type AcademicYear = {
   startYear: string;
   endYear: string;
 };
+
+export interface CourseResponse {
+  name: string;
+  imageUri: string;
+  code: string;
+  credit: string;
+  teacherIds: string[];
+  studentIds: string[];
+}
 

@@ -176,7 +176,7 @@ const appRoutes: RouteObject[] = [
         element: <SemesterManagementPage />,
       },
       {
-        path: 'open-course',
+        path: 'open-course/:id',
         element: <OpenCoursePage />,
       },
       {

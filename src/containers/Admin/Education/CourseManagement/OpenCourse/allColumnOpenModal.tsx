@@ -3,8 +3,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox, message, Popconfirm } from 'antd';
 import { PopconfirmProps } from 'antd/lib';
-import { BaseCoursePayload, CourseResponse } from '../helpers';
-
+import { BaseCourseResponse } from '../helpers';
 
 type CoursesProps = {
   handleEditCourse: Callback;
@@ -24,9 +23,7 @@ const cancel: PopconfirmProps['onCancel'] = (e) => {
 };
 
 export const allColumns = ({
-  handleEditCourse,
-  handleDeleteCourse,
-}: CoursesProps): ProColumns<CourseResponse>[] => [
+}: CoursesProps): ProColumns<BaseCourseResponse>[] => [
   {
     title: '#',
     dataIndex: 'index',
@@ -75,26 +72,5 @@ export const allColumns = ({
     title: 'Status',
     dataIndex: 'status',
     valueType: 'text',
-  },
-  {
-    title: 'Option',
-    valueType: 'option',
-    key: 'option',
-    render: (_text, _record, _) => [
-      <a key="editable">
-        <EditOutlined onClick={() => handleEditCourse(_record)} />
-      </a>,
-      <a key="delete">
-        <Popconfirm
-          title="Are you sure to delete this course?"
-          onConfirm={() => handleDeleteCourse(_record)}
-          onCancel={cancel}
-          okText="Yes"
-          cancelText="No"
-        >
-          <DeleteOutlined />
-        </Popconfirm>
-      </a>,
-    ],
   },
 ];
