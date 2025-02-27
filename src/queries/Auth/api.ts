@@ -19,7 +19,12 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
     return publicApi.post('/api/v1/auth/refresh');
   };
 
+  const getStudentProfileById = (userId: string) => {
+    return privateApi.get(`/api/v1/users/students/profile/${userId}`);
+  };
+
   return {
+    getStudentProfileById,
     authenticate,
     getUserInfo,
     getRefreshToken,

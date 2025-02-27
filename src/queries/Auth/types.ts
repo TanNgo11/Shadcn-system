@@ -1,8 +1,10 @@
-import { LoginKey } from '@/queries/Auth/keys';
-
 export interface Auth {
   accessToken: string;
   refreshToken: string;
+}
+export enum LoginKey {
+  USERNAME = 'username',
+  PASSWORD = 'password',
 }
 
 export interface LoginPayload {

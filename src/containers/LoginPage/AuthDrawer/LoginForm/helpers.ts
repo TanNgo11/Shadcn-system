@@ -1,5 +1,4 @@
-import { LoginKey } from '@/queries/Auth/keys';
-import { LoginPayload } from '@/queries/Auth/types';
+import { LoginKey, LoginPayload } from '@/queries/Auth/types';
 import { z } from 'zod';
 
 export type LoginFormType = LoginPayload;
