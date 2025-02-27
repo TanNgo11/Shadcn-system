@@ -69,10 +69,10 @@ export default {
             path: PATHS.ACADEMIC_YEARS_MANAGEMENT,
             name: 'Academic Years',
           },
-          {
-            path: PATHS.OPEN_COURSE,
-            name: 'Open courses',
-          },
+          // {
+          //   path: PATHS.OPEN_COURSE,
+          //   name: 'Open courses',
+          // },
           {
             path: PATHS.COURSES_MANAGEMENT,
             name: 'Courses',

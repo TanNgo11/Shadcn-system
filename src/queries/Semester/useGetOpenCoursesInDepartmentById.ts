@@ -43,8 +43,11 @@ export function useGetOpenCoursesInDepartmentById(
 
   const queryClient = useQueryClient();
 
-  const handleInvalidateSemesterList = (params: TableParams) =>
-    queryClient.invalidateQueries([API_KEY.SEMESTER_LIST, { ...params }]);
+  const handleInvalidateSemesterList = () =>
+    queryClient.invalidateQueries([
+      API_KEY.OPEN_COURSES_DEPARTMENT,
+      { ...params, semesterId: options?.semesterId, departmentId: options?.departmentId },
+    ]);
 
   const { result: { current, totalPages, pageSize, totalElements, data: semesters = [] } = {} } =
     data || {};

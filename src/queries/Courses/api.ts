@@ -1,7 +1,7 @@
 import { useHttpPrivateRequest } from '@/services/useHttpPrivateRequest';
 import { API_URLS } from '../keys';
 import { GetPropertiesParams } from '../helpers';
-import { BaseCoursePayload, CourseActionPayload, FileUploadPayload } from './types';
+import { BaseCourseResponse, CourseActionPayload, FileUploadPayload } from './types';
 import { stringify } from '@/utils';
 
 const useApi = (basename = API_URLS.COURSE) => {
@@ -27,7 +27,7 @@ const useApi = (basename = API_URLS.COURSE) => {
     return privateApi.delete(`/api/v1/departments/course/remove-students`, { data: payload });
   };
 
-  const createBaseCourses = (payload: BaseCoursePayload[]) => {
+  const createBaseCourses = (payload: BaseCourseResponse[]) => {
     return privateApi.post(`api/v1/departments/base-course`, payload);
   };
 
@@ -52,6 +52,7 @@ const useApi = (basename = API_URLS.COURSE) => {
       params,
     );
   };
+
 
   const uploadImageInCourse = (departmentId: string, courseId: string, file: File) => {
     const formData = new FormData();
