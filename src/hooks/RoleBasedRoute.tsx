@@ -6,7 +6,7 @@ import { useLocation, Navigate } from 'react-router-dom';
 
 interface RoleBasedRouteProps {
   children: JSX.Element;
-  requiredRole: Role;
+  requiredRole: Role[];
 }
 
 const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({ children, requiredRole }) => {
@@ -30,7 +30,7 @@ const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({ children, requiredRole 
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (user?.roles?.includes(requiredRole)) {
+  if (user?.roles?.some((role) => requiredRole.includes(role))) {
     return children;
   } else {
     return <Navigate to="/not-found" replace />;

@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      cors:true,
+      cors: true,
       port: Number(env.VITE_PORT),
       host: env.VITE_HOST,
     },

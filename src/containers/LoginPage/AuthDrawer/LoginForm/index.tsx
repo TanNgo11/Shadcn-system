@@ -4,7 +4,8 @@ import {
   LoginFormType,
 } from '@/containers/LoginPage/AuthDrawer/LoginForm/helpers';
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
-import { LoginKey } from '@/queries/Auth/keys';
+import { LoginKey } from '@/queries/Auth/types';
+
 import { useGetUserInfo } from '@/queries/Auth/useGetUserInfo';
 import { useLogin } from '@/queries/Auth/useLogin';
 import { Role } from '@/zustand/auth/types';
@@ -12,7 +13,6 @@ import { useAuthStore } from '@/zustand/auth/useAuthStore';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Typography } from 'antd';
-import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 

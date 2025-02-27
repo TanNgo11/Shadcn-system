@@ -4,9 +4,12 @@ import RoleBasedRoute from '@/hooks/RoleBasedRoute';
 import { Role } from '@/zustand/auth/types';
 import React from 'react';
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
+
 import AdminLayout from './Layouts/AdminLayout';
 import StudentLayout from './Layouts/StudenLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
+import { Auth } from './LoginPage/index';
+import AuthLayout from './Layouts/AuthLayout';
 
 const HomePage = React.lazy(() => import('@/containers/Student/HomePage'));
 const AdminDashboardPage = React.lazy(() => import('@/containers/Admin/Dashboard'));
@@ -16,7 +19,9 @@ const TeacherProfilePage = React.lazy(() => import('@/containers/Teacher/Profile
 const AdminProfilePage = React.lazy(() => import('@/containers/Admin/Profile'));
 const CoursesPage = React.lazy(() => import('@/containers/CoursesPage'));
 const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/CourseDetailPage'));
-const StudentManagementPage = React.lazy(() => import('@/containers/Admin/UserManagement/StudentManagement'));
+const StudentManagementPage = React.lazy(
+  () => import('@/containers/Admin/UserManagement/StudentManagement'),
+);
 const AcademicYearManagementPage = React.lazy(
   () => import('@/containers/Admin/Education/AcademicYearManagement'),
 );
@@ -39,14 +44,18 @@ const CreateEditAdminPage = React.lazy(
 const DepartmentManagementPage = React.lazy(
   () => import('@/containers/Admin/University/DepartmentManagement'),
 );
-const TeacherManagementPage = React.lazy(() => import('@/containers/Admin/UserManagement/TeacherManagement'));
-const AdminManagementPage = React.lazy(() => import('@/containers/Admin/UserManagement/AdminManagement'));
+const TeacherManagementPage = React.lazy(
+  () => import('@/containers/Admin/UserManagement/TeacherManagement'),
+);
+const AdminManagementPage = React.lazy(
+  () => import('@/containers/Admin/UserManagement/AdminManagement'),
+);
 const CoursesInDepartmentPage = React.lazy(
   () => import('@/containers/Admin/University/DepartmentManagement/ViewCoursesDepartment'),
 );
-const CourseManagementPage = React.lazy(() => import('@/containers/Admin/Education/CourseManagement'));
-const OpenCoursePage = React.lazy(() => import('@/containers/Admin/Education/CourseManagement/OpenCourse'));
-const SemesterManagementPage = React.lazy(() => import('@/containers/Admin/Education/SemesterManagement'));
+const CourseManagementPage = React.lazy(() => import('@/containers/Admin/CourseManagement'));
+const ChatPage = React.lazy(() => import('@/containers/Chat'));
+
 const appRoutes: RouteObject[] = [
   {
     element: <PublicLayout />,
@@ -68,7 +77,7 @@ const appRoutes: RouteObject[] = [
   },
   {
     element: (
-      <RoleBasedRoute requiredRole={Role.STUDENT}>
+      <RoleBasedRoute requiredRole={[Role.STUDENT]}>
         <StudentLayout />
       </RoleBasedRoute>
     ),
@@ -84,6 +93,10 @@ const appRoutes: RouteObject[] = [
         element: <StudentProfilePage />,
       },
       {
+        path: 'profile/:studentId',
+        element: <StudentProfilePage />,
+      },
+      {
         path: 'courses',
         element: <CoursesPage />,
       },
@@ -95,7 +108,7 @@ const appRoutes: RouteObject[] = [
   },
   {
     element: (
-      <RoleBasedRoute requiredRole={Role.ADMIN}>
+      <RoleBasedRoute requiredRole={[Role.ADMIN]}>
         <AdminLayout />
       </RoleBasedRoute>
     ),
@@ -191,7 +204,7 @@ const appRoutes: RouteObject[] = [
   },
   {
     element: (
-      <RoleBasedRoute requiredRole={Role.TEACHER}>
+      <RoleBasedRoute requiredRole={[Role.TEACHER]}>
         <TeacherLayout />
       </RoleBasedRoute>
     ),
@@ -200,6 +213,21 @@ const appRoutes: RouteObject[] = [
       {
         path: 'profile',
         element: <TeacherProfilePage />,
+      },
+    ],
+  },
+  {
+    element: (
+      <RoleBasedRoute requiredRole={[Role.TEACHER, Role.STUDENT, Role.ADMIN]}>
+        <AuthLayout />
+      </RoleBasedRoute>
+    ),
+    path: '/chat',
+    children: [
+      {
+        index: true,
+        path: ':senderId/:recipientId',
+        element: <ChatPage />,
       },
     ],
   },

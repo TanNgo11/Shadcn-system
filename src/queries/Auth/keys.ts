@@ -1,4 +1,3 @@
-export enum LoginKey {
-  USERNAME = 'username',
-  PASSWORD = 'password',
+export enum API_AUTH_QUERIES {
+  STUDENT_PROFILE_BY_USER_ID = 'STUDENT_PROFILE_BY_USER_ID',
 }
