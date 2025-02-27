@@ -1,9 +1,10 @@
 export interface CourseResponse {
   name: string;
   imageUri: string;
+  code: string;
+  credit: string;
   teacherIds: string[];
   studentIds: string[];
-  departments: Department[];
 }
 
 export interface BaseCourseResponse {

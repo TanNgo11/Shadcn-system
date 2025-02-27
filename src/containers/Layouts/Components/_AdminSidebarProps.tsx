@@ -13,7 +13,7 @@ export const PATHS = {
   SEMESTER_MANAGEMENT: '/admin/semester-management/:id',
 
   //Open Course
-  OPEN_COURSE: '/admin/open-course',
+  OPEN_COURSE: '/admin/open-course/:id',
 
   // User
   USER: '/user',

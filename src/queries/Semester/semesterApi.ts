@@ -18,7 +18,20 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     return api.post(`/api/v1/semesters/add-open-courses/${semesterId}`, courseIds);
   };
 
+  const getOpenCoursesInDepartmentById = (
+      semesterId: string,
+      departmentId: string,
+      params: GetPropertiesParams,
+    ) => {
+      return api.get(
+        `/api/v1/semesters/open-courses-department?semesterId=${semesterId}&departmentId=${departmentId}&${stringify(
+          params,
+        )}`,
+      );
+    };
+
   return {
+    getOpenCoursesInDepartmentById,
     getSemesterList,
     getOpenCourseList,
     addOpenCourse,

@@ -1,3 +1,5 @@
+import { BaseCourse } from "@/containers/Admin/Education/CourseManagement/helpers";
+
 export interface CourseActionPayload {
   departmentId: string;
   courseId: string;
@@ -18,11 +20,12 @@ export interface ImageUploadPayload {
   file: File;
 }
 
-export interface BaseCoursePayload {
-  code?: string;
-  name?: string;
-  imageUri?: string;
-  description?: string;
-  credit?: number;
-  status?: string;
+export interface BaseCourseResponse {
+  code: string;
+  name: string;
+  imageUri: string;
+  description: string;
+  credit: number;
+  status: string;
+  requiredBaseCourses: BaseCourse[];
 }

@@ -7,6 +7,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { allColumns } from './allColumns';
 import { BaseCourseResponse } from './helpers';
+import { PATHS } from '@/containers/Layouts/Components/_AdminSidebarProps';
 
 export default function CourseManagement() {
   const toast = useNotification();

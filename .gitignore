@@ -28,3 +28,4 @@ yarn.lock
 package-lock.json
 package.json
 pnpm-lock.yaml
+.eslintrc.cjs
