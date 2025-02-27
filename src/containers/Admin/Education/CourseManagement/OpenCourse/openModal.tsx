@@ -15,6 +15,7 @@ interface OpenBaseCoursesModalProps {
 
 const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({ department }) => {
   const [open, setOpen] = useState(false);
+  const [selectedRowBaseCourses, setSelectedRowBaseCourses] = useState<string[]>([]);
 
   const toast = useNotification();
     const { id } = useParams<{ id: string }>();
@@ -55,6 +56,12 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({ department 
         pageSize: 10,
       },
     });
+
+      // Handle row selection
+      const handleRowSelectionChange = (_: any, selectedRows: BaseCourseResponse[]) => {
+        const selectedBaseCourses = selectedRows.map((row) => row.id);
+        setSelectedRowBaseCourses(selectedBaseCourses);
+      };
   
   const columns: ProColumns<BaseCourseResponse>[] = useMemo(
     () =>
@@ -124,6 +131,10 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({ department 
           pagination={{
             pageSize: 10,
             onChange: (page: any) => console.log(page),
+          }}
+          rowSelection={{
+            onChange: handleRowSelectionChange,
+            defaultSelectedRowKeys: selectedRowBaseCourses,
           }}
           dateFormatter="string"
           headerTitle="Base Course Management"

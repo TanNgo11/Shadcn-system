@@ -8,6 +8,7 @@ export interface CourseResponse {
 }
 
 export interface BaseCourseResponse {
+  id: string;
   code: string;
   name: string;
   imageUri: string;

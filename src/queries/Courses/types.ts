@@ -21,6 +21,7 @@ export interface ImageUploadPayload {
 }
 
 export interface BaseCourseResponse {
+  id: string;
   code: string;
   name: string;
   imageUri: string;
