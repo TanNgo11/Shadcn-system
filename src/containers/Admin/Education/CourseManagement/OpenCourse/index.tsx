@@ -81,9 +81,9 @@ const OpenCourse: React.FC<Props> = () => {
           ))}
         </Select>
         <Button type="primary" onClick={open} style={{ margin: '0 10px' }}>
-          Select Base Courses
+          Add Base Courses
         </Button>
-        <OpenBaseCoursesModal department={departmentId} open={isOpen} onClose={close} />
+        <OpenBaseCoursesModal semesterId={Number(id)} department={departmentId} open={isOpen} onClose={close} />
       </Card>
 
       <ProTable<CourseResponse>
@@ -115,7 +115,7 @@ const OpenCourse: React.FC<Props> = () => {
           onChange: (page: any) => console.log(page),
         }}
         dateFormatter="string"
-        headerTitle="Course Management"
+        headerTitle="Opening Course Management"
       />
     </>
   );

@@ -39,8 +39,11 @@ export function useGetBaseCoursesInDepartmentById(
   );
   const queryClient = useQueryClient();
 
-  const handleInvalidateBaseCoursesInDepartment = (params?: TableParams) =>
-    queryClient.invalidateQueries([API_DEPARTMENT.COURSES_IN_DEPARTMENT, { ...params }]);
+  const handleInvalidateBaseCoursesInDepartment = () =>
+    queryClient.invalidateQueries([
+      API_DEPARTMENT.BASE_COURSES_IN_DEPARTMENT,
+      { ...params, id: options?.id },
+    ]);
 
   const { result: { totalPages, pageSize, totalElements, data: baseCourses = [] } = {} } =
     data || {};

@@ -2,40 +2,76 @@ import { useNotification } from '@/containers/StartupContainers/ToastContainer';
 import { useGetBaseCoursesInDepartmentById } from '@/queries/Departments/useGetBaseCoursesInDepartmentById';
 import { useGetDepartmentList } from '@/queries/Departments/useGetDepartmentList';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import { Flex, Modal } from 'antd/lib';
+import { Modal } from 'antd/lib';
 import React, { useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { BaseCourseResponse } from '../../helpers';
 import { allColumns } from './allColumns';
+import { useAddBaseCourseToSemester } from '@/queries/Semester/useAddBaseCourseToSemester';
+import { useGetOpenCoursesInDepartmentById } from '@/queries/Semester/useGetOpenCoursesInDepartmentById';
 
 interface OpenBaseCoursesModalProps {
   department?: string;
   open: boolean;
-  onClose: () => void; 
+  onClose: () => void;
+  semesterId: number;
 }
 
 const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
   department,
   open,
   onClose,
+  semesterId,
 }) => {
   const [selectedRowBaseCourses, setSelectedRowBaseCourses] = useState<string[]>([]);
 
   const toast = useNotification();
   const { id } = useParams<{ id: string }>();
-  const [departmentId, setDepartmentId] = React.useState<string>(department || '');
-  const actionRef = useRef<ActionType>();
-
+  const [departmentId, setDepartmentId] = useState<string>(department || id || '');
   const { departments } = useGetDepartmentList({
     defaultParams: {
       current: 1,
       pageSize: 10,
     },
   });
+  const { handleInvalidateSemesterList } = useGetOpenCoursesInDepartmentById({
+    departmentId: departmentId,
+    semesterId: id,
+    defaultParams: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
+  
+  const { baseCourses } = useGetBaseCoursesInDepartmentById({
+    id: departmentId,
+    defaultParams: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
+
+  const { onAddBaseCourseToSemester, isLoading } = useAddBaseCourseToSemester({
+    onSuccess: () => {
+      toast.success({
+        message: 'Success',
+        description: 'Base courses added to semester successfully!',
+      });
+      handleInvalidateSemesterList();
+      setSelectedRowBaseCourses([]);
+      onClose();
+    },
+    onError: (error: any) => {
+      toast.error({
+        message: 'Error',
+        description: error.message || 'Failed to add base courses.',
+      });
+    },
+  });
 
   React.useEffect(() => {
-    setDepartmentId(department || '');
-  }, [department]);
+    setDepartmentId(department ?? id ?? '');
+  }, [department, id]);
 
   const handleEditCourse = () => {
     toast.error({
@@ -51,14 +87,6 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
     });
   };
 
-  const { baseCourses } = useGetBaseCoursesInDepartmentById({
-    id: departmentId,
-    defaultParams: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
-
   const handleRowSelectionChange = (_: any, selectedRows: BaseCourseResponse[]) => {
     const selectedBaseCourses = selectedRows.map((row) => row.id);
     setSelectedRowBaseCourses(selectedBaseCourses);
@@ -69,14 +97,39 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
     [handleEditCourse, handleDeleteCourse],
   );
 
+  const handleAddCourse = () => {
+    if (typeof semesterId !== 'number') {
+      toast.warning({
+        message: 'Warning',
+        description: 'Semester ID is missing.',
+      });
+      return;
+    }
+    if (selectedRowBaseCourses.length === 0) {
+      toast.warning({
+        message: 'Warning',
+        description: 'Please select at least one course.',
+      });
+      return;
+    }
+
+    // Chuyển selectedRowBaseCourses từ string[] sang number[]
+    const ids = selectedRowBaseCourses.map((id) => parseInt(id, 10));
+
+    // Gọi mutation để thêm base courses vào semester
+    onAddBaseCourseToSemester({ semesterId, ids });
+  };
+
   return (
     <Modal
       title={`Department: ${departments.find((dept) => dept.id === departmentId)?.departmentName || ''}`}
       centered
-      open={open} 
-      onOk={onClose}
-      onCancel={onClose} 
+      open={open}
+      onOk={handleAddCourse} // Gọi handleAddCourse khi bấm "Add"
+      onCancel={onClose}
+      okText="Add" // Văn bản nút OK là "Add"
       width={1000}
+      confirmLoading={isLoading} // Hiển thị loading khi mutation chạy
     >
       <ProTable<BaseCourseResponse>
         dataSource={baseCourses}
@@ -106,14 +159,14 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
         }}
         pagination={{
           pageSize: 10,
-          onChange: (page: any) => console.log(page),
         }}
         rowSelection={{
           onChange: handleRowSelectionChange,
-          defaultSelectedRowKeys: selectedRowBaseCourses,
+          selectedRowKeys: selectedRowBaseCourses, // Dùng selectedRowKeys để phản ánh realtime
         }}
         dateFormatter="string"
         headerTitle="Base Course Management"
+        options={false}
       />
     </Modal>
   );

@@ -23,17 +23,6 @@ export const allColumns = (p0: {
   handleEditCourse: () => void;
 }): ProColumns<BaseCourseResponse>[] => [
   {
-    title: '#',
-    dataIndex: 'index',
-    valueType: 'indexBorder',
-    width: 48,
-    render: (_text, record) => (
-      <Checkbox
-        onChange={(e: { target: { checked: any } }) => console.log(e.target.checked, record)}
-      />
-    ),
-  },
-  {
     title: 'Image',
     dataIndex: 'imageUri',
     valueType: 'text',
