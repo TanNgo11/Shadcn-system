@@ -1,7 +1,6 @@
-import List from '@/containers/Layouts/Components/ListLayout';
 import { CaretDownFilled } from '@ant-design/icons';
 import { css } from '@emotion/css';
-import { Divider, Popover, theme } from 'antd';
+import { Popover, theme } from 'antd';
 
 const MenuCard = () => {
   const { token } = theme.useToken();

@@ -8,7 +8,7 @@ export const allColumns = (): ProColumns<SemesterResponse>[] => [
     dataIndex: 'id',
     valueType: 'text',
     width: 40,
-    //render: (_, __, index) => index + 1,
+    render: (_, __, index) => index + 1,
   },
   {
     title: 'Semester Name',
