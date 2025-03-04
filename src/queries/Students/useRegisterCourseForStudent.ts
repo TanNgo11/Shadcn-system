@@ -2,14 +2,10 @@ import { ApiResponseType, responseWrapper } from '@/queries/helpers';
 import { UseMutationOptions, useMutation } from 'react-query';
 import { studentsApi } from '.';
 import { API_STUDENTS_QUERIES } from './keys';
-import { RegisterCoursePayload, StudentStatus } from './types';
+import { StudentRegisterCoursePayload } from './types';
 
 export function useRegisterCourseForStudent(
-  options?: UseMutationOptions<
-    ApiResponseType<void>,
-    Error,
-    { payload: RegisterCoursePayload}
-  >,
+  options?: UseMutationOptions<ApiResponseType<void>, Error, StudentRegisterCoursePayload>,
 ) {
   const {
     mutate: onRegisterCourse,
@@ -17,9 +13,8 @@ export function useRegisterCourseForStudent(
     isSuccess,
     isError,
     error,
-  } = useMutation<ApiResponseType<void>, Error, { payload: RegisterCoursePayload}>({
-    mutationFn: ({ ...payload }) =>
-      responseWrapper(studentsApi.registerCourse, [payload]),
+  } = useMutation<ApiResponseType<void>, Error, StudentRegisterCoursePayload>({
+    mutationFn: (payload) => responseWrapper(studentsApi.registerCourse, [payload]),
     meta: {
       invalidates: [API_STUDENTS_QUERIES.REGISTER_COURSE],
     },

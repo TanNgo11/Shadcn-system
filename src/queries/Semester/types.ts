@@ -15,6 +15,7 @@ type AcademicYear = {
 };
 
 export interface CourseResponse {
+  id: string;
   name: string;
   imageUri: string;
   code: string;

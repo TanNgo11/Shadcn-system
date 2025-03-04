@@ -25,6 +25,12 @@ const cancel: PopconfirmProps['onCancel'] = (e) => {
 
 export const allColumns = ({}: CoursesProps): ProColumns<CourseResponse>[] => [
   {
+    title: 'ID',
+    dataIndex: 'id',
+    valueType: 'text',
+    hidden: true,
+  },
+  {
     title: 'Image',
     dataIndex: 'imageUri',
     valueType: 'text',
