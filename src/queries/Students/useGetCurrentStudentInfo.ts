@@ -35,7 +35,7 @@ export function useGetCurrentStudentInfo(
 
   const queryClient = useQueryClient();
 
-  const handleInvalidCurrentAdmin = () =>
+  const handleInvalidCurrentStudent = () =>
     queryClient.invalidateQueries([API_STUDENTS_QUERIES.STUDENT_INFO]);
   const { result: student } = data || {};
 
@@ -44,6 +44,6 @@ export function useGetCurrentStudentInfo(
     error,
     isFetching,
     onGetCurrentStudentInfo,
-    handleInvalidCurrentAdmin,
+    handleInvalidCurrentStudent,
   };
 }

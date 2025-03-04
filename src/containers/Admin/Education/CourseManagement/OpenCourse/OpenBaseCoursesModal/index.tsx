@@ -9,6 +9,7 @@ import { BaseCourseResponse } from '../../helpers';
 import { allColumns } from './allColumns';
 import { useAddBaseCourseToSemester } from '@/queries/Semester/useAddBaseCourseToSemester';
 import { useGetOpenCoursesInDepartmentById } from '@/queries/Semester/useGetOpenCoursesInDepartmentById';
+import { useGetUnOpenedBaseCoursesInDepartmentById } from '@/queries/Semester/useGetUnOpenedBaseCoursesInDepartment';
 
 interface OpenBaseCoursesModalProps {
   department?: string;
@@ -42,9 +43,26 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
       pageSize: 10,
     },
   });
-  
-  const { baseCourses } = useGetBaseCoursesInDepartmentById({
-    id: departmentId,
+  const { handleInvalidateUnOpenedBaseCoursesInDepartment } = useGetUnOpenedBaseCoursesInDepartmentById({
+    semesterId: semesterId.toString(),
+    departmentId: departmentId,
+    defaultParams: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
+
+  // const { baseCourses } = useGetBaseCoursesInDepartmentById({
+  //   id: departmentId,
+  //   defaultParams: {
+  //     current: 1,
+  //     pageSize: 10,
+  //   },
+  // });
+
+  const { baseCourses } = useGetUnOpenedBaseCoursesInDepartmentById({
+    semesterId: semesterId.toString(),
+    departmentId: departmentId,
     defaultParams: {
       current: 1,
       pageSize: 10,
@@ -58,6 +76,7 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
         description: 'Base courses added to semester successfully!',
       });
       handleInvalidateSemesterList();
+      handleInvalidateUnOpenedBaseCoursesInDepartment();
       setSelectedRowBaseCourses([]);
       onClose();
     },

@@ -86,4 +86,11 @@ export interface StudentProfileResponse {
   degreeLevel: string;
   schoolYear: any;
   present: string;
+  departmentId: string;
+}
+
+export interface RegisterCoursePayload {
+  studentId: string;
+  courseIds: string[];
+  semesterId: string;
 }

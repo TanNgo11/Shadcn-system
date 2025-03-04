@@ -22,9 +22,9 @@ import { ConfigProvider, Dropdown, Menu } from 'antd';
 import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import defaultProps from '../Components/_HeaderMenuProps';
 import { useAuthStore } from '@/zustand/auth/useAuthStore';
 import { useNotification } from '../../StartupContainers/ToastContainer';
+import studentSidebarProps from '@/containers/Layouts/Components/_StudentSidebarProps';
 
 function StudentLayout() {
   const { clearAuth, user } = useAuthStore();
@@ -75,7 +75,7 @@ function StudentLayout() {
             >
               <ProLayout
                 prefixCls="my-prefix"
-                {...defaultProps}
+                //{...defaultProps}
                 location={{
                   pathname,
                 }}
@@ -175,26 +175,7 @@ function StudentLayout() {
                   ];
                 }}
                 {...settings}
-                menuDataRender={() => [
-                  {
-                    path: '/home',
-                    name: 'Home',
-                    icon: <SmileFilled />,
-                  },
-                  {
-                    path: '/admin',
-                    name: 'Admin',
-                    icon: <CrownFilled />,
-                    children: [
-                      {
-                        path: '/admin/student-management',
-                        name: 'Student',
-                      },
-                      { path: '/admin/teacher-management', name: 'Teacher' },
-                      { path: '/admin/staff-management', name: 'Staff' },
-                    ],
-                  },
-                ]}
+                {...studentSidebarProps}
               >
                 <PageContainer
                   token={{

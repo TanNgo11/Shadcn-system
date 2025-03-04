@@ -19,6 +19,12 @@ export interface CourseResponse {
   imageUri: string;
   code: string;
   credit: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  startDate: string;
+  endDate: string;
+  remain: number;
   teacherIds: string[];
   studentIds: string[];
 }

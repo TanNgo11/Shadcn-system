@@ -65,6 +65,10 @@ const OpenCoursePage = React.lazy(
   () => import('@/containers/Admin/Education/CourseManagement/OpenCourse'),
 );
 
+const StudentRegisterCoursePage = React.lazy(
+  () => import('@/containers/Student/RegisterCourse'),
+);
+
 const appRoutes: RouteObject[] = [
   {
     element: <PublicLayout />,
@@ -222,6 +226,20 @@ const appRoutes: RouteObject[] = [
       {
         path: 'profile',
         element: <TeacherProfilePage />,
+      },
+    ],
+  },
+  {
+    element: (
+      <RoleBasedRoute requiredRole={[Role.STUDENT]}>
+        <StudentLayout />
+      </RoleBasedRoute>
+    ),
+    path: '/student',
+    children: [
+      {
+        path: 'register-course',
+        element: <StudentRegisterCoursePage />,
       },
     ],
   },
