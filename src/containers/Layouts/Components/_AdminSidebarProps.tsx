@@ -1,4 +1,4 @@
-import { BookOutlined, HomeOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
+import { BookOutlined, HomeOutlined, PlusSquareOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
 export const PATHS = {
   // Admin
   DASHBOARD: '/admin/dashboard',
@@ -23,6 +23,11 @@ export const PATHS = {
 
   // University
   UNIVERSITY: '/university',
+
+  // Blog
+  BLOG: '/admin/blog',
+  ADD_BLOG: '/admin/blog/add',
+  EDIT_BLOG: '/admin/blog/edit',
 };
 
 export default {
@@ -96,6 +101,17 @@ export default {
           {
             path: PATHS.ROOM_MANAGEMENT,
             name: 'Rooms',
+          },
+        ],
+      },
+      {
+        name: 'Blog',
+        icon: <PlusSquareOutlined />,
+        path: PATHS.BLOG,
+        routes: [
+          {
+            path: PATHS.BLOG,
+            name: 'manage',
           },
         ],
       },

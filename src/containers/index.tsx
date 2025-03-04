@@ -10,7 +10,9 @@ import StudentLayout from './Layouts/StudenLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
 import { Auth } from './LoginPage/index';
 import AuthLayout from './Layouts/AuthLayout';
+import { PATHS } from './Layouts/Components/_AdminSidebarProps';
 
+const BlogList = React.lazy(() => import('@/containers/Admin/Blog'));
 const HomePage = React.lazy(() => import('@/containers/Student/HomePage'));
 const AdminDashboardPage = React.lazy(() => import('@/containers/Admin/Dashboard'));
 const NotFoundPage = React.lazy(() => import('@/containers/StartupContainers/NotFoundPage'));
@@ -204,6 +206,10 @@ const appRoutes: RouteObject[] = [
       {
         path: 'profile',
         element: <AdminProfilePage />,
+      },
+      {
+        path: PATHS.BLOG,
+        element: <BlogList />,
       },
       {
         path: '*',
