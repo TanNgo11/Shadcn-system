@@ -1,29 +1,31 @@
 import { useGetDepartmentList } from '@/queries/Departments/useGetDepartmentList';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { Button, Card, Select, Typography } from 'antd';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { any } from 'zod';
 import { BaseCoursePayload, CourseResponse } from '../helpers';
 import { allColumns } from './allColumns';
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
-import OpenBaseCoursesModal from './OpenBaseCoursesModal';
 import { useGetOpenCoursesInDepartmentById } from '@/queries/Semester/useGetOpenCoursesInDepartmentById';
 import { useModal } from '@/hooks/useModal';
+import { useGetCurrentStudentInfo } from '@/queries/Students/useGetCurrentStudentInfo';
+import { useGetCurrentOpenSemester } from '@/queries/Semester/useGetCurrentOpenSemester';
 
-const OpenCourse: React.FC<Props> = () => {
+const StudentRegisterCourse: React.FC<Props> = () => {
   const toast = useNotification();
+  const { student, handleInvalidCurrentStudent } = useGetCurrentStudentInfo();
+  const { semester } = useGetCurrentOpenSemester();
 
-  const { id } = useParams<{ id: string }>();
-  const [departmentId, setDepartmentId] = React.useState<string>('');
-  const actionRef = useRef<ActionType>();
+  const [departmentId, setDepartmentId] = useState<string>(student?.departmentId || '');
+  const [selectedRows, setSelectedRows] = useState<CourseResponse[]>([]);
 
-  const { departments } = useGetDepartmentList({
-    defaultParams: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
+  useEffect(() => {
+    if (student) {
+      setDepartmentId(student.departmentId);
+    } else {
+      handleInvalidCurrentStudent();
+    }
+  }, [student]);
 
   const handleEditCourse = () => {
     toast.error({
@@ -39,20 +41,23 @@ const OpenCourse: React.FC<Props> = () => {
     });
   };
 
+  const handleRegisterCourses = () => {
+    toast.success({
+      message: 'Courses Registered',
+      description: `Successfully registered ${selectedRows.length} course(s).`,
+    });
+    setSelectedRows([]);
+  };
+
   // Get open courses in department
   const { semesters: openCourses } = useGetOpenCoursesInDepartmentById({
     departmentId: departmentId,
-    semesterId: id,
+    semesterId: semester?.id || '',
     defaultParams: {
       current: 1,
       pageSize: 10,
     },
   });
-
-  // Handle open base courses modal
-  const handleOpenBaseCourses = () => {
-    return;
-  };
 
   const columns: ProColumns<CourseResponse>[] = useMemo(
     () =>
@@ -62,35 +67,9 @@ const OpenCourse: React.FC<Props> = () => {
       }),
     [handleEditCourse, handleDeleteCourse],
   );
-  const { isOpen, open, close } = useModal();
+
   return (
     <>
-      <Card style={{ marginBottom: 20 }}>
-        <Typography.Title level={4}>Open Courses</Typography.Title>
-        <Select
-          placeholder="Select department"
-          style={{ width: 200 }}
-          onChange={(value) => {
-            setDepartmentId(value);
-          }}
-        >
-          {departments.map((department) => (
-            <Select.Option key={department.id} value={department.id}>
-              {department.departmentName}
-            </Select.Option>
-          ))}
-        </Select>
-        <Button type="primary" onClick={open} style={{ margin: '0 10px' }}>
-          Add Base Courses
-        </Button>
-        <OpenBaseCoursesModal
-          semesterId={Number(id)}
-          department={departmentId}
-          open={isOpen}
-          onClose={close}
-        />
-      </Card>
-
       <ProTable<CourseResponse>
         dataSource={openCourses}
         columns={columns}
@@ -102,8 +81,20 @@ const OpenCourse: React.FC<Props> = () => {
             total: openCourses.length,
           };
         }}
-        rowKey="id"
+        rowKey="code"
         search={false}
+        rowSelection={{
+          onChange: (_, selectedRows: CourseResponse[]) => {
+            setSelectedRows(selectedRows);
+          },
+        }}
+        toolBarRender={() => [
+          selectedRows.length > 0 && (
+            <Button type="primary" onClick={handleRegisterCourses}>
+              Register Selected Courses
+            </Button>
+          ),
+        ]}
         form={{
           syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
             if (type === 'get') {
@@ -130,4 +121,4 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export default OpenCourse;
+export default StudentRegisterCourse;

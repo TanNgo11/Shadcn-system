@@ -30,7 +30,7 @@ export function useGetOpenCoursesInDepartmentById(
       const [, ...params] = queryKey;
       return responseWrapper<ApiResponseType<PaginationResponseType<CourseResponse[]>>>(
         semesterApi.getOpenCoursesInDepartmentById,
-        [options?.semesterId, options?.departmentId, ...params],
+        [options?.semesterId, options?.departmentId, params],
       );
     },
     {

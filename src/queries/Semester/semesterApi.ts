@@ -18,6 +18,18 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     return api.post(`/api/v1/semesters/add-open-courses/${semesterId}`, courseIds);
   };
 
+  const getUnOpenedBaseCoursesInDepartmentById = (
+    semesterId: string,
+    departmentId: string,
+    params: GetPropertiesParams,
+  ) => {
+    return api.get(
+      `/api/v1/departments/unopened-base-courses?semesterId=${semesterId}&departmentId=${departmentId}&${stringify(
+        params,
+      )}`,
+    );
+  };
+
   const getOpenCoursesInDepartmentById = (
     semesterId: string,
     departmentId: string,
@@ -30,6 +42,10 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     );
   };
 
+  const getCurrentOpenSemester = () => {
+    return api.get(`/api/v1/semesters/current-open-semester`);
+  };
+
   const addBaseCourseToSemester = (payload: { semesterId: number; ids: number[] }) => {
     return api.post(
       `/api/v1/semesters/add-open-courses/${payload.semesterId}`,
@@ -38,11 +54,13 @@ const useApi = (baseURL = API_URLS.COURSE) => {
   };
 
   return {
+    getUnOpenedBaseCoursesInDepartmentById,
     getOpenCoursesInDepartmentById,
     getSemesterList,
     getOpenCourseList,
     addOpenCourse,
     addBaseCourseToSemester,
+    getCurrentOpenSemester
   };
 };
 export default useApi;
