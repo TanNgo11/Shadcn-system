@@ -1,4 +1,5 @@
 export interface CourseResponse {
+  id: string;
   name: string;
   imageUri: string;
   code: string;
@@ -48,4 +49,11 @@ export interface BaseCourse {
   credit: number;
   status: string;
   courses: BaseCourse[];
+}
+
+
+export interface StudentRegisterCoursePayload {
+  studentId: string;
+  courseIds: string[];
+  semesterId: string;
 }

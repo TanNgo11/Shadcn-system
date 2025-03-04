@@ -1,6 +1,6 @@
 import { useHttpPrivateRequest } from '@/services/useHttpPrivateRequest';
 import useHttpPublicRequest from '@/services/useHttpPublicRequest';
-import { CRUStudentPayload, RegisterCoursePayload } from './types';
+import { CRUStudentPayload, StudentRegisterCoursePayload } from './types';
 import { GetPropertiesParams } from '../helpers';
 import { stringify } from '@/utils';
 import { API_URLS } from '../keys';
@@ -10,6 +10,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   const privateApi = useHttpPrivateRequest(baseURL);
   const studentPrivateApi = useHttpPrivateRequest(API_URLS.PROFILE);
   const identityPrivateApi = useHttpPrivateRequest(API_URLS.IDENTITY);
+  const coursePrivateApi = useHttpPrivateRequest(API_URLS.COURSE);
 
   const createStudent = (payload: CRUStudentPayload) => {
     return publicApi.post('/api/v1/users/student/registration', payload);
@@ -37,8 +38,8 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
     return privateApi.get('/api/v1/users/me');
   };
 
-  const registerCourse = (payload: RegisterCoursePayload) => {
-    return privateApi.post('/api/v1/registrations/student-registrations', payload);
+  const registerCourse = (payload: StudentRegisterCoursePayload) => {
+    return coursePrivateApi.post('/api/v1/registrations/student-registrations', payload);
   };  
 
   const deleteStudentByUsernames = (studentUsernames: string[]) => {
