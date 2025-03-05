@@ -1,0 +1,3 @@
+export enum API_BLOG_QUERIES {
+  POSTS_LIST = 'POSTS_LIST',
+}

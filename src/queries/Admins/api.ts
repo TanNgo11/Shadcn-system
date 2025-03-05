@@ -31,6 +31,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   const updateStatusAdminByListId = (ids: number[], status: string) => {
     return privateApi.patch(`/api/v1/users/admins/status`, { ids, status });
   };
+
   return {
     getAdminById,
     createAdmin,
