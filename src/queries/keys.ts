@@ -5,6 +5,7 @@ const BASE_URLS = {
   NOTIFICATION: import.meta.env.VITE_API_BASE_URL_NOTIFICATION,
   COURSE: import.meta.env.VITE_API_BASE_URL_COURSE,
   CHAT: import.meta.env.VITE_API_BASE_URL_CHAT,
+  BLOG: import.meta.env.VITE_API_BASE_URL_BLOG,
 };
 // Enum for endpoints
 export enum API_QUERIES {
@@ -13,6 +14,7 @@ export enum API_QUERIES {
   NOTIFICATION = '/notifications',
   COURSE = '/course-svc',
   CHAT = '/chat-svc',
+  BLOG = '/post-svc',
 }
 
 // Map endpoints to their base URLs
@@ -22,6 +24,7 @@ const ENDPOINT_BASE_URL_MAP: Record<API_QUERIES, string> = {
   [API_QUERIES.NOTIFICATION]: BASE_URLS.NOTIFICATION,
   [API_QUERIES.COURSE]: BASE_URLS.COURSE,
   [API_QUERIES.CHAT]: BASE_URLS.CHAT,
+  [API_QUERIES.BLOG]: BASE_URLS.BLOG,
 };
 
 // Function to construct URLs dynamically
@@ -37,5 +40,5 @@ export const API_URLS = {
   NOTIFICATION: getApiUrl(API_QUERIES.NOTIFICATION),
   COURSE: getApiUrl(API_QUERIES.COURSE),
   CHAT: getApiUrl(API_QUERIES.CHAT),
+  BLOG: getApiUrl(API_QUERIES.BLOG),
 } as const;
-
