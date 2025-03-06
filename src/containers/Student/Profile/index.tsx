@@ -7,7 +7,7 @@ import { useProfile } from './useProfile';
 
 const Profile = () => {
   const {
-    states: { student },
+    states: { student, isShowingMessageButton },
     handlers: { handleViewChat },
   } = useProfile();
 
@@ -39,15 +39,17 @@ const Profile = () => {
           <Typography.Title className="profile-container__subtitle" level={4}>
             Serati Ma sub
           </Typography.Title>
-          <Button
-            icon={<WechatOutlined />}
-            style={{ marginTop: '12px' }}
-            color="primary"
-            variant="outlined"
-            onClick={handleViewChat}
-          >
-            Message
-          </Button>
+          {isShowingMessageButton && (
+            <Button
+              icon={<WechatOutlined />}
+              style={{ marginTop: '12px' }}
+              color="primary"
+              variant="outlined"
+              onClick={handleViewChat}
+            >
+              Message
+            </Button>
+          )}
 
           <ProCard layout="default">
             <div className="profile-container__info">

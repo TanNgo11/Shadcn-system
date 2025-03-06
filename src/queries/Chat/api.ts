@@ -14,7 +14,11 @@ const useApi = (baseURL = API_URLS.CHAT) => {
     return privateApi.get(`/messages/${senderId}/${recipientId}`);
   };
 
-  return { getConversationsList, getChatMessagesBySenderIdAndRecipientId };
+  const getChatUserInformation = (userId: string) => {
+    return privateApi.get(`/api/v1/chat/users/${userId}`);
+  };
+
+  return { getConversationsList, getChatMessagesBySenderIdAndRecipientId, getChatUserInformation };
 };
 
 export default useApi;

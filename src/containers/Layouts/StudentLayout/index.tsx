@@ -1,14 +1,17 @@
+import studentSidebarProps from '@/containers/Layouts/Components/_StudentSidebarProps';
 import MenuCard from '@/containers/Layouts/Components/MenuCardLayout';
 import SearchInput from '@/containers/Layouts/Components/SearchInputLayout';
 import LoadingContainer from '@/containers/StartupContainers/LoadingContainer';
+import { useChatWebSocket } from '@/hooks/useChatWebSocket';
+import { formatFullName } from '@/utils/format';
+import { ONLINE_STATUS } from '@/zustand/auth/types';
+import { useAuthStore } from '@/zustand/auth/useAuthStore';
 import {
-  CrownFilled,
   GithubFilled,
   InfoCircleFilled,
   LogoutOutlined,
   ProfileOutlined,
   QuestionCircleFilled,
-  SmileFilled,
 } from '@ant-design/icons';
 import {
   PageContainer,
@@ -16,18 +19,15 @@ import {
   ProConfigProvider,
   ProLayout,
   ProSettings,
-  SettingDrawer,
 } from '@ant-design/pro-components';
-import { ConfigProvider, Dropdown, Menu } from 'antd';
-import { Suspense, useState } from 'react';
+import { ConfigProvider, Dropdown } from 'antd';
+import { Suspense, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/zustand/auth/useAuthStore';
 import { useNotification } from '../../StartupContainers/ToastContainer';
-import studentSidebarProps from '@/containers/Layouts/Components/_StudentSidebarProps';
 
 function StudentLayout() {
-  const { clearAuth, user } = useAuthStore();
+  const { clearAuth, user, accessTokenState } = useAuthStore();
   const toast = useNotification();
   const navigate = useNavigate();
   const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
@@ -40,6 +40,27 @@ function StudentLayout() {
     siderMenuType: 'sub',
     fixedHeader: true,
   });
+  const { isConnected, addUserToChat, disconnectUserFromChat } = useChatWebSocket({
+    userId: user?.id?.toString(),
+    token: String(accessTokenState),
+    serverUrl: 'http://localhost:8086/chat-svc/ws',
+    subscriptionChannels: [`/user/${user?.id}/queue/messages`, '/user/public'],
+    onMessage: (message) => {
+      if (message.source === '/user/public') {
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (isConnected && user?.id) {
+      addUserToChat({
+        userId: Number(user?.id),
+        fullName: formatFullName(user),
+        status: ONLINE_STATUS.ONLINE,
+        avatar: user?.avatar,
+      });
+    }
+  }, [isConnected, user, addUserToChat]);
 
   const [pathname, setPathname] = useState(window.location.pathname);
   const [num, setNum] = useState(40);
@@ -54,6 +75,9 @@ function StudentLayout() {
       message: 'Logout successfully',
       description: 'Goodbye!',
     });
+    if (user?.id) {
+      disconnectUserFromChat(user?.id);
+    }
     navigate('/login');
   };
 
