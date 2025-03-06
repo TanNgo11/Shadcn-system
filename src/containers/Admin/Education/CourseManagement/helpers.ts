@@ -1,4 +1,5 @@
 export interface CourseResponse {
+  id: string,
   name: string;
   imageUri: string;
   code: string;
@@ -42,4 +43,11 @@ export interface BaseCourse {
   credit: number;
   status: string;
   courses: BaseCourse[];
+}
+
+export enum Action {
+  ADD = 'add',
+  EDIT = 'edit',
+  DELETE = 'delete',
+  VIEW = 'view',
 }

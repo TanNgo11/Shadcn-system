@@ -28,6 +28,7 @@ export function useGetOpenCoursesInDepartmentById(
     ],
     async ({ queryKey }) => {
       const [, ...params] = queryKey;
+      
       return responseWrapper<ApiResponseType<PaginationResponseType<CourseResponse[]>>>(
         semesterApi.getOpenCoursesInDepartmentById,
         [options?.semesterId, options?.departmentId, params],
@@ -46,7 +47,6 @@ export function useGetOpenCoursesInDepartmentById(
   const handleInvalidateSemesterList = () =>
     queryClient.invalidateQueries([
       API_KEY.OPEN_COURSES_DEPARTMENT,
-      { ...params, semesterId: options?.semesterId, departmentId: options?.departmentId },
     ]);
 
   const { result: { current, totalPages, pageSize, totalElements, data: semesters = [] } = {} } =

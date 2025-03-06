@@ -28,15 +28,10 @@ export const allColumns = ({
   handleDeleteCourse,
 }: CoursesProps): ProColumns<CourseResponse>[] => [
   {
-    title: '#',
-    dataIndex: 'index',
-    valueType: 'indexBorder',
-    width: 48,
-    render: (_text, record) => (
-      <Checkbox
-        onChange={(e: { target: { checked: any } }) => console.log(e.target.checked, record)}
-      />
-    ),
+    title: 'ID',
+    dataIndex: 'id',
+    valueType: 'text',
+    width: 40,
   },
   {
     title: 'Image',
