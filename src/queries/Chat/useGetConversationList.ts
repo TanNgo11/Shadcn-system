@@ -1,9 +1,6 @@
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
-
-import { ApiResponseType, TableParams } from '../helpers';
-
+import { ApiResponseType, TableParams, responseWrapper } from '../helpers';
 import { chatApi } from '.';
-import { responseWrapper } from '../helpers';
 import { API_CHAT_QUERIES } from './keys';
 import { ConversationResponse } from './types';
 

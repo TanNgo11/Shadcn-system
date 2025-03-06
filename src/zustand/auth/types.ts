@@ -18,6 +18,11 @@ export enum UserStatus {
   INACTIVE = 'INACTIVE',
 }
 
+export enum ONLINE_STATUS {
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+}
+
 export enum Gender {
   MALE = 'MALE',
   FEMALE = 'FEMALE',

@@ -34,7 +34,7 @@ function LoginForm() {
           navigate('/admin/profile');
           break;
         case Role.STUDENT:
-          navigate('/profile');
+          navigate('/student/profile/' + data?.id);
           break;
         default:
           navigate('/teacher/profile');

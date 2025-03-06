@@ -1,7 +1,7 @@
-import { useGetStudentById } from '@/queries/Students/useGetStudentById';
 import { useGetStudentProfileByUserId } from '@/queries/Auth/useGetStudentProfileByUserId';
-import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore } from '@/zustand/auth/useAuthStore';
+import { useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const useProfile = () => {
   const { user } = useAuthStore();
@@ -9,11 +9,17 @@ export const useProfile = () => {
   const navigate = useNavigate();
   const { student } = useGetStudentProfileByUserId({ id: String(studentId) });
 
+  const isShowingMessageButton = useMemo(() => {
+    if (!user?.id || !student?.id) return false;
+    return String(user?.id) !== String(student?.id);
+  }, [user?.id, student?.id]);
+
   const handleViewChat = () => {
     navigate(`/chat/${user?.id}/${student?.id}`);
   };
+
   return {
-    states: { student },
+    states: { student, isShowingMessageButton },
     handlers: { handleViewChat },
   };
 };

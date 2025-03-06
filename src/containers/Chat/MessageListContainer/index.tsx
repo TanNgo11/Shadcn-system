@@ -26,26 +26,6 @@ export const MessageListContainer = ({ data }: MessageListContainerProps) => {
           }}
         />
       ))}
-      {/* <Message
-        model={{
-          direction: 'incoming',
-          message: 'Hello my friend',
-          position: 'single',
-          sender: 'Zoe',
-          sentTime: '15 mins ago',
-        }}
-      >
-        <Avatar name="Zoe" src="https://chatscope.io/storybook/react/assets/zoe-E7ZdmXF0.svg" />
-      </Message>
-      <Message
-        model={{
-          direction: 'outgoing',
-          message: 'Hello my friend',
-          position: 'single',
-          sender: 'Patrik',
-          sentTime: '15 mins ago',
-        }}
-      /> */}
     </>
   );
 };

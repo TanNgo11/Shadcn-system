@@ -6,11 +6,10 @@ import React from 'react';
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import AdminLayout from './Layouts/AdminLayout';
-import StudentLayout from './Layouts/StudenLayout';
-import TeacherLayout from './Layouts/TeacherLayout';
-import { Auth } from './LoginPage/index';
 import AuthLayout from './Layouts/AuthLayout';
 import { PATHS } from './Layouts/Components/_AdminSidebarProps';
+import StudentLayout from './Layouts/StudentLayout';
+import TeacherLayout from './Layouts/TeacherLayout';
 
 const BlogList = React.lazy(() => import('@/containers/Admin/Blog'));
 const HomePage = React.lazy(() => import('@/containers/Student/HomePage'));
@@ -67,9 +66,7 @@ const OpenCoursePage = React.lazy(
   () => import('@/containers/Admin/Education/CourseManagement/OpenCourse'),
 );
 
-const StudentRegisterCoursePage = React.lazy(
-  () => import('@/containers/Student/RegisterCourse'),
-);
+const StudentRegisterCoursePage = React.lazy(() => import('@/containers/Student/RegisterCourse'));
 
 const appRoutes: RouteObject[] = [
   {
@@ -102,10 +99,6 @@ const appRoutes: RouteObject[] = [
         index: true,
         path: 'dashboard',
         element: <HomePage />,
-      },
-      {
-        path: 'profile',
-        element: <StudentProfilePage />,
       },
       {
         path: 'profile/:studentId',
