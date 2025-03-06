@@ -1,53 +1,49 @@
 import { useGetDepartmentList } from '@/queries/Departments/useGetDepartmentList';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import { Button, Card, Select, Typography } from 'antd';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { BaseCoursePayload, CourseResponse, StudentRegisterCoursePayload } from '../helpers';
+import ProTable, { ProColumns } from '@ant-design/pro-table';
+import { Button, Card, Col, Row, Select, Typography } from 'antd';
+import React, { useEffect, useMemo, useState } from 'react';
+import { CourseResponse, StudentRegisterCoursePayload } from '../helpers';
 import { allColumns } from './allColumns';
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
 import { useGetOpenCoursesInDepartmentById } from '@/queries/Semester/useGetOpenCoursesInDepartmentById';
-import { useModal } from '@/hooks/useModal';
 import { useGetCurrentStudentInfo } from '@/queries/Students/useGetCurrentStudentInfo';
 import { useGetCurrentOpenSemester } from '@/queries/Semester/useGetCurrentOpenSemester';
 import { useRegisterCourseForStudent } from '@/queries/Students/useRegisterCourseForStudent';
+import { useGetRegisteredCourseForStudent } from '@/queries/Registration/useGetRegisteredCourseForStudent';
+import { useGetUnregisteredCourseForStudent } from '@/queries/Registration/useGetUnregisteredCourseForStudent';
 
-const StudentRegisterCourse: React.FC<Props> = () => {
+const StudentRegisterCourse: React.FC = () => {
   const toast = useNotification();
-  const { student, handleInvalidCurrentStudent } = useGetCurrentStudentInfo();
+  const { student } = useGetCurrentStudentInfo();
   const { semester } = useGetCurrentOpenSemester();
 
-  const [departmentId, setDepartmentId] = useState<string>(student?.departmentId || '');
-  const [selectedRows, setSelectedRows] = useState<CourseResponse[]>([]);
-  const [registerPayload, setRegisterPayload] = useState<StudentRegisterCoursePayload | null>(null);
+  const { departments } = useGetDepartmentList({
+    defaultParams: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
 
+  const [departmentId, setDepartmentId] = useState<string>('');
+  const [selectedRows, setSelectedRows] = useState<CourseResponse[]>([]);
+  const [registeredRows, setRegisteredRows] = useState<CourseResponse[]>([]);
+  const [departmentName, setDepartmentName] = useState<string>('');
+
+  // Initialize student department when data is available
   useEffect(() => {
-    if (student) {
+    if (student?.departmentId) {
       setDepartmentId(student.departmentId);
-    } else {
-      handleInvalidCurrentStudent();
     }
   }, [student]);
 
+
+  // Update department name when department changes
   useEffect(() => {
-    if (registerPayload) {
-      handleRegisterCourses();
+    if (departments.length > 0 && departmentId) {
+      const department = departments.find((dep) => dep.id === departmentId);
+      setDepartmentName(department?.departmentName || '');
     }
-  }, [registerPayload]);
-
-  const handleEditCourse = () => {
-    toast.error({
-      message: 'Edit Course',
-      description: 'The course could not be edited.',
-    });
-  };
-
-  const handleDeleteCourse = () => {
-    toast.error({
-      message: 'Delete Course',
-      description: 'The course could not be deleted.',
-    });
-  };
+  }, [departments, departmentId]);
 
   const { onRegisterCourse } = useRegisterCourseForStudent({
     onSuccess: () => {
@@ -55,7 +51,8 @@ const StudentRegisterCourse: React.FC<Props> = () => {
         message: 'Courses Registered',
         description: `Successfully registered ${selectedRows.length} course(s).`,
       });
-      setSelectedRows(selectedRows);
+      handleInvalidateRegisteredCourses();
+      handleInvalidateUnregisteredCourses();
     },
     onError: (error) => {
       toast.error({
@@ -66,12 +63,24 @@ const StudentRegisterCourse: React.FC<Props> = () => {
   });
 
   const handleRegisterCourses = () => {
-    if (registerPayload) {
-      onRegisterCourse(registerPayload);
+    if (!student?.studentId || !semester?.id) {
+      toast.error({
+        message: 'Registration Error',
+        description: 'Missing student or semester information',
+      });
+      return;
     }
+
+    const payload: StudentRegisterCoursePayload = {
+      studentId: student.studentId,
+      courseIds: selectedRows.map((row) => row.id),
+      semesterId: semester.id,
+    };
+
+    onRegisterCourse(payload);
   };
 
-  const { semesters: openCourses } = useGetOpenCoursesInDepartmentById({
+  useGetOpenCoursesInDepartmentById({
     departmentId,
     semesterId: semester?.id || '',
     defaultParams: {
@@ -80,74 +89,127 @@ const StudentRegisterCourse: React.FC<Props> = () => {
     },
   });
 
-  const columns: ProColumns<CourseResponse>[] = useMemo(
-    () =>
-      allColumns({
-        handleDeleteCourse,
-        handleEditCourse,
-      }),
-    [],
+
+  const { unregisteredCourses, handleInvalidateUnregisteredCourses } =
+    useGetUnregisteredCourseForStudent({
+      courseParams: {
+        studentId: student?.studentId || "",
+        semesterId: semester?.id || "",
+        departmentId
+      },
+      tableParams: {
+        current: 1,
+        pageSize: 10,
+      },
+    });
+
+  
+  const { registeredCourses, handleInvalidateRegisteredCourses } = useGetRegisteredCourseForStudent(
+    {
+      courseParams: {
+        studentId: student?.studentId || '',
+        semesterId: semester?.id || '',
+        departmentId,
+      },
+      tableParams: {
+        current: 1,
+        pageSize: 10,
+      },
+    },
   );
+
+
+
+
+  const columns: ProColumns<CourseResponse>[] = useMemo(() => allColumns(), []);
 
   return (
-    <ProTable<CourseResponse>
-      dataSource={openCourses}
-      columns={columns}
-      cardBordered
-      request={async (_params, _sort, _filter) => ({
-        data: openCourses,
-        success: true,
-        total: openCourses.length,
-      })}
-      rowKey="code"
-      search={false}
-      rowSelection={{
-        onChange: (_, selectedRows: CourseResponse[]) => {
-          setSelectedRows(selectedRows);
-        },
-      }}
-      toolBarRender={() =>
-        selectedRows.length > 0
-          ? [
-              <Button
-                key="register"
-                type="primary"
-                onClick={() => {
-                  setRegisterPayload({
-                    studentId: student?.studentId || '',
-                    courseIds: selectedRows.map((row) => row.id),
-                    semesterId: semester?.id || '',
-                  });
-                }}
-              >
-                Register
-              </Button>,
-            ]
-          : []
-      }
-      form={{
-        syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
-          if (type === 'get') {
-            return {
-              ...values,
-              created_at: [values.startTime, values.endTime],
-            };
-          }
-          return values;
-        },
-      }}
-      pagination={{
-        pageSize: 10,
-        onChange: (page: any) => console.log(page),
-      }}
-      dateFormatter="string"
-      headerTitle="Opening Course Management"
-    />
-  );
-};
+    <>
+      <Card style={{ marginBottom: 20 }}>
+        <Col>
+          <Typography.Title level={4}>Department: {departmentName}</Typography.Title>
+          <Row style={{ justifyContent: 'space-between' }}>
+            <Typography.Title level={5}>Year: 2024 - 2025</Typography.Title>
+            <Select value={departmentId} onChange={setDepartmentId} style={{ width: 200 }}>
+              <Select.Option value={student?.departmentId || ''}>{student?.faculty}</Select.Option>
+            </Select>
+          </Row>
+        </Col>
+      </Card>
 
-type Props = {
-  children?: React.ReactNode;
+      <ProTable<CourseResponse>
+        dataSource={unregisteredCourses}
+        columns={columns}
+        cardBordered
+        options={false}
+        request={async () => ({
+          data: unregisteredCourses,
+          success: true,
+          total: unregisteredCourses.length,
+        })}
+        rowKey="code"
+        search={false}
+        rowSelection={{
+          onChange: (_, selectedRows) => setSelectedRows(selectedRows),
+        }}
+        toolBarRender={() =>
+          selectedRows.length > 0
+            ? [
+                <Button key="register" type="primary" onClick={handleRegisterCourses}>
+                  Register
+                </Button>,
+              ]
+            : []
+        }
+        form={{
+          syncToUrl: (values, type) => {
+            if (type === 'get') {
+              return {
+                ...values,
+                created_at: [values.startTime, values.endTime],
+              };
+            }
+            return values;
+          },
+        }}
+        pagination={{
+          pageSize: 10,
+        }}
+        dateFormatter="string"
+        headerTitle="Opening Course Management"
+      />
+
+      <ProTable<CourseResponse>
+        dataSource={registeredCourses}
+        columns={columns}
+        cardBordered
+        request={async () => ({
+          data: registeredCourses,
+          success: true,
+          total: registeredCourses.length,
+        })}
+        options={false}
+        rowKey="code"
+        search={false}
+        rowSelection={{
+          onChange: (_, registeredRows) => setRegisteredRows(registeredRows),
+        }}
+        toolBarRender={() =>
+          registeredRows.length > 0
+            ? [
+                <Button key="registered" type="primary" onClick={() => console.log('register')}>
+                  Remove
+                </Button>,
+              ]
+            : []
+        }
+        pagination={false}
+        dateFormatter="string"
+        headerTitle="Registered Courses"
+        style={{ marginTop: 20 }}
+      />
+    </>
+  );
 };
 
 export default StudentRegisterCourse;

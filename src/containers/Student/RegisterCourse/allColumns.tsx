@@ -5,7 +5,6 @@ import { Checkbox, message, Popconfirm } from 'antd';
 import { PopconfirmProps } from 'antd/lib';
 import { CourseResponse } from '../helpers';
 
-
 type CoursesProps = {
   handleEditCourse: Callback;
   handleDeleteCourse: Callback;
@@ -23,7 +22,7 @@ const cancel: PopconfirmProps['onCancel'] = (e) => {
   message.error('Click on No');
 };
 
-export const allColumns = ({}: CoursesProps): ProColumns<CourseResponse>[] => [
+export const allColumns = (): ProColumns<CourseResponse>[] => [
   {
     title: 'ID',
     dataIndex: 'id',
@@ -58,27 +57,27 @@ export const allColumns = ({}: CoursesProps): ProColumns<CourseResponse>[] => [
     dataIndex: 'credit',
     valueType: 'text',
   },
-{
-  title: 'Start Time',
-  dataIndex: 'startTime',
-  valueType: 'text',
-},
-{
-  title: 'End Time',
-  dataIndex: 'endTime + ',
-  valueType: 'text',
-},
+  {
+    title: 'Start Time',
+    dataIndex: 'startTime',
+    valueType: 'text',
+  },
+  {
+    title: 'End Time',
+    dataIndex: 'endTime + ',
+    valueType: 'text',
+  },
 
-{
-  title: 'Start Date',
-  dataIndex: 'startDate',
-  valueType: 'text',
-},
-{
-  title: 'End Date',
-  dataIndex: 'endDate',
-  valueType: 'text',
-},
+  {
+    title: 'Start Date',
+    dataIndex: 'startDate',
+    valueType: 'text',
+  },
+  {
+    title: 'End Date',
+    dataIndex: 'endDate',
+    valueType: 'text',
+  },
   {
     title: 'Teacher',
     dataIndex: 'teacherIds',
