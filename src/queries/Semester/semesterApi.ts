@@ -53,6 +53,11 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     );
   };
 
+  const deleteCoursesByIds = (courseIds: number[]) => {
+    return api.delete(`/api/v1/semesters/delete-opened-courses/`, {
+      data: { courseIds: courseIds },
+    });
+  };
   return {
     getUnOpenedBaseCoursesInDepartmentById,
     getOpenCoursesInDepartmentById,
@@ -60,7 +65,8 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     getOpenCourseList,
     addOpenCourse,
     addBaseCourseToSemester,
-    getCurrentOpenSemester
+    getCurrentOpenSemester,
+    deleteCoursesByIds
   };
 };
 export default useApi;
