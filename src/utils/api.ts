@@ -1,7 +1,7 @@
 import { isEmpty } from './validations';
 
 export const stringify = (
-  params: { [key: string]: number | number[] | string | string[] | boolean },
+  params: { [key: string]: number | number[] | string | string[] | boolean},
   excludeKey: string[] = [],
 ) => {
   let result = '';
