@@ -1,26 +1,5 @@
-export interface CRUStudentPayload {
-  password?: string;
-  username?: string;
-  firstName?: string;
-  middleName?: string;
-  lastName?: string;
-  address?: string;
-  dateOfBirth?: string;
-  phoneNumber?: string;
-  gender?: string;
-  gpa?: number;
-  enrollmentDate?: string;
-  departmentId?: string;
-  guardianName?: string;
-  guardianPhoneNumber?: string;
-  email?: string;
-  nationality?: string;
-  religion?: string;
-  degreeLevel?: string;
-  academicYearId?: string;
-  present?: Present;
-  avatarPath?: string | null;
-}
+import { TableParams } from '../helpers';
+
 export interface StudentResponse {
   studentId: string;
   username: string;
@@ -60,6 +39,11 @@ export enum StudentStatus {
   INACTIVE = 'INACTIVE',
   DELETED = 'DELETED',
 }
+export enum RegisterStatus {
+  PENDING = 'PENDING',
+  CANCEL = 'CANCEL',
+  APPROVED = 'APPROVED',
+}
 
 export interface StudentProfileResponse {
   id: string;
@@ -89,8 +73,15 @@ export interface StudentProfileResponse {
   departmentId: string;
 }
 
-export interface StudentRegisterCoursePayload {
+export interface RegisterCoursePayload {
   studentId: string;
   courseIds: string[];
   semesterId: string;
 }
+
+export type GetCoursePropertiesParams = {
+  studentId?: string;
+  semesterId?: string;
+  departmentId?: string;
+  [key: string]: number | number[] | string | string[] | boolean | undefined | any[] | any;
+};
