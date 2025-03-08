@@ -1,5 +1,7 @@
 import { Flex, Image, List, Typography } from 'antd';
 import './styles.scss';
+import { CourseDetails, useCourseStore } from '@/hooks/useCourseStore';
+import { useMemo } from 'react';
 
 const data = [
   'Understand the basic concepts of mobile programming, including application architecture, user interface handling, graphics, navigation methods, and data connectivity.',
@@ -7,6 +9,9 @@ const data = [
   'Apply development and deployment skills on mobile platforms.',
 ];
 const CourseDescriptionTab = () => {
+
+const courseDetails = useCourseStore((state) => state.courseDetail);
+
   return (
     <div className="course-description-tab-container">
       <Flex justify="center" align="center">
@@ -16,18 +21,12 @@ const CourseDescriptionTab = () => {
         />
       </Flex>
       <Typography.Title className="course-description-tab-container__title" level={4}>
-        COURSE DESCRIPTION
+        {courseDetails?.courseCode}
       </Typography.Title>
-      <div>
-        This course provides students with foundational knowledge in mobile programming, including
-        application architecture, user interface handling, graphics, navigation methods, and data
-        connectivity. Students will learn how to build complete mobile applications with the
-        capability to access both local and remote databases through REST API, while also applying
-        development and deployment skills on mobile platforms.
-      </div>
+      <Typography.Paragraph>{courseDetails?.description}</Typography.Paragraph>
 
       <Typography.Title className="course-description-tab-container__title" level={4}>
-        COURSE OBJECTIVES
+        Requirement for {courseDetails?.description}
       </Typography.Title>
       <List
         dataSource={data}

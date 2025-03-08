@@ -10,8 +10,14 @@ import CourseDescriptionTab from './CourseDescriptionTab';
 import LearningMaterialsTab from './LearningMaterialsTab';
 import LessonsTab from './LessonsTab';
 import { MdAssignment } from 'react-icons/md';
+import {  useCourseStore } from '@/hooks/useCourseStore';
 
 const CourseDetailTabs = () => {
+
+  const courseDetails = useCourseStore((state) => state.courseDetail);
+
+  console.log(courseDetails);
+
   const listTabs = useMemo(() => {
     return [
       {

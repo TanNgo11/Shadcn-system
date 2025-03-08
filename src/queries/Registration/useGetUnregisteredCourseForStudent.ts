@@ -18,11 +18,11 @@ export function useGetUnregisteredCourseForStudent(
     options?.courseParams || {},
   );
 
-    useEffect(() => {
-        if (options?.courseParams) {
-        setCourseParams(options.courseParams);
-        }
-    }, [options?.courseParams]);
+  useEffect(() => {
+    if (options?.courseParams) {
+      setCourseParams(options.courseParams);
+    }
+  }, [options?.courseParams]);
 
   const [tableParams, setParams] = useState<TableParams>(options?.tableParams || {});
   const {
@@ -31,9 +31,9 @@ export function useGetUnregisteredCourseForStudent(
     isFetching,
     refetch: onGetUnregisteredCourseForStudent,
   } = useQuery<ApiResponseType<PaginationResponseType<CourseResponse[]>>, Error>(
-    [{ ...courseParams, ...tableParams }],
+    [REGISTER_COURSE_API_KEY.GET_UNREGISTERED_COURSES, { ...courseParams, ...tableParams }],
     async ({ queryKey }) => {
-      const [...params] = queryKey;
+      const [, ...params] = queryKey;
       return responseWrapper<ApiResponseType<PaginationResponseType<CourseResponse[]>>>(
         registrationApis.getAllUnregisteredCoursesInSemesterByDepartmentForStudent,
         params,
@@ -51,6 +51,7 @@ export function useGetUnregisteredCourseForStudent(
 
   const handleInvalidateUnregisteredCourses = () =>
     queryClient.invalidateQueries([
+      REGISTER_COURSE_API_KEY.GET_UNREGISTERED_COURSES,
       { ...courseParams, ...tableParams },
     ]);
 
@@ -73,4 +74,3 @@ export function useGetUnregisteredCourseForStudent(
   };
 }
 
-// REGISTER_COURSE_API_KEY.GET_REGISTERED_COURSES, 

@@ -1,16 +1,29 @@
 import { List } from 'antd';
-import mockData from './mockData';
 import CourseCard from './CourseCard';
+import { RegistrationResponse } from '@/queries/Registration/types';
 
-const CoursesPage = () => {
+interface CoursesPageProps {
+  registrations: RegistrationResponse[]; // ✅ Expect an array of registrations
+}
+
+const CoursesPage = ({ registrations }: CoursesPageProps) => {
   return (
     <List
-      rowKey="id"
+      rowKey={(item) => item.studentId} // ✅ Ensure a unique key
       grid={{ gutter: 24, xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
-      dataSource={mockData}
-      renderItem={(item) => (
+      dataSource={registrations} // ✅ Use registrations as dataSource
+      renderItem={(
+        registration, // ✅ Map over registrations
+      ) => (
         <List.Item>
-          <CourseCard title={item.title} description={item.description} avatar={item.avatar} />
+          <CourseCard
+            name={registration?.courseDetails?.name || ''}
+            description={registration?.baseCourseDetails?.description || ''}
+            avatar={registration?.courseDetails?.imageUri || ''}
+            studentId={registration?.studentId}
+            courseId={registration?.courseDetails?.id}
+            courseCode={registration?.baseCourseDetails?.code}
+          />
         </List.Item>
       )}
     />
