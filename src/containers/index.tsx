@@ -67,6 +67,7 @@ const OpenCoursePage = React.lazy(
 );
 
 const StudentRegisterCoursePage = React.lazy(() => import('@/containers/Student/RegisterCourse'));
+const ViewCourses = React.lazy(() => import('@/containers/Student/ViewCourses'));
 
 const appRoutes: RouteObject[] = [
   {
@@ -104,10 +105,10 @@ const appRoutes: RouteObject[] = [
         path: 'profile/:studentId',
         element: <StudentProfilePage />,
       },
-      {
-        path: 'courses',
-        element: <CoursesPage />,
-      },
+      // {
+      //   path: 'courses',
+      //   element: <CoursesPage />,
+      // },
       {
         path: 'course/:id',
         element: <CourseDetailPage />,
@@ -240,6 +241,14 @@ const appRoutes: RouteObject[] = [
         path: 'register-course',
         element: <StudentRegisterCoursePage />,
       },
+      {
+        path: 'current-courses',
+        element: <ViewCourses />,
+      },
+      {
+        path: 'current-courses/:studentId/:courseCode',
+        element: <CourseDetailPage />,
+      }
     ],
   },
   {

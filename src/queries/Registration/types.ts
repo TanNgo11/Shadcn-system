@@ -1,4 +1,6 @@
+import { BaseCourseResponse } from '../Courses/types';
 import { TableParams } from '../helpers';
+import { CourseResponse } from '../Semester';
 
 export interface StudentResponse {
   studentId: string;
@@ -77,6 +79,18 @@ export interface RegisterCoursePayload {
   studentId: string;
   courseIds: string[];
   semesterId: string;
+}
+
+export interface RegistrationResponse {
+  studentId: string;
+  courseCode: string;
+  status: RegisterStatus;
+  semesterName: string;
+  semesterId: string;
+  registrationDate: Date;
+  cancellationDeadline: Date;
+  courseDetails?: CourseResponse;
+  baseCourseDetails?: BaseCourseResponse;
 }
 
 export type GetCoursePropertiesParams = {

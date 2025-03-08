@@ -14,22 +14,21 @@ export function useGetRegisteredCourseForStudent(
     tableParams?: TableParams;
   },
 ) {
-  
-    useEffect(() => {
-      if (options?.courseParams) {
-        setCourseParams(options.courseParams);
-      }
-    }, [options?.courseParams]);
+  // useEffect(() => {
+  //   if (options?.courseParams) {
+  //     setCourseParams(options.courseParams);
+  //   }
+  // }, [options?.courseParams]);
 
   const [courseParams, setCourseParams] = useState<GetCoursePropertiesParams>(
     options?.courseParams || {},
   );
 
-    useEffect(() => {
-      if (options?.courseParams) {
-        setCourseParams(options.courseParams);
-      }
-    }, [options?.courseParams]);
+  useEffect(() => {
+    if (options?.courseParams) {
+      setCourseParams(options.courseParams);
+    }
+  }, [options?.courseParams]);
 
   const [tableParams, setParams] = useState<TableParams>(options?.tableParams || {});
   const {
@@ -38,9 +37,9 @@ export function useGetRegisteredCourseForStudent(
     isFetching,
     refetch: onGetRegisteredCourseForStudent,
   } = useQuery<ApiResponseType<PaginationResponseType<CourseResponse[]>>, Error>(
-    [{ ...courseParams, ...tableParams }],
+    [REGISTER_COURSE_API_KEY.GET_REGISTERED_COURSES, { ...courseParams, ...tableParams }],
     async ({ queryKey }) => {
-      const [...params] = queryKey;
+      const [, ...params] = queryKey;
       return responseWrapper<ApiResponseType<PaginationResponseType<CourseResponse[]>>>(
         registrationApis.getAllRegisteredCoursesInSemesterByDepartmentForStudent,
         params,
@@ -58,6 +57,7 @@ export function useGetRegisteredCourseForStudent(
 
   const handleInvalidateRegisteredCourses = () =>
     queryClient.invalidateQueries([
+      REGISTER_COURSE_API_KEY.GET_REGISTERED_COURSES,
       { ...courseParams, ...tableParams },
     ]);
 
@@ -80,5 +80,5 @@ export function useGetRegisteredCourseForStudent(
   };
 }
 
-
 // REGISTER_COURSE_API_KEY.GET_REGISTERED_COURSES,
+

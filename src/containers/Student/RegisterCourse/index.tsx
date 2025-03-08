@@ -2,7 +2,7 @@ import { useGetDepartmentList } from '@/queries/Departments/useGetDepartmentList
 import ProTable, { ProColumns } from '@ant-design/pro-table';
 import { Button, Card, Col, Row, Select, Typography } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
-import { CourseResponse, StudentRegisterCoursePayload } from '../helpers';
+import { CourseResponse, RemovalRegisterCourseForStudentPayload, StudentRegisterCoursePayload } from '../helpers';
 import { allColumns } from './allColumns';
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
 import { useGetOpenCoursesInDepartmentById } from '@/queries/Semester/useGetOpenCoursesInDepartmentById';
@@ -11,6 +11,8 @@ import { useGetCurrentOpenSemester } from '@/queries/Semester/useGetCurrentOpenS
 import { useRegisterCourseForStudent } from '@/queries/Students/useRegisterCourseForStudent';
 import { useGetRegisteredCourseForStudent } from '@/queries/Registration/useGetRegisteredCourseForStudent';
 import { useGetUnregisteredCourseForStudent } from '@/queries/Registration/useGetUnregisteredCourseForStudent';
+import { RegistrationResponse } from '@/queries/Registration/types';
+import { useRemoveRegistrations } from '@/queries/Registration/useRemoveRegistrations';
 
 const StudentRegisterCourse: React.FC = () => {
   const toast = useNotification();
@@ -62,6 +64,23 @@ const StudentRegisterCourse: React.FC = () => {
     },
   });
 
+  const { onRemoveRegistrations } = useRemoveRegistrations({
+    onSuccess: () => {
+      toast.success({
+        message: 'Courses Removed',
+        description: `Successfully removed ${registeredRows.length} course(s).`,
+      });
+      handleInvalidateRegisteredCourses();
+      handleInvalidateUnregisteredCourses();
+    },
+    onError: (error) => {
+      toast.error({
+        message: 'Courses Removal Failed',
+        description: error.message,
+      });
+    },
+  });
+
   const handleRegisterCourses = () => {
     if (!student?.studentId || !semester?.id) {
       toast.error({
@@ -78,7 +97,27 @@ const StudentRegisterCourse: React.FC = () => {
     };
 
     onRegisterCourse(payload);
+    setSelectedRows([]);
   };
+
+    const handleRemoveRegisteredCourses = () => {
+      if (!student?.studentId || !semester?.id) {
+        toast.error({
+          message: 'Registration Error',
+          description: 'Missing student or semester information',
+        });
+        return;
+      }
+
+      const payload: RemovalRegisterCourseForStudentPayload = {
+        studentId: student.studentId,
+        courseCodes: registeredRows.map((row) => row.code),
+        semesterId: semester.id,
+      };
+
+      onRemoveRegistrations(payload);
+      setRegisteredRows([]);
+    };
 
   useGetOpenCoursesInDepartmentById({
     departmentId,
@@ -117,8 +156,6 @@ const StudentRegisterCourse: React.FC = () => {
       },
     },
   );
-
-
 
 
   const columns: ProColumns<CourseResponse>[] = useMemo(() => allColumns(), []);
@@ -197,7 +234,11 @@ const StudentRegisterCourse: React.FC = () => {
         toolBarRender={() =>
           registeredRows.length > 0
             ? [
-                <Button key="registered" type="primary" onClick={() => console.log('register')}>
+                <Button
+                  key="registered"
+                  type="primary"
+                  onClick={() => handleRemoveRegisteredCourses()}
+                >
                   Remove
                 </Button>,
               ]

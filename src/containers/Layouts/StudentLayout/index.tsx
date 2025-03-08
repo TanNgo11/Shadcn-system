@@ -47,6 +47,7 @@ function StudentLayout() {
     subscriptionChannels: [`/user/${user?.id}/queue/messages`, '/user/public'],
     onMessage: (message) => {
       if (message.source === '/user/public') {
+        console.log('Public message', message);
       }
     },
   });
@@ -166,11 +167,11 @@ function StudentLayout() {
                   return (
                     <>
                       {defaultDom}
-                      <MenuCard />
+                      {/* <MenuCard />
 
                       <Link style={{ fontSize: '14px' }} to="/courses">
                         Course
-                      </Link>
+                      </Link> */}
                     </>
                   );
                 }}
@@ -192,8 +193,8 @@ function StudentLayout() {
                 breadcrumbRender={(routers = []) => {
                   return [
                     {
-                      path: '/profile',
-                      breadcrumbName: 'Profile',
+                      path: '/student',
+                      breadcrumbName: 'Student',
                     },
                     ...routers,
                   ];

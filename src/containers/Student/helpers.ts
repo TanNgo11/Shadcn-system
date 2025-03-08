@@ -57,3 +57,9 @@ export interface StudentRegisterCoursePayload {
   courseIds: string[];
   semesterId: string;
 }
+
+export interface RemovalRegisterCourseForStudentPayload {
+  studentId: string;
+  courseCodes: string[];
+  semesterId: string;
+}
