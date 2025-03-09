@@ -40,7 +40,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
 
   const registerCourse = (payload: StudentRegisterCoursePayload) => {
     return coursePrivateApi.post('/api/v1/registrations/student-registrations', payload);
-  };  
+  };
 
   const deleteStudentByUsernames = (studentUsernames: string[]) => {
     return privateApi.delete(`/api/v1/users/students/delete`, {

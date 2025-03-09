@@ -1,9 +1,8 @@
+import { CourseResponse } from '@/queries/Semester';
 import { Callback } from '@/utils/helpers';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
-import { Checkbox, message, Popconfirm } from 'antd';
+import { message } from 'antd';
 import { PopconfirmProps } from 'antd/lib';
-import { CourseResponse } from '../helpers';
 
 type CoursesProps = {
   handleEditCourse: Callback;
@@ -28,17 +27,20 @@ export const allColumns = (): ProColumns<CourseResponse>[] => [
     dataIndex: 'id',
     valueType: 'text',
     hidden: true,
+    hideInSearch: true,
   },
   {
     title: 'Image',
     dataIndex: 'imageUri',
     valueType: 'text',
     hidden: true,
+    hideInSearch: true,
   },
   {
     title: 'Code',
     dataIndex: 'code',
     valueType: 'text',
+    hideInSearch: true,
   },
   {
     title: 'Course Name',
@@ -51,41 +53,49 @@ export const allColumns = (): ProColumns<CourseResponse>[] => [
         },
       };
     },
+    hideInSearch: true,
   },
   {
     title: 'Credit',
     dataIndex: 'credit',
     valueType: 'text',
+    hideInSearch: true,
   },
   {
     title: 'Start Time',
     dataIndex: 'startTime',
     valueType: 'text',
+    hideInSearch: true,
   },
   {
     title: 'End Time',
     dataIndex: 'endTime + ',
     valueType: 'text',
+    hideInSearch: true,
   },
 
   {
     title: 'Start Date',
     dataIndex: 'startDate',
     valueType: 'text',
+    hideInSearch: true,
   },
   {
     title: 'End Date',
     dataIndex: 'endDate',
     valueType: 'text',
+    hideInSearch: true,
   },
   {
     title: 'Teacher',
     dataIndex: 'teacherIds',
     valueType: 'text',
+    hideInSearch: true,
   },
   {
     title: 'Remain',
     dataIndex: 'remain',
     valueType: 'text',
+    hideInSearch: true,
   },
 ];

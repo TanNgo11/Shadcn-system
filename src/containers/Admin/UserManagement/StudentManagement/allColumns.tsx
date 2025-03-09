@@ -38,7 +38,7 @@ export const allColumns = ({
     dataIndex: 'username',
     valueType: 'text',
     sorter: true,
-    search: true, 
+    search: true,
   },
   {
     title: 'Email',
@@ -79,7 +79,7 @@ export const allColumns = ({
   {
     title: 'Date of Birth',
     dataIndex: 'dateOfBirth',
-    valueType: 'date', 
+    valueType: 'date',
     sorter: true,
   },
   {

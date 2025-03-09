@@ -1,48 +1,44 @@
-import { TableParams } from './../helpers';
-import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
-import { ApiResponseType, PaginationResponseType, responseWrapper } from '../helpers';
-import { GetCoursePropertiesParams } from './types';
-import { CourseResponse, semesterApi } from '../Semester';
-import { useEffect, useState } from 'react';
 import { isEmpty } from '@/utils';
-import { REGISTER_COURSE_API_KEY } from './keys';
+import { useState } from 'react';
+import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { registrationApis } from '.';
+import {
+  ApiResponseType,
+  GetPropertiesParams,
+  PaginationResponseType,
+  responseWrapper,
+} from '../helpers';
+import { CourseResponse } from '../Semester';
+import { REGISTER_COURSE_API_KEY } from './keys';
 
 export function useGetUnregisteredCourseForStudent(
   options?: UseQueryOptions<ApiResponseType<PaginationResponseType<CourseResponse[]>>, Error> & {
-    courseParams?: GetCoursePropertiesParams | undefined;
-    tableParams?: TableParams;
+    defaultParams?: GetPropertiesParams;
   },
 ) {
-  const [courseParams, setCourseParams] = useState<GetCoursePropertiesParams>(
-    options?.courseParams || {},
-  );
+  const [params, setParams] = useState<GetPropertiesParams>(options?.defaultParams || {});
 
-  useEffect(() => {
-    if (options?.courseParams) {
-      setCourseParams(options.courseParams);
-    }
-  }, [options?.courseParams]);
-
-  const [tableParams, setParams] = useState<TableParams>(options?.tableParams || {});
   const {
     data,
     error,
     isFetching,
     refetch: onGetUnregisteredCourseForStudent,
   } = useQuery<ApiResponseType<PaginationResponseType<CourseResponse[]>>, Error>(
-    [REGISTER_COURSE_API_KEY.GET_UNREGISTERED_COURSES, { ...courseParams, ...tableParams }],
+    [REGISTER_COURSE_API_KEY.GET_UNREGISTERED_COURSES, params],
     async ({ queryKey }) => {
-      const [, ...params] = queryKey;
+      const [, queryParams] = queryKey;
       return responseWrapper<ApiResponseType<PaginationResponseType<CourseResponse[]>>>(
         registrationApis.getAllUnregisteredCoursesInSemesterByDepartmentForStudent,
-        params,
+        [queryParams],
       );
     },
     {
       notifyOnChangeProps: ['data', 'isFetching'],
       keepPreviousData: true,
-      enabled: !isEmpty(courseParams) && !isEmpty(tableParams),
+      enabled:
+        !isEmpty(params?.studentId) &&
+        !isEmpty(params?.semesterId) &&
+        !isEmpty(params?.departmentId),
       ...options,
     },
   );
@@ -50,10 +46,7 @@ export function useGetUnregisteredCourseForStudent(
   const queryClient = useQueryClient();
 
   const handleInvalidateUnregisteredCourses = () =>
-    queryClient.invalidateQueries([
-      REGISTER_COURSE_API_KEY.GET_UNREGISTERED_COURSES,
-      { ...courseParams, ...tableParams },
-    ]);
+    queryClient.invalidateQueries([REGISTER_COURSE_API_KEY.GET_UNREGISTERED_COURSES, params]);
 
   const {
     result: { current, totalPages, pageSize, totalElements, data: unregisteredCourses = [] } = {},
@@ -68,9 +61,7 @@ export function useGetUnregisteredCourseForStudent(
     error,
     isFetching,
     setParams,
-    setCourseParams,
     handleInvalidateUnregisteredCourses,
     onGetUnregisteredCourseForStudent,
   };
 }
-

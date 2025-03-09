@@ -29,10 +29,10 @@ export function useGetUnOpenedBaseCoursesInDepartmentById(
       { ...params, semesterId: options?.semesterId, departmentId: options?.departmentId },
     ],
     async ({ queryKey }) => {
-      const [, ...params] = queryKey;
+      const [, params] = queryKey;
       return responseWrapper<ApiResponseType<PaginationResponseType<BaseCourseResponse[]>>>(
         semesterApi.getUnOpenedBaseCoursesInDepartmentById,
-        [options?.semesterId, options?.departmentId, ...params],
+        [options?.semesterId, options?.departmentId, params],
       );
     },
     {
@@ -42,6 +42,7 @@ export function useGetUnOpenedBaseCoursesInDepartmentById(
       ...options,
     },
   );
+
   const queryClient = useQueryClient();
 
   const handleInvalidateUnOpenedBaseCoursesInDepartment = () =>

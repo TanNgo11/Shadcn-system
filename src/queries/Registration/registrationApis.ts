@@ -32,13 +32,10 @@ const useApi = (baseURL = API_URLS.COURSE) => {
   };
 
   const getAllUnregisteredCoursesInSemesterByDepartmentForStudent = (
-    getCourseParams: GetCoursePropertiesParams,
-    tableParams: TableParams,
+    params: GetPropertiesParams,
   ) => {
     return coursePrivateApi.get(
-      `/api/v1/registrations/student-unregistered-courses?${customStringify(
-        getCourseParams,
-      )}&${customStringify(tableParams)}`,
+      `/api/v1/registrations/student-unregistered-courses?${stringify(params)}`,
     );
   };
 

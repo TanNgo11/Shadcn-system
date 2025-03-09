@@ -38,19 +38,16 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
   const { handleInvalidateSemesterList } = useGetOpenCoursesInDepartmentById({
     departmentId: departmentId,
     semesterId: id,
-    defaultParams: {
-      current: 1,
-      pageSize: 10,
-    },
   });
-  const { handleInvalidateUnOpenedBaseCoursesInDepartment } = useGetUnOpenedBaseCoursesInDepartmentById({
-    semesterId: semesterId.toString(),
-    departmentId: departmentId,
-    defaultParams: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
+  const { handleInvalidateUnOpenedBaseCoursesInDepartment } =
+    useGetUnOpenedBaseCoursesInDepartmentById({
+      semesterId: semesterId.toString(),
+      departmentId: departmentId,
+      defaultParams: {
+        current: 1,
+        pageSize: 10,
+      },
+    });
 
   // const { baseCourses } = useGetBaseCoursesInDepartmentById({
   //   id: departmentId,

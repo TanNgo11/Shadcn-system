@@ -14,7 +14,7 @@ export function useGetAllBlogs(
     data,
     error,
     isFetching,
-    refetch: onGetAllBlogss,
+    refetch: onGetAllBlogs,
   } = useQuery<ApiResponseType<PaginationResponseType<BlogsResponse[]>>, Error>(
     [API_BLOG_QUERIES.POSTS_LIST, params],
     async ({ queryKey }) => {
@@ -33,7 +33,7 @@ export function useGetAllBlogs(
   );
   const queryClient = useQueryClient();
 
-  const handleInvalidateBlogssList = (params: TableParams) =>
+  const handleInvalidateBlogsList = (params: TableParams) =>
     queryClient.invalidateQueries([API_BLOG_QUERIES.POSTS_LIST, params]);
 
   const { totalPages, pageSize, totalElements, data: blogs = [] } = data?.result || {};
@@ -45,8 +45,8 @@ export function useGetAllBlogs(
     blogs,
     error,
     isFetching,
-    onGetAllBlogss,
+    onGetAllBlogs,
     setParams,
-    handleInvalidateBlogssList,
+    handleInvalidateBlogsList,
   };
 }
