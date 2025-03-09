@@ -22,17 +22,7 @@ export default function HomePage() {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [selectedRowUsernames, setSelectedRowUsernames] = useState<string[]>([]);
-  const {
-    students,
-    setParams,
-    handleInvalidateStudentsList,
-    totalElements,
-  } = useGetStudentsList({
-    defaultParams: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
+  const { students, setParams, handleInvalidateStudentsList, totalElements } = useGetStudentsList();
 
   // Handle row selection
   const handleRowSelectionChange = (_: any, selectedRows: StudentResponse[]) => {

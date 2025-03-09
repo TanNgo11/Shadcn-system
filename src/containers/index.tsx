@@ -248,7 +248,7 @@ const appRoutes: RouteObject[] = [
       {
         path: 'current-courses/:studentId/:courseCode',
         element: <CourseDetailPage />,
-      }
+      },
     ],
   },
   {

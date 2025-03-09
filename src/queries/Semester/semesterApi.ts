@@ -47,10 +47,7 @@ const useApi = (baseURL = API_URLS.COURSE) => {
   };
 
   const addBaseCourseToSemester = (payload: { semesterId: number; ids: number[] }) => {
-    return api.post(
-      `/api/v1/semesters/add-open-courses/${payload.semesterId}`,
-      payload.ids,
-    );
+    return api.post(`/api/v1/semesters/add-open-courses/${payload.semesterId}`, payload.ids);
   };
 
   const deleteCoursesByIds = (courseIds: number[]) => {
@@ -66,7 +63,7 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     addOpenCourse,
     addBaseCourseToSemester,
     getCurrentOpenSemester,
-    deleteCoursesByIds
+    deleteCoursesByIds,
   };
 };
 export default useApi;

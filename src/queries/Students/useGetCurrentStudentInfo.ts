@@ -1,21 +1,18 @@
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
-
-import { ApiResponseType } from '../helpers';
-
+import { ApiResponseType, responseWrapper } from '../helpers';
 import { studentsApi } from '.';
-import { responseWrapper } from '../helpers';
 import { API_STUDENTS_QUERIES } from './keys';
 import { StudentProfileResponse } from './types';
 
 export function useGetCurrentStudentInfo(
-  options?: UseQueryOptions<ApiResponseType<StudentProfileResponse>, Error>,
+  options?: UseQueryOptions<ApiResponseType<StudentProfileResponse>, Error, StudentProfileResponse>,
 ) {
   const {
-    data,
+    data: student = {} as StudentProfileResponse,
     error,
     isFetching,
     refetch: onGetCurrentStudentInfo,
-  } = useQuery<ApiResponseType<StudentProfileResponse>, Error>(
+  } = useQuery<ApiResponseType<StudentProfileResponse>, Error, StudentProfileResponse>(
     [API_STUDENTS_QUERIES.STUDENT_INFO, {}],
     async ({ queryKey }) => {
       const [, ...params] = queryKey;
@@ -24,10 +21,9 @@ export function useGetCurrentStudentInfo(
         [],
       );
     },
-
     {
+      select: (data) => data?.result,
       notifyOnChangeProps: ['data', 'isFetching'],
-      keepPreviousData: true,
       enabled: true,
       ...options,
     },
@@ -37,7 +33,6 @@ export function useGetCurrentStudentInfo(
 
   const handleInvalidCurrentStudent = () =>
     queryClient.invalidateQueries([API_STUDENTS_QUERIES.STUDENT_INFO]);
-  const { result: student } = data || {};
 
   return {
     student,

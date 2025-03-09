@@ -1,15 +1,15 @@
+import { useNotification } from '@/containers/StartupContainers/ToastContainer';
+import { useModal } from '@/hooks/useModal';
 import { useGetDepartmentList } from '@/queries/Departments/useGetDepartmentList';
+import { useDeleteCoursesByIds } from '@/queries/Semester/useDeleteCoursesByIds';
+import { useGetOpenCoursesInDepartmentById } from '@/queries/Semester/useGetOpenCoursesInDepartmentById';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { Button, Card, message, Popconfirm, PopconfirmProps, Select, Typography } from 'antd';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Action, BaseCoursePayload, CourseResponse } from '../helpers';
+import { Action, CourseResponse } from '../helpers';
 import { allColumns } from './allColumns';
-import { useNotification } from '@/containers/StartupContainers/ToastContainer';
 import OpenBaseCoursesModal from './OpenBaseCoursesModal';
-import { useGetOpenCoursesInDepartmentById } from '@/queries/Semester/useGetOpenCoursesInDepartmentById';
-import { useModal } from '@/hooks/useModal';
-import { useDeleteCoursesByIds } from '@/queries/Semester/useDeleteCoursesByIds';
 
 const OpenCourse: React.FC<Props> = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,22 +26,28 @@ const OpenCourse: React.FC<Props> = () => {
     },
   });
 
-  const { handleInvalidateSemesterList } = useGetOpenCoursesInDepartmentById();
-  
+  const {
+    semesters: openCourses,
+    handleInvalidateSemesterList,
+    setParams,
+    totalElements,
+  } = useGetOpenCoursesInDepartmentById({
+    departmentId: departmentId,
+    semesterId: String(id),
+  });
+
   // Handle row selection
   const handleRowSelectionChange = (_: any, selectedRows: CourseResponse[]) => {
     const selectedIds = selectedRows.map((row) => row.id);
     setSelectedRowIds(selectedIds);
   };
 
-
-  const handleEditCourse = () => {
+  const handleEditCourse = useCallback(() => {
     toast.error({
       message: 'Edit Course',
       description: 'The course could not be edited.',
     });
-  };
-
+  }, [toast]);
 
   const { onDeleteCoursesByIds } = useDeleteCoursesByIds({
     onSuccess: async () => {
@@ -68,15 +74,6 @@ const OpenCourse: React.FC<Props> = () => {
     [onDeleteCoursesByIds],
   );
 
-  const { semesters: openCourses } = useGetOpenCoursesInDepartmentById({
-    departmentId: departmentId,
-    semesterId: id,
-    defaultParams: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
-
   // Handle open base courses modal
   const handleOpenBaseCourses = () => {
     return;
@@ -97,11 +94,11 @@ const OpenCourse: React.FC<Props> = () => {
 
   const confirm =
     (handleDeleteCourse: any, courseIds: string[]): PopconfirmProps['onConfirm'] =>
-      () => {
-        if (courseIds.length > 0) {
-          handleDeleteCourse(courseIds, Action.DELETE);
-        }
-      };
+    () => {
+      if (courseIds.length > 0) {
+        handleDeleteCourse(courseIds, Action.DELETE);
+      }
+    };
   const { isOpen, open, close } = useModal();
   return (
     <>
@@ -123,12 +120,14 @@ const OpenCourse: React.FC<Props> = () => {
         <Button type="primary" onClick={open} style={{ margin: '0 10px' }}>
           Add Base Courses
         </Button>
-        <OpenBaseCoursesModal
-          semesterId={Number(id)}
-          department={departmentId}
-          open={isOpen}
-          onClose={close}
-        />
+        {isOpen && (
+          <OpenBaseCoursesModal
+            semesterId={Number(id)}
+            department={departmentId}
+            open={isOpen}
+            onClose={close}
+          />
+        )}
       </Card>
 
       <ProTable<CourseResponse>
@@ -137,10 +136,18 @@ const OpenCourse: React.FC<Props> = () => {
         columns={columns}
         cardBordered
         request={async (_params, _sort, _filter) => {
+          const { current, pageSize, ...restParams } = _params;
+          setParams({
+            current: current ?? 1,
+            pageSize: pageSize ?? 20,
+            ...restParams,
+          });
+          actionRef.current?.reload();
+
           return {
             data: openCourses,
             success: true,
-            total: openCourses.length,
+            total: totalElements,
           };
         }}
         toolBarRender={() => [
@@ -165,15 +172,13 @@ const OpenCourse: React.FC<Props> = () => {
             if (type === 'get') {
               return {
                 ...values,
-                created_at: [values.startTime, values.endTime],
               };
             }
             return values;
           },
         }}
         pagination={{
-          pageSize: 10,
-          onChange: (page: any) => console.log(page),
+          pageSize: 2,
         }}
         dateFormatter="string"
         headerTitle="Opening Course Management"
