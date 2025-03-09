@@ -1,4 +1,10 @@
-import { BookOutlined, HomeOutlined, PlusSquareOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  BookOutlined,
+  HomeOutlined,
+  PlusSquareOutlined,
+  SmileOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 export const PATHS = {
   // Admin
   DASHBOARD: '/admin/dashboard',
@@ -27,7 +33,7 @@ export const PATHS = {
   // Blog
   BLOG: '/admin/blog',
   ADD_BLOG: '/admin/blog/add',
-  EDIT_BLOG: '/admin/blog/edit',
+  EDIT_BLOG: '/admin/blog/edit/:id',
 };
 
 export default {

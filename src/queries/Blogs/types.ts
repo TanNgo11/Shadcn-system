@@ -1,3 +1,5 @@
+import { TagPayload, TagsResponse } from '@queries/Tags';
+
 export interface BlogsResponse {
   id: number;
   createdDate: Date;
@@ -9,13 +11,15 @@ export interface BlogsResponse {
   content: string;
   userId: string;
   fullName: string;
-  tags: Tag[];
+  tags: TagsResponse[];
   allowComments: boolean;
   hotScore: number;
 }
 
-//TODO move to Tag queries
-export interface Tag {
-  id: number;
-  name: string;
+export interface BlogsPayload {
+  userId: number;
+  title: string;
+  content: string;
+  tags: TagPayload[];
+  allowComments: boolean;
 }

@@ -3,24 +3,24 @@ import { PaginationResponseType, TableParams } from '../helpers';
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { useState } from 'react';
 import { isEmpty } from '@/utils';
-import { BlogApis, BlogsResponse } from '.';
+import { TagApis, TagsResponse } from '.';
 import { API_QUERIES } from '..';
 
-export function useGetAllBlogs(
-  options?: UseQueryOptions<ApiResponseType<PaginationResponseType<BlogsResponse[]>>, Error>,
+export function useGetAllTags(
+  options?: UseQueryOptions<ApiResponseType<PaginationResponseType<TagsResponse[]>>, Error>,
 ) {
   const [params, setParams] = useState<TableParams>({});
   const {
     data,
     error,
     isFetching,
-    refetch: onGetAllBlogs,
-  } = useQuery<ApiResponseType<PaginationResponseType<BlogsResponse[]>>, Error>(
-    [API_QUERIES.POSTS_LIST, params],
+    refetch: onGetTags,
+  } = useQuery<ApiResponseType<PaginationResponseType<TagsResponse[]>>, Error>(
+    [API_QUERIES.TAGS_LIST, params],
     async ({ queryKey }) => {
       const [, ...params] = queryKey;
-      return responseWrapper<ApiResponseType<PaginationResponseType<BlogsResponse[]>>>(
-        BlogApis.getAllBlogs,
+      return responseWrapper<ApiResponseType<PaginationResponseType<TagsResponse[]>>>(
+        TagApis.getTags,
         params,
       );
     },
@@ -33,19 +33,20 @@ export function useGetAllBlogs(
   );
   const queryClient = useQueryClient();
 
-  const handleInvalidateBlogsList = () => queryClient.invalidateQueries([API_QUERIES.POSTS_LIST]);
+  const handleInvalidateTagsList = (params: TableParams) =>
+    queryClient.invalidateQueries([API_QUERIES.TAGS_LIST, params]);
 
-  const { totalPages, pageSize, totalElements, data: blogs = [] } = data?.result || {};
+  const { totalPages, pageSize, totalElements, data: tags = [] } = data?.result || {};
 
   return {
     totalElements,
     pageSize,
     totalPages,
-    blogs,
+    tags,
     error,
     isFetching,
-    onGetAllBlogs,
+    onGetTags,
     setParams,
-    handleInvalidateBlogsList,
+    handleInvalidateTagsList,
   };
 }
