@@ -1,4 +1,4 @@
-import { BlogsResponse, Tag } from '@/queries';
+import { BlogsResponse, TagsResponse } from '@queries';
 import { StudentResponse } from '@/queries/Students/types';
 import { formatDate } from '@/utils';
 import { Callback } from '@/utils/helpers';
@@ -24,7 +24,7 @@ export const allColumns = (): ProColumns<BlogsResponse>[] => [
     dataIndex: 'tags',
     valueType: 'text',
     render: (value) => {
-      return <p>{(value as Tag[])?.map((tag) => tag.name)}</p>;
+      return <p>{(value as TagsResponse[])?.map((tag) => tag.name)}</p>;
     },
   },
   {

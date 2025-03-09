@@ -10,6 +10,7 @@ import AuthLayout from './Layouts/AuthLayout';
 import { PATHS } from './Layouts/Components/_AdminSidebarProps';
 import StudentLayout from './Layouts/StudentLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
+import CreateEditBlog from './Admin/Blog/CreateEditBLog';
 
 const BlogList = React.lazy(() => import('@/containers/Admin/Blog'));
 const HomePage = React.lazy(() => import('@/containers/Student/HomePage'));
@@ -18,7 +19,6 @@ const NotFoundPage = React.lazy(() => import('@/containers/StartupContainers/Not
 const StudentProfilePage = React.lazy(() => import('@/containers/Student/Profile'));
 const TeacherProfilePage = React.lazy(() => import('@/containers/Teacher/Profile'));
 const AdminProfilePage = React.lazy(() => import('@/containers/Admin/Profile'));
-const CoursesPage = React.lazy(() => import('@/containers/CoursesPage'));
 const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/CourseDetailPage'));
 const StudentManagementPage = React.lazy(
   () => import('@/containers/Admin/UserManagement/StudentManagement'),
@@ -208,6 +208,14 @@ const appRoutes: RouteObject[] = [
       {
         path: PATHS.BLOG,
         element: <BlogList />,
+      },
+      {
+        path: PATHS.ADD_BLOG,
+        element: <CreateEditBlog />,
+      },
+      {
+        path: PATHS.EDIT_BLOG,
+        element: <CreateEditBlog />,
       },
       {
         path: '*',

@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Card, Col, DatePicker, Form, Input, Row, Select, Typography } from 'antd';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import dayjs from 'dayjs';
 import { baseCourseCreationSchema, initBaseCourseValue } from './helper';
 import useCreateBaseCourse from '@/queries/Courses/useCreateBaseCourse';
 import { useGetAllCourse } from '@/queries/Courses/useGetAllCourses';
@@ -55,7 +54,7 @@ const CreateEditBaseCourse = () => {
     resolver: zodResolver(baseCourseCreationSchema),
   });
 
-  const onSubmit = (data: BaseCoursePayload) => {
+  const onSubmit = (data: any) => {
     if (!id) {
     } else {
       //onUpdateAdmin({ id: Number(adminId), data });

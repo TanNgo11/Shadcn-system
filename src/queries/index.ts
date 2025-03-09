@@ -3,3 +3,4 @@ export * from './keys';
 export * from './helpers';
 export * from './Students';
 export * from './Blogs';
+export * from './Tags';

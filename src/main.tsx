@@ -9,6 +9,7 @@ import { NotificationProvider } from './containers/StartupContainers/ToastContai
 import { ConfigProvider } from 'antd';
 import enUS from 'antd/lib/locale/en_US';
 import React from 'react';
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
