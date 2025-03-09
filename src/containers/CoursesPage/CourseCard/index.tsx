@@ -7,9 +7,10 @@ type CourseCardProps = {
   title: string;
   description: string;
   avatar: string;
+  quarter: string;
 };
 
-const CourseCard = ({ title, description, avatar }: CourseCardProps) => {
+const CourseCard = ({ title, description, avatar, quarter }: CourseCardProps) => {
   return (
     <Link to={'/course/1'}>
       <Card className="course-card-container " hoverable cover={<img alt={title} src={avatar} />}>
@@ -26,7 +27,7 @@ const CourseCard = ({ title, description, avatar }: CourseCardProps) => {
           }
         />
         <div className="course-card-container__footer">
-          <span className="course-card-container__date">11-11-2023</span>
+          <span className="course-card-container__date">Quarter {quarter}</span>
           <Avatar.Group>
             <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
             <a href="https://ant.design">

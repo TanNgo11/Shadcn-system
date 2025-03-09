@@ -86,6 +86,11 @@ const useApi = (basename = API_URLS.COURSE) => {
     );
   };
 
+  const getStudentRegistrations = (params: GetPropertiesParams) => {
+    return privateApi.get(`/api/v1/registrations/student-registrations?${stringify(params)}`)
+  }
+
+
   return {
     getAllCourses,
     addStudentIntoCourse,
@@ -97,6 +102,7 @@ const useApi = (basename = API_URLS.COURSE) => {
     uploadImageInCourse,
     uploadMultiFileInCourse,
     createBaseCourses,
+    getStudentRegistrations
   };
 };
 

@@ -12,6 +12,7 @@ export const PATHS = {
   SCHEDULE: '/student/schedule',
   CLASSES: '/student/classes',
   REGISTER_COURSES: '/student/register-course',
+  COURSES: '/student/courses',
 };
 
 export default {
@@ -60,6 +61,10 @@ export default {
           {
             path: PATHS.CLASSES,
             name: 'Classes',
+          },
+          {
+            path: PATHS.COURSES,
+            name: 'Courses',
           },
           // {
           //   path: PATHS.OPEN_COURSE,

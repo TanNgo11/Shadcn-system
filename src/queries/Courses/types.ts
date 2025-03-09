@@ -30,3 +30,16 @@ export interface BaseCourseResponse {
   status: string;
   requiredBaseCourses: BaseCourse[];
 }
+
+export interface RegisteredCourseResponse {
+  studentId: string
+  courseCode: string
+  courseName: string
+  courseDescription: string
+  status: string
+  semesterName: string
+  semesterId: string
+  registrationDate: string
+  cancellationDeadline: string
+  thumbnail: string;
+}
