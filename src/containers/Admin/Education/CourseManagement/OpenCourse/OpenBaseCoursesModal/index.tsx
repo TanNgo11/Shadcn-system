@@ -141,7 +141,7 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
       title={`Department: ${departments.find((dept) => dept.id === departmentId)?.departmentName || ''}`}
       centered
       open={open}
-      onOk={handleAddCourse} // Gọi handleAddCourse khi bấm "Add"
+      onOk={handleAddCourse} // Gọi handleAddCourse khi bấm "Add10"
       onCancel={onClose}
       okText="Add" // Văn bản nút OK là "Add"
       width={1000}

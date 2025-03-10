@@ -5,7 +5,7 @@ import {
   RemovalRegisterCourseForStudentPayload,
   StudentRegisterCoursePayload,
 } from '@/containers/Student/helpers';
-import { GetCoursePropertiesParams } from './types';
+import { AssignTeacherPayload, GetCoursePropertiesParams } from './types';
 import { customStringify } from '@/utils/customStringify';
 import { stringify } from '@/utils';
 
@@ -49,12 +49,22 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     );
   };
 
+  const assignTeacherToCourse = (payload: AssignTeacherPayload) => {
+    return coursePrivateApi.post('/api/v1/registrations/assign-teacher', payload);
+  };
+
+  const removeTeacherFromCourse = (payload: AssignTeacherPayload) => {
+    return coursePrivateApi.delete('/api/v1/registrations/remove-teacher', { data: payload });
+  };
+
   return {
     getAllUnregisteredCoursesInSemesterByDepartmentForStudent,
     getAllRegisteredCoursesInSemesterByDepartmentForStudent,
     registerCourse,
     getApprovedCoursesForStudentByStudentId,
     removeRegistrations,
+    assignTeacherToCourse,
+    removeTeacherFromCourse
   };
 };
 

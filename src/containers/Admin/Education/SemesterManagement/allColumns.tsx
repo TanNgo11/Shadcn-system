@@ -1,6 +1,7 @@
 import { PATHS } from '@/containers/Layouts/Components/_AdminSidebarProps';
 import { SemesterResponse } from '@/queries/Semester';
 import { ProColumns } from '@ant-design/pro-table';
+import { Button } from 'antd';
 
 export const allColumns = (): ProColumns<SemesterResponse>[] => [
   {
@@ -50,7 +51,9 @@ export const allColumns = (): ProColumns<SemesterResponse>[] => [
     valueType: 'option',
     render: (_, record) =>
       record.registrationOpen && record.semesterActive ? (
-        <a href={`${PATHS.OPEN_COURSE.replace(':id', record.id)}`}>Open Courses</a>
+        <Button onClick={() => {
+          {PATHS.OPEN_COURSE.replace(':id', record.id)}
+        }}>Open Courses</Button>
       ) : null,
   },
 ];
