@@ -10,11 +10,12 @@ import { useParams } from 'react-router-dom';
 import { Action, CourseResponse } from '../helpers';
 import { allColumns } from './allColumns';
 import OpenBaseCoursesModal from './OpenBaseCoursesModal';
+import OpenTeacherModal from './AssignTeachersModal';
 
 const OpenCourse: React.FC<Props> = () => {
   const { id } = useParams<{ id: string }>();
   const toast = useNotification();
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType | null>(null);
 
   const [departmentId, setDepartmentId] = React.useState<string>('');
   const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
@@ -41,6 +42,8 @@ const OpenCourse: React.FC<Props> = () => {
     const selectedIds = selectedRows.map((row) => row.id);
     setSelectedRowIds(selectedIds);
   };
+
+
 
   const handleEditCourse = useCallback(() => {
     toast.error({
@@ -74,18 +77,24 @@ const OpenCourse: React.FC<Props> = () => {
     [onDeleteCoursesByIds],
   );
 
-  // Handle open base courses modal
-  const handleOpenBaseCourses = () => {
-    return;
-  };
+  // Assign teachers to courses
+  const handleAssignTeachers = useCallback(
+    (courseId: string) => {
+      toast.error({
+        message: 'Assign Teachers',
+        description: 'The teachers could not be assigned.',
+      });
+    },
+    [toast],
+  );
 
   const columns: ProColumns<CourseResponse>[] = useMemo(
     () =>
       allColumns({
-        handleDeleteCourse,
-        handleEditCourse,
+        handleAssignTeachers,
+        semesterId: id,
       }),
-    [handleEditCourse, handleDeleteCourse],
+    [handleAssignTeachers],
   );
   const cancel: PopconfirmProps['onCancel'] = (e) => {
     console.log(e);
@@ -99,7 +108,16 @@ const OpenCourse: React.FC<Props> = () => {
         handleDeleteCourse(courseIds, Action.DELETE);
       }
     };
-  const { isOpen, open, close } = useModal();
+  const {
+    isOpen: isBaseCourseModalOpen,
+    open: openBaseCourseModal,
+    close: closeBaseCourseModal,
+  } = useModal();
+  const {
+    isOpen: isTeacherModalOpen,
+    open: openTeacherModal,
+    close: closeTeacherModal,
+  } = useModal();
   return (
     <>
       <Card style={{ marginBottom: 20 }}>
@@ -117,15 +135,15 @@ const OpenCourse: React.FC<Props> = () => {
             </Select.Option>
           ))}
         </Select>
-        <Button type="primary" onClick={open} style={{ margin: '0 10px' }}>
+        <Button type="primary" onClick={openBaseCourseModal} style={{ margin: '0 10px' }}>
           Add Base Courses
         </Button>
-        {isOpen && (
+        {isBaseCourseModalOpen && (
           <OpenBaseCoursesModal
             semesterId={Number(id)}
             department={departmentId}
-            open={isOpen}
-            onClose={close}
+            open={isBaseCourseModalOpen}
+            onClose={closeBaseCourseModal}
           />
         )}
       </Card>
@@ -139,10 +157,10 @@ const OpenCourse: React.FC<Props> = () => {
           const { current, pageSize, ...restParams } = _params;
           setParams({
             current: current ?? 1,
-            pageSize: pageSize ?? 20,
+            pageSize: pageSize ?? 10,
             ...restParams,
           });
-          actionRef.current?.reload();
+          //actionRef.current?.reload();
 
           return {
             data: openCourses,
@@ -152,17 +170,30 @@ const OpenCourse: React.FC<Props> = () => {
         }}
         toolBarRender={() => [
           selectedRowIds.length > 0 && (
-            <Popconfirm
-              title="Are you sure to delete these courses?"
-              onCancel={cancel}
-              onConfirm={confirm(handleDeleteCourse, selectedRowIds)}
-              cancelText="Cancel"
-              okText="Yes"
-            >
-              <Button key="button" danger type="primary">
-                Delete
+            <>
+              <Popconfirm
+                title="Are you sure to delete these courses?"
+                onCancel={cancel}
+                onConfirm={confirm(handleDeleteCourse, selectedRowIds)}
+                cancelText="Cancel"
+                okText="Yes"
+              >
+                <Button key="button" danger type="primary">
+                  Remove
+                </Button>
+              </Popconfirm>
+              <Button type="primary" onClick={openTeacherModal} style={{ margin: '0 10px' }}>
+                Assign Teacher
               </Button>
-            </Popconfirm>
+              {isTeacherModalOpen && (
+                <OpenTeacherModal
+                  semesterId={Number(id)}
+                  courseId={selectedRowIds}
+                  open={isTeacherModalOpen}
+                  onClose={closeTeacherModal}
+                />
+              )}
+            </>
           ),
         ]}
         rowKey="id"
@@ -178,7 +209,7 @@ const OpenCourse: React.FC<Props> = () => {
           },
         }}
         pagination={{
-          pageSize: 2,
+          pageSize: 10,
         }}
         dateFormatter="string"
         headerTitle="Opening Course Management"

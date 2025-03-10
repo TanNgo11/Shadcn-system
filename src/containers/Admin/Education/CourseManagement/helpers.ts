@@ -50,4 +50,5 @@ export enum Action {
   EDIT = 'edit',
   DELETE = 'delete',
   VIEW = 'view',
+  REMOVE = 'remove',
 }

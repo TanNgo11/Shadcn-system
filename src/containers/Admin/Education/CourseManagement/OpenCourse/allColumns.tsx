@@ -1,20 +1,17 @@
 import { Callback } from '@/utils/helpers';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { ProColumns } from '@ant-design/pro-table';
-import { Checkbox, message, Popconfirm } from 'antd';
+import { Button, message, Popconfirm } from 'antd';
 import { PopconfirmProps } from 'antd/lib';
-import { BaseCoursePayload, CourseResponse } from '../helpers';
-
+import { ProColumns } from '@ant-design/pro-table';
+import { useState } from 'react'; // Add this import
+import { CourseResponse } from '../helpers';
+import OpenViewDetailsModal from './ViewDetailsOpeningCourse';
 
 type CoursesProps = {
-  handleEditCourse: Callback;
-  handleDeleteCourse: Callback;
-  // handleCellClick: Callback;
+  handleAssignTeachers: Callback;
+  semesterId: string;
 };
 
-// Notification box to confirm the deletion of a course
 const confirm: PopconfirmProps['onConfirm'] = (e) => {
-  //handleDeleteCourse(_record.id, Action.DELETE);
   message.success('Click on Yes');
 };
 
@@ -23,15 +20,44 @@ const cancel: PopconfirmProps['onCancel'] = (e) => {
   message.error('Click on No');
 };
 
+const AssignTeacherCell = ({ record, semesterId }: { record: CourseResponse; semesterId: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
+
+  return (
+    <>
+      <Button  onClick={open} style={{ margin: '0 10px' }}>
+        View Details
+      </Button>
+      {isOpen && (
+        <OpenViewDetailsModal
+          semesterId={Number(semesterId)}
+          courseId={record.id}
+          open={isOpen}
+          onClose={close}
+        />
+      )}
+    </>
+  );
+};
+
 export const allColumns = ({
-  handleEditCourse,
-  handleDeleteCourse,
+  handleAssignTeachers,
+  semesterId,
 }: CoursesProps): ProColumns<CourseResponse>[] => [
   {
     title: 'ID',
     dataIndex: 'id',
     valueType: 'text',
     width: 40,
+    hidden: true,
+  },
+  {
+    title: 'No.',
+    valueType: 'index',
+    width: 48,
   },
   {
     title: 'Image',
@@ -50,16 +76,11 @@ export const allColumns = ({
     valueType: 'text',
     onCell: () => {
       return {
-        onClick: (record) => {
+        onClick: () => {
           window.confirm('Cell clicked ');
         },
       };
     },
-  },
-  {
-    title: 'Description',
-    dataIndex: 'description',
-    valueType: 'text',
   },
   {
     title: 'Credit',
@@ -67,29 +88,31 @@ export const allColumns = ({
     valueType: 'text',
   },
   {
-    title: 'Status',
-    dataIndex: 'status',
+    title: 'Remain',
+    dataIndex: 'remain',
     valueType: 'text',
   },
   {
     title: 'Option',
     valueType: 'option',
     key: 'option',
-    render: (_text, _record, _) => [
-      <a key="editable">
-        <EditOutlined onClick={() => handleEditCourse(_record)} />
-      </a>,
-      <a key="delete">
-        <Popconfirm
-          title="Are you sure to delete this course?"
-          onConfirm={() => handleDeleteCourse(_record)}
-          onCancel={cancel}
-          okText="Yes"
-          cancelText="No"
-        >
-          <DeleteOutlined />
-        </Popconfirm>
-      </a>,
-    ],
+    render: (_text, record) => <AssignTeacherCell record={record} semesterId={semesterId} />,
   },
 ];
+
+interface UseModalReturn {
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
+  toggle: () => void;
+}
+
+export const useModal = (initialState: boolean = false): UseModalReturn => {
+  const [isOpen, setIsOpen] = useState(initialState);
+
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
+  const toggle = () => setIsOpen((prev) => !prev);
+
+  return { isOpen, open, close, toggle };
+};

@@ -99,3 +99,15 @@ export type GetCoursePropertiesParams = {
   departmentId?: string;
   [key: string]: number | number[] | string | string[] | boolean | undefined | any[] | any;
 };
+
+export interface AssignTeacherPayload {
+  teacherId: string;
+  courseIds: string[];
+  semesterId: string;
+}
+
+export interface RemovalTeacherFromCoursePayload {
+  teacherId: string;
+  courseIds: string[];
+  semesterId: string;
+}

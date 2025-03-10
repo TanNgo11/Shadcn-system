@@ -18,7 +18,7 @@ interface CourseStore {
 export const useCourseStore = create<CourseStore>()(
   persist(
     (set) => ({
-      courseDetail: null,
+      courseDetail: null as CourseDetails | null,
       setCourseDetail: (course) => set({ courseDetail: course }),
     }),
     {
