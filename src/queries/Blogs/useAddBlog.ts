@@ -1,7 +1,7 @@
-import { useMutation, UseMutationOptions, UseQueryOptions } from 'react-query';
+import { useMutation, UseMutationOptions } from 'react-query';
+import { BlogApis } from '.';
 import { ApiResponseType, responseWrapper } from '../helpers';
 import { BlogsPayload } from './types';
-import { BlogApis } from '.';
 
 export function useAddBlog(
   options?: UseMutationOptions<ApiResponseType<any>, Error, BlogsPayload>,

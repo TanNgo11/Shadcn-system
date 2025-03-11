@@ -1,14 +1,15 @@
-import { BlogsResponse, TagsResponse } from '@queries';
-import { StudentResponse } from '@/queries/Students/types';
+import ActionDialog from '@/components/ui/ActionsDialog';
 import { formatDate } from '@/utils';
 import { Callback } from '@/utils/helpers';
-import { EditOutlined } from '@ant-design/icons';
 import { ProColumns } from '@ant-design/pro-table';
-import { Button } from 'antd/lib';
+import { BlogsResponse, TagsResponse } from '@queries';
+import { getBlogActions } from './helpers';
 
-type Props = {};
 
-export const allColumns = (): ProColumns<BlogsResponse>[] => [
+type Props ={
+  navigate: Callback;
+}
+export const allColumns = (props: Props): ProColumns<BlogsResponse>[] => [
   {
     title: 'ID',
     dataIndex: 'id',
@@ -37,5 +38,10 @@ export const allColumns = (): ProColumns<BlogsResponse>[] => [
     dataIndex: 'createdDate',
     valueType: 'text',
     render: (value) => <p>{formatDate(value as string)}</p>,
+  },
+  {
+    title: 'Actions',
+    valueType: 'option',
+    render: (_text, record) => <ActionDialog actions={getBlogActions(record, props.navigate)} />,
   },
 ];

@@ -45,10 +45,7 @@ export default function HomePage() {
         message: 'Create student successfully',
         description: 'You have successfully created a new student.',
       });
-      handleInvalidateStudentsList({
-        current: 1,
-        pageSize: 10,
-      });
+      handleInvalidateStudentsList();
     },
   });
 
@@ -58,7 +55,7 @@ export default function HomePage() {
         message: 'Delete student successfully',
         description: 'You have successfully deleted a new student.',
       });
-      handleInvalidateStudentsList({});
+      handleInvalidateStudentsList();
     },
     onError: (error) => {
       toast.error({
