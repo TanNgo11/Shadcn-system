@@ -111,3 +111,15 @@ export interface RemovalTeacherFromCoursePayload {
   courseIds: string[];
   semesterId: string;
 }
+
+export interface RemovalStudentFromCoursePayload {
+  studentId: string;
+  courseIds: string[];
+  semesterId: string;
+}
+
+export interface RemovalStudentsPayload {
+  studentIds: string[];
+  courseIds: string[];
+  semesterId: string;
+}

@@ -1,6 +1,6 @@
 import { useHttpPrivateRequest } from '@/services/useHttpPrivateRequest';
 import { API_URLS } from '../keys';
-import { GetPropertiesParams } from '../helpers';
+import { GetPropertiesParams, TableParams } from '../helpers';
 import { BaseCourseResponse, CourseActionPayload, FileUploadPayload } from './types';
 import { stringify } from '@/utils';
 
@@ -53,6 +53,13 @@ const useApi = (basename = API_URLS.COURSE) => {
     );
   };
 
+  const getAllTeachersInCourseByCourseId = (courseId: string, params: TableParams) => {
+    return privateApi.get(`/api/v1/departments/course/${courseId}/teachers?${stringify(params)}`);
+  };
+
+  const getAllStudentsInCourseByCourseId = (courseId: string, params: TableParams) => {
+    return privateApi.get(`/api/v1/departments/course/${courseId}/students?${stringify(params)}`);
+  };
 
   const uploadImageInCourse = (departmentId: string, courseId: string, file: File) => {
     const formData = new FormData();
@@ -97,6 +104,8 @@ const useApi = (basename = API_URLS.COURSE) => {
     uploadImageInCourse,
     uploadMultiFileInCourse,
     createBaseCourses,
+    getAllTeachersInCourseByCourseId,
+    getAllStudentsInCourseByCourseId,
   };
 };
 

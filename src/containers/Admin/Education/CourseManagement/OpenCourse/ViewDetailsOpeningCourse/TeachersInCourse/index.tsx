@@ -9,17 +9,23 @@ import { AssignTeacherPayload, RemovalTeacherFromCoursePayload } from '@queries/
 import { Modal } from 'antd';
 import { useGetTeachersList } from '@queries/Teachers/useGetTeachersList';
 import { useRemoveTeacherFromCourses } from '@queries/Registration/useRemoveTeacherFromCourses';
+import useGetteachersInOpeningCourseByCourseId from '@queries/Courses/useGetTeachersInOpeningCourseByCourseId';
 
 interface CourseProps {
   courseId?: string;
   semesterId: number;
 }
 
-const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({ courseId, semesterId }: CourseProps) => {
-  const [selectedTeacherId, setSelectedTeacherId] = useState<string>();
+const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({
+  courseId,
+  semesterId,
+}: CourseProps) => {
   const toast = useNotification();
   const actionRef = useRef<ActionType>();
-  const { teachers, handleInvalidateTeachersList, setParams, totalElements } = useGetTeachersList();
+  const { teachers, handleInvalidateTeachersList, setParams, totalElements } =
+    useGetteachersInOpeningCourseByCourseId({
+      courseId: courseId || '',
+    });
 
   const { onRemoveTeacherFromCourses } = useRemoveTeacherFromCourses();
 
@@ -37,6 +43,7 @@ const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({ courseId, semest
             message: 'Remove Teacher',
             description: 'The teacher has been remove successfully.',
           });
+          handleInvalidateTeachersList();
         },
         onError: () => {
           toast.error({
@@ -46,7 +53,7 @@ const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({ courseId, semest
         },
       });
     },
-    [toast, onRemoveTeacherFromCourses, courseId, semesterId],
+    [toast, onRemoveTeacherFromCourses, courseId, semesterId, handleInvalidateTeachersList],
   );
 
   const teacherColumns: ProColumns<TeacherResponse>[] = useMemo(
@@ -77,6 +84,7 @@ const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({ courseId, semest
       rowKey="id"
       search={{
         layout: 'vertical',
+        filterType: 'light',
       }}
       form={{
         syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
@@ -99,7 +107,7 @@ const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({ courseId, semest
       //   selectedRowKeys: selectedRowBaseCourses, // Dùng selectedRowKeys để phản ánh realtime
       // }}
       dateFormatter="string"
-      headerTitle="Base Course Management"
+      headerTitle="Teachers In Course"
       options={false}
     />
   );

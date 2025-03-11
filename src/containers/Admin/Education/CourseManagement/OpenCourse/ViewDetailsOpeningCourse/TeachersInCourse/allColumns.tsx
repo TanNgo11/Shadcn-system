@@ -26,23 +26,24 @@ export const teachersAllColumns = ({
     dataIndex: 'id',
     valueType: 'text',
     hidden: true,
+    search: false,
   },
   {
     title: 'Name',
     dataIndex: 'name',
     valueType: 'text',
-    render: (_, record) => `${record.firstName}+ ' ' + ${record.lastName}`,
+    render: (_, record) => `${record.firstName} ${record.lastName}`,
   },
   {
     title: 'ID',
     dataIndex: 'teacherId',
     valueType: 'text',
   },
-  {
-    title: 'Department ID',
-    dataIndex: 'departmentId',
-    valueType: 'text',
-  },
+  // {
+  //   title: 'Department ID',
+  //   dataIndex: 'departmentId',
+  //   valueType: 'text',
+  // },
   {
     title: 'Actions',
     key: 'actions',

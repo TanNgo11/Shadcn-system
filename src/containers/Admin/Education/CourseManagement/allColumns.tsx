@@ -8,17 +8,14 @@ import { BaseCourseResponse, CourseResponse } from './helpers';
 type CoursesProps = {
   handleEditCourse: Callback;
   handleDeleteCourse: Callback;
-  // handleCellClick: Callback;
 };
 
 // Notification box to confirm the deletion of a course
 const confirm: PopconfirmProps['onConfirm'] = (e) => {
-  //handleDeleteCourse(_record.id, Action.DELETE);
   message.success('Click on Yes');
 };
 
 const cancel: PopconfirmProps['onCancel'] = (e) => {
-  console.log(e);
   message.error('Click on No');
 };
 

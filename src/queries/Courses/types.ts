@@ -1,4 +1,4 @@
-import { BaseCourse } from "@/containers/Admin/Education/CourseManagement/helpers";
+import { BaseCourse } from '@/containers/Admin/Education/CourseManagement/helpers';
 
 export interface CourseActionPayload {
   departmentId: string;
@@ -29,4 +29,25 @@ export interface BaseCourseResponse {
   credit: number;
   status: string;
   requiredBaseCourses: BaseCourse[];
+}
+
+export interface TeacherResponse {
+  id: string;
+  firstName: string;
+  lastName: string;
+  middleName?: string | null;
+  dateOfBirth: string;
+  address: string;
+  email: string;
+  phoneNumber: string;
+  gender: 'MALE' | 'FEMALE' | 'OTHER';
+  avatarPath?: string | null;
+  teacherId: string;
+  username: string;
+  hireDate: string;
+  departmentId: string;
+  salary: number;
+  officeHours: string;
+  emergencyContactName: string;
+  emergencyContactPhoneNumber: string;
 }
