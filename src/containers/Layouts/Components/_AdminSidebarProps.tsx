@@ -117,7 +117,7 @@ export default {
         routes: [
           {
             path: PATHS.BLOG,
-            name: 'manage',
+            name: 'Manage',
           },
         ],
       },

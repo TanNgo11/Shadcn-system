@@ -3,17 +3,17 @@ import CourseCard from './CourseCard';
 import { RegistrationResponse } from '@/queries/Registration/types';
 
 interface CoursesPageProps {
-  registrations: RegistrationResponse[]; // ✅ Expect an array of registrations
+  registrations: RegistrationResponse[];
 }
 
 const CoursesPage = ({ registrations }: CoursesPageProps) => {
   return (
     <List
-      rowKey={(item) => item.studentId} // ✅ Ensure a unique key
+      rowKey={(item) => item.courseCode}
       grid={{ gutter: 24, xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
-      dataSource={registrations} // ✅ Use registrations as dataSource
+      dataSource={registrations}
       renderItem={(
-        registration, // ✅ Map over registrations
+        registration,
       ) => (
         <List.Item>
           <CourseCard

@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import {
   ApiResponseType,
@@ -15,14 +15,10 @@ export function useGetApprovedCoursesForStudentByStudentId(
   options?: UseQueryOptions<
     ApiResponseType<PaginationResponseType<RegistrationResponse[]>>,
     Error
-  > & {
-    studentId: string;
-    semesterId: string;
-    tableParams?: GetPropertiesParams;
-  },
+  > & { id: string },
 ) {
-  const [tableParams, setTableParams] = useState<GetPropertiesParams>(options?.tableParams || {});
-
+  const [tableParams, setTableParams] = useState<GetPropertiesParams>();
+  
   const {
     data,
     error,
@@ -31,19 +27,19 @@ export function useGetApprovedCoursesForStudentByStudentId(
   } = useQuery<ApiResponseType<PaginationResponseType<RegistrationResponse[]>>, Error>(
     [
       REGISTER_COURSE_API_KEY.GET_APPROVED_COURSES,
-      { studentId: options?.studentId, semesterId: options?.semesterId, ...tableParams },
+      { id: options?.id, tableParams: tableParams },
     ],
     async ({ queryKey }) => {
       const [, ...params] = queryKey;
       return responseWrapper<ApiResponseType<PaginationResponseType<RegistrationResponse[]>>>(
         registrationApis.getApprovedCoursesForStudentByStudentId,
-        [options?.studentId, options?.semesterId, ...params],
+        params
       );
     },
     {
       notifyOnChangeProps: ['data', 'isFetching'],
       keepPreviousData: true,
-      enabled: !isEmpty(tableParams),
+      enabled: !!options?.id,
       ...options,
     },
   );
@@ -53,7 +49,7 @@ export function useGetApprovedCoursesForStudentByStudentId(
   const handleInvalidateApprovedCourses = () =>
     queryClient.invalidateQueries([
       REGISTER_COURSE_API_KEY.GET_APPROVED_COURSES,
-      { studentId: options?.studentId, semesterId: options?.semesterId, ...tableParams },
+      tableParams,
     ]);
 
   const {

@@ -23,6 +23,7 @@ import { UploadOutlined } from '@ant-design/icons';
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
 const CreateEditBlog = () => {
+  const [content, setContent] = useState('');
   const { user } = useAuthStore();
   const toast = useNotification();
   const { tags, setParams } = useGetAllTags();
@@ -41,7 +42,7 @@ const CreateEditBlog = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null); // URL cho preview
 
   const onSubmit = (data: BlogsPayload) => {
-    onAddBlog({ ...data, userId: user.id });
+    onAddBlog({ ...data, userId: user.id, content: content });
   };
 
   const {
@@ -117,10 +118,21 @@ const CreateEditBlog = () => {
               />
             </Form.Item>
           </Col>
-          <Col span={8}>
+          <Col span={4}>
             <Form.Item label="Allow Comments">
               <Controller
                 name="allowComments"
+                control={control}
+                render={({ field: { value, ...fields } }) => (
+                  <Checkbox {...fields} checked={value} />
+                )}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={4}>
+            <Form.Item label="Is Mobile">
+              <Controller
+                name="isMobile"
                 control={control}
                 render={({ field: { value, ...fields } }) => (
                   <Checkbox {...fields} checked={value} />
@@ -143,25 +155,19 @@ const CreateEditBlog = () => {
             </Row>
           </Col>
           <Col span={24} style={{ marginTop: '32px' }}>
-            <Controller
-              name="content"
-              control={control}
-              render={({ field: { value, onChange } }) => (
-                <JoditEditor
-                  value={value}
-                  config={{
-                    readonly: false,
-                    placeholder: 'Start typings...',
-                    uploader: { insertImageAsBase64URI: true },
-                    spellcheck: true,
-                    toolbarInlineForSelection: true,
-                    showPlaceholder: false,
-                    disablePlugins:
-                      'xpath,add-new-line,ai-assistant,class-span,video,table-keyboard-navigation,iframe,media,powered-by-jodit,file',
-                  }}
-                  onChange={onChange}
-                />
-              )}
+            <JoditEditor
+              value={content}
+              config={{
+                readonly: false,
+                placeholder: 'Start typings...',
+                uploader: { insertImageAsBase64URI: true },
+                spellcheck: true,
+                toolbarInlineForSelection: true,
+                showPlaceholder: false,
+                disablePlugins:
+                  'xpath,add-new-line,ai-assistant,class-span,video,table-keyboard-navigation,iframe,media,powered-by-jodit,file',
+              }}
+              onBlur={(e) => setContent(e)}
             />
           </Col>
           <Col span={24} style={{ textAlign: 'right' }}>

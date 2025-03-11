@@ -5,27 +5,27 @@ import { useGetCurrentStudentInfo } from '@/queries/Students/useGetCurrentStuden
 import { useEffect } from 'react';
 
 export default function ViewCourses() {
+  // call roi`
   const { student, handleInvalidCurrentStudent } = useGetCurrentStudentInfo();
   const { semester, handleInvalidCurrentOpenSemester } = useGetCurrentOpenSemester();
 
+  // useEffect(() => {
+  //   if (student?.studentId || semester?.id) {
+  //     handleInvalidCurrentOpenSemester();
+  //     handleInvalidCurrentStudent();
+  //   }
+  // }, [student?.studentId, semester?.id]);
 
+  const { approvedCourses, setTableParams, handleInvalidateApprovedCourses } =
+    useGetApprovedCoursesForStudentByStudentId({ id: student.studentId });
+    
   useEffect(() => {
-    if (student?.studentId || semester?.id) {
-      handleInvalidCurrentOpenSemester();
-      handleInvalidCurrentStudent();
-    }
-  }, [student?.studentId, semester?.id]);
-
-
-  const { approvedCourses, handleInvalidateApprovedCourses } =
-    useGetApprovedCoursesForStudentByStudentId({
-      studentId: student?.studentId || '',
+    setTableParams({
       semesterId: semester?.id || '',
-      tableParams: {
-        current: 1,
-        pageSize: 10,
-      },
+      current: 1,
+      pageSize: 10,
     });
+  }, [semester])
 
   return (
     <CoursesPage registrations={approvedCourses} />
