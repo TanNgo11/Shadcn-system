@@ -20,7 +20,13 @@ const cancel: PopconfirmProps['onCancel'] = (e) => {
   message.error('Click on No');
 };
 
-const AssignTeacherCell = ({ record, semesterId }: { record: CourseResponse; semesterId: string }) => {
+const AssignTeacherCell = ({
+  record,
+  semesterId,
+}: {
+  record: CourseResponse;
+  semesterId: string;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => setIsOpen(true);
@@ -28,7 +34,7 @@ const AssignTeacherCell = ({ record, semesterId }: { record: CourseResponse; sem
 
   return (
     <>
-      <Button  onClick={open} style={{ margin: '0 10px' }}>
+      <Button onClick={open} style={{ margin: '0 10px' }}>
         View Details
       </Button>
       {isOpen && (
@@ -107,7 +113,7 @@ interface UseModalReturn {
   toggle: () => void;
 }
 
-export const useModal = (initialState: boolean = false): UseModalReturn => {
+export const useModal = (initialState = false): UseModalReturn => {
   const [isOpen, setIsOpen] = useState(initialState);
 
   const open = () => setIsOpen(true);

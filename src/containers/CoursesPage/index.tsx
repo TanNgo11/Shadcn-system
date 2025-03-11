@@ -12,9 +12,7 @@ const CoursesPage = ({ registrations }: CoursesPageProps) => {
       rowKey={(item) => item.courseCode}
       grid={{ gutter: 24, xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
       dataSource={registrations}
-      renderItem={(
-        registration,
-      ) => (
+      renderItem={(registration) => (
         <List.Item>
           <CourseCard
             name={registration?.courseDetails?.name || ''}
