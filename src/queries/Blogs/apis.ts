@@ -10,7 +10,22 @@ const useApis = (baseURL = API_URLS.BLOG) => {
   };
 
   const createBlogs = (payload: BlogsPayload) => {
-    return privateApi.post('/api/v1/posts/create-post', payload);
+    const formData = new FormData();
+
+    const requestPayload = {
+      title: payload.title,
+      content: payload.content,
+      allowComments: payload.allowComments,
+      userId: payload.userId,
+      tags: payload.tags || [],
+    };
+    formData.append('request', JSON.stringify(requestPayload));
+
+    if (payload.thumbnail) {
+      formData.append('thumbnail', payload.thumbnail);
+    }
+
+    return privateApi.post('/api/v1/posts/create-post', formData);
   };
 
   return {

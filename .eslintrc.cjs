@@ -22,5 +22,6 @@ module.exports = {
     'no-undef': 'error',
     'no-debugger': 'warn',
     '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
   },
 };

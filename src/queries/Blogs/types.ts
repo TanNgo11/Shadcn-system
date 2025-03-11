@@ -22,4 +22,5 @@ export interface BlogsPayload {
   content: string;
   tags: TagPayload[];
   allowComments: boolean;
+  thumbnail: File;
 }

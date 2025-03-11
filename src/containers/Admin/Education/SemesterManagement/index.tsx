@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { allColumns } from './allColumns';
 import { record } from 'zod';
 
-const SemesterManagement: React.FC<Props> = () => {
+const SemesterManagement = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { semesters, setParams } = useGetSemesterList({
@@ -67,7 +67,5 @@ const SemesterManagement: React.FC<Props> = () => {
     />
   );
 };
-
-type Props = {};
 
 export default SemesterManagement;
