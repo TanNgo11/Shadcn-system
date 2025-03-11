@@ -3,10 +3,12 @@ import { ApiResponseType, responseWrapper } from '../helpers';
 import { studentsApi } from '.';
 import { API_STUDENTS_QUERIES } from './keys';
 import { StudentProfileResponse } from './types';
+import { useState } from 'react';
 
 export function useGetCurrentStudentInfo(
   options?: UseQueryOptions<ApiResponseType<StudentProfileResponse>, Error, StudentProfileResponse>,
 ) {
+
   const {
     data: student = {} as StudentProfileResponse,
     error,

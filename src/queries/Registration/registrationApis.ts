@@ -39,13 +39,9 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     );
   };
 
-  const getApprovedCoursesForStudentByStudentId = (
-    studentId: string,
-    semesterId: string,
-    tableParams: GetPropertiesParams,
-  ) => {
+  const getApprovedCoursesForStudentByStudentId = ({ id, tableParams }: any) => {
     return coursePrivateApi.get(
-      `/api/v1/registrations/student-semester-registrations/${studentId}?semesterId=${semesterId}&${stringify(tableParams)}`,
+      `/api/v1/registrations/student-semester-registrations/${id}?${stringify(tableParams)}`,
     );
   };
 

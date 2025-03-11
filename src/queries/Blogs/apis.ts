@@ -18,12 +18,11 @@ const useApis = (baseURL = API_URLS.BLOG) => {
       allowComments: payload.allowComments,
       userId: payload.userId,
       tags: payload.tags || [],
+      isMobile: payload.isMobile
     };
     formData.append('request', JSON.stringify(requestPayload));
 
-    if (payload.thumbnail) {
-      formData.append('thumbnail', payload.thumbnail);
-    }
+    formData.append('thumbnail', payload.thumbnail || null);
 
     return privateApi.post('/api/v1/posts/create-post', formData);
   };
