@@ -22,8 +22,12 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   const getStudentProfileById = (userId: string) => {
     return privateApi.get(`/api/v1/users/students/profile/${userId}`);
   };
+  const getProfileByUserId = (userId: string) => {
+    return privateApi.get(`/api/v1/users/admins/profile/${userId}`);
+  };
 
   return {
+    getProfileByUserId,
     getStudentProfileById,
     authenticate,
     getUserInfo,
