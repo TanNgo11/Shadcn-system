@@ -10,26 +10,22 @@ const useApis = (baseURL = API_URLS.BLOG) => {
   };
 
   const createBlogs = (payload: BlogsPayload) => {
-    const formData = new FormData();
+    return privateApi.post('/api/v1/posts/create-web-post', payload);
+  };
 
-    const requestPayload = {
-      title: payload.title,
-      content: payload.content,
-      allowComments: payload.allowComments,
-      userId: payload.userId,
-      tags: payload.tags || [],
-      isMobile: payload.isMobile
-    };
-    formData.append('request', JSON.stringify(requestPayload));
+  const getBlogById = (id: string) => {
+    return privateApi.get(`/api/v1/posts/${id}`);
+  };
 
-    formData.append('thumbnail', payload.thumbnail || null);
-
-    return privateApi.post('/api/v1/posts/create-post', formData);
+  const updateBlog = (id: string, payload: BlogsPayload) => {
+    return privateApi.put(`/api/v1/posts/${id}`, payload);
   };
 
   return {
     getAllBlogs,
     createBlogs,
+    getBlogById,
+    updateBlog,
   };
 };
 

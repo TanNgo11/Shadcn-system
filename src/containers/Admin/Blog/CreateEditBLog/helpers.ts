@@ -7,5 +7,5 @@ export const initData: BlogsPayload = {
   tags: [],
   userId: null,
   isMobile: undefined,
-  thumbnail: null
+  thumbnailUrl: '',
 };

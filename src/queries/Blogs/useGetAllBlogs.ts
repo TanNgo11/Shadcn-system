@@ -3,7 +3,7 @@ import { PaginationResponseType, TableParams } from '../helpers';
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { useState } from 'react';
 import { isEmpty } from '@/utils';
-import { BlogApis, BlogsResponse } from '.';
+import { blogApis, BlogsResponse } from '.';
 import { API_QUERIES } from '..';
 
 export function useGetAllBlogs(
@@ -20,7 +20,7 @@ export function useGetAllBlogs(
     async ({ queryKey }) => {
       const [, ...params] = queryKey;
       return responseWrapper<ApiResponseType<PaginationResponseType<BlogsResponse[]>>>(
-        BlogApis.getAllBlogs,
+        blogApis.getAllBlogs,
         params,
       );
     },
