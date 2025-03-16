@@ -7,11 +7,12 @@ import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-d
 
 import AdminLayout from './Layouts/AdminLayout';
 import AuthLayout from './Layouts/AuthLayout';
-import { PATHS } from './Layouts/Components/_AdminSidebarProps';
 import StudentLayout from './Layouts/StudentLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
 import CreateEditBlog from './Admin/Blog/CreateEditBLog';
+import { PATHS } from './Layouts/Components/_AdminSidebarProps';
 
+const PreviewBlog = React.lazy(() => import('@/containers/Admin/Blog/PreviewBlog'));
 const BlogList = React.lazy(() => import('@/containers/Admin/Blog'));
 const HomePage = React.lazy(() => import('@/containers/Student/HomePage'));
 const AdminDashboardPage = React.lazy(() => import('@/containers/Admin/Dashboard'));
@@ -233,6 +234,10 @@ const appRoutes: RouteObject[] = [
       {
         path: PATHS.EDIT_BLOG,
         element: <CreateEditBlog />,
+      },
+      {
+        path: PATHS.PREVIEW_BLOG,
+        element: <PreviewBlog />,
       },
       {
         path: '*',

@@ -32,8 +32,9 @@ export const PATHS = {
 
   // Blog
   BLOG: '/admin/blog',
-  ADD_BLOG: '/admin/blog/add',
-  EDIT_BLOG: '/admin/blog/edit/:id',
+  ADD_BLOG: '/admin/blog/create',
+  EDIT_BLOG: '/admin/blog/:id',
+  PREVIEW_BLOG: '/admin/blog/preview/:id',
 };
 
 export default {

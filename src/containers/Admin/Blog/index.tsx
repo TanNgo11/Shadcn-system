@@ -1,9 +1,9 @@
 import { PATHS } from '@/containers/Layouts/Components/_AdminSidebarProps';
 import { BlogsResponse, useGetAllBlogs } from '@/queries';
-import { ClockCircleOutlined, PlusOutlined, SaveOutlined, SendOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
 import { Button } from 'antd';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { allColumns } from './allColumns';
 
@@ -15,7 +15,8 @@ const BlogList = () => {
   const columns = useMemo(() => allColumns({ navigate }), [navigate]);
   return (
     <ProTable<BlogsResponse>
-      dataSource={blogs}
+    rowKey="id"
+    dataSource={blogs}
       columns={columns}
       request={async (params) => {
         const { current, pageSize, ...restParams } = params;

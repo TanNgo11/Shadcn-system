@@ -1,0 +1,10 @@
+.jodit-editor {
+  &__custom {
+    .jodit-container:nth-child(1) .jodit-wysiwyg {
+      padding: 32px;
+    }
+    ul {
+      list-style: disc !important;
+    }
+  }
+}

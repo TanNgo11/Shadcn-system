@@ -14,14 +14,16 @@ export interface BlogsResponse {
   tags: TagsResponse[];
   allowComments: boolean;
   hotScore: number;
+  thumbnailUrl: string;
+  isMobile: boolean;
 }
 
 export interface BlogsPayload {
   userId: number;
   title: string;
   content: string;
-  tags: TagPayload[];
+  tags: string[];
   allowComments: boolean;
-  thumbnail: File;
   isMobile: boolean;
+  thumbnailUrl: string;
 }

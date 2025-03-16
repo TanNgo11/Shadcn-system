@@ -1,13 +1,9 @@
-import { useState } from 'react';
-import { useQuery, UseQueryOptions, useQueryClient } from 'react-query';
-
-import { ApiResponseType, PaginationResponseType, TableParams } from '../helpers';
-
+import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { isEmpty } from '@/utils';
-import { responseWrapper } from '../helpers';
+import { studentsApi } from '.';
+import { responseWrapper, ApiResponseType } from '../helpers';
 import { API_STUDENTS_QUERIES } from './keys';
 import { StudentResponse } from './types';
-import { studentsApi } from '.';
 
 export function useGetStudentById(
   options?: UseQueryOptions<ApiResponseType<StudentResponse>, Error> & {

@@ -14,11 +14,13 @@ export const allColumns = (props: Props): ProColumns<BlogsResponse>[] => [
     title: 'ID',
     dataIndex: 'id',
     valueType: 'text',
+    key: 'id',
   },
   {
     title: 'Title',
     dataIndex: 'title',
     valueType: 'text',
+    key: 'title',
   },
   {
     title: 'Tags',
@@ -27,21 +29,25 @@ export const allColumns = (props: Props): ProColumns<BlogsResponse>[] => [
     render: (value) => {
       return <p>{(value as TagsResponse[])?.map((tag) => tag.name)}</p>;
     },
+    key: 'tags',
   },
   {
     title: 'Uploaded By',
     dataIndex: 'fullName',
     valueType: 'text',
+    key: 'fullName',
   },
   {
     title: 'Created At',
     dataIndex: 'createdDate',
     valueType: 'text',
     render: (value) => <p>{formatDate(value as string)}</p>,
+    key: 'createdDate',
   },
   {
     title: 'Actions',
     valueType: 'option',
     render: (_text, record) => <ActionDialog actions={getBlogActions(record, props.navigate)} />,
+    key: 'actions',
   },
 ];

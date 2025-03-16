@@ -1,5 +1,5 @@
 import { useMutation, UseMutationOptions } from 'react-query';
-import { BlogApis } from '.';
+import { blogApis } from '.';
 import { ApiResponseType, responseWrapper } from '../helpers';
 import { BlogsPayload } from './types';
 
@@ -12,7 +12,7 @@ export function useAddBlog(
     isError,
     error,
   } = useMutation<ApiResponseType<any>, Error, BlogsPayload>({
-    mutationFn: (payload: BlogsPayload) => responseWrapper(BlogApis.createBlogs, [payload]),
+    mutationFn: (payload: BlogsPayload) => responseWrapper(blogApis.createBlogs, [payload]),
     ...options,
   });
 

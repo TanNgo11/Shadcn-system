@@ -1,0 +1,5 @@
+export enum API_BLOGS_QUERIES {
+  BLOG_BY_ID = 'BLOG_BY_ID',
+  ALL_BLOGS = 'ALL_BLOGS',
+  CREATE_BLOG = 'CREATE_BLOG',
+}
