@@ -147,29 +147,29 @@ function TeacherLayout() {
                     <GithubFilled key="GithubFilled" />,
                   ];
                 }}
-                headerTitleRender={(logo, title, _) => {
-                  const defaultDom = (
-                    <a>
-                      {logo}
-                      {title}
-                    </a>
-                  );
-                  if (typeof window === 'undefined') return defaultDom;
-                  if (document.body.clientWidth < 1400) {
-                    return defaultDom;
-                  }
-                  if (_.isMobile) return defaultDom;
-                  return (
-                    <>
-                      {defaultDom}
-                      <MenuCard />
+                // headerTitleRender={(logo, title, _) => {
+                //   const defaultDom = (
+                //     <a>
+                //       {logo}
+                //       {title}
+                //     </a>
+                //   );
+                //   if (typeof window === 'undefined') return defaultDom;
+                //   if (document.body.clientWidth < 1400) {
+                //     return defaultDom;
+                //   }
+                //   if (_.isMobile) return defaultDom;
+                //   return (
+                //     <>
+                //       {defaultDom}
+                //       <MenuCard />
 
-                      <Link style={{ fontSize: '14px' }} to="/courses">
-                        Course
-                      </Link>
-                    </>
-                  );
-                }}
+                //       <Link style={{ fontSize: '14px' }} to="/courses">
+                //         Course
+                //       </Link>
+                //     </>
+                //   );
+                // }}
                 menuFooterRender={(props) => {
                   if (props?.collapsed) return undefined;
                   return (
@@ -231,7 +231,7 @@ function TeacherLayout() {
                   </ProCard>
                 </PageContainer>
 
-                <SettingDrawer
+                {/* <SettingDrawer
                   pathname={pathname}
                   enableDarkTheme
                   getContainer={(e: any) => {
@@ -243,7 +243,7 @@ function TeacherLayout() {
                     setSetting(changeSetting);
                   }}
                   disableUrlParams={false}
-                />
+                /> */}
               </ProLayout>
             </ConfigProvider>
           </ProConfigProvider>

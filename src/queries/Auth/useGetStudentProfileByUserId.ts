@@ -17,7 +17,7 @@ export function useGetStudentProfileByUserId(
     data,
     error,
     isFetching,
-    refetch: onGetStudentsList,
+    refetch: onGetStudentProfile,
   } = useQuery<ApiResponseType<StudentResponse>, Error>(
     [API_AUTH_QUERIES.STUDENT_PROFILE_BY_USER_ID, { id: options?.id }],
     async ({ queryKey }) => {
@@ -49,7 +49,7 @@ export function useGetStudentProfileByUserId(
     student,
     error,
     isFetching,
-    onGetStudentsList,
+    onGetStudentProfile,
     handleInvalidStudentById,
   };
 }

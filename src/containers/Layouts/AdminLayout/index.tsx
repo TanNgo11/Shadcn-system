@@ -150,30 +150,30 @@ function AdminLayout() {
                     <GithubFilled key="GithubFilled" />,
                   ];
                 }}
-                headerTitleRender={(logo, title, _) => {
-                 const customLogo = (
-                   <img src="/logoAndName.webp" alt="Logo" style={{ height: '46px',marginLeft:'12px' }} />
-                 );
-                 const defaultDom = (
-                   <a>
-                     {customLogo}
-                   </a>
-                 );
-                  if (typeof window === 'undefined') return defaultDom;
-                  if (document.body.clientWidth < 1400) {
-                    return defaultDom;
-                  }
-                  if (_.isMobile) return defaultDom;
-                  return (
-                    <>
-                      {defaultDom}
-                      <MenuCard />
-                      <Link style={{ fontSize: '14px' }} to="/courses">
-                        Course
-                      </Link>
-                    </>
-                  );
-                }}
+                // headerTitleRender={(logo, title, _) => {
+                //   const customLogo = (
+                //     <img
+                //       src="/logoAndName.webp"
+                //       alt="Logo"
+                //       style={{ height: '46px', marginLeft: '12px' }}
+                //     />
+                //   );
+                //   const defaultDom = <a>{customLogo}</a>;
+                //   if (typeof window === 'undefined') return defaultDom;
+                //   if (document.body.clientWidth < 1400) {
+                //     return defaultDom;
+                //   }
+                //   if (_.isMobile) return defaultDom;
+                //   return (
+                //     <>
+                //       {defaultDom}
+                //       <MenuCard />
+                //       <Link style={{ fontSize: '14px' }} to="/courses">
+                //         Course
+                //       </Link>
+                //     </>
+                //   );
+                // }}
                 onMenuHeaderClick={(e) => console.log(e)}
                 menuItemRender={(item, dom) => <Link to={item.path || '/'}>{dom}</Link>}
                 breadcrumbRender={(routers = []) => {
@@ -198,7 +198,7 @@ function AdminLayout() {
                   </ProCard>
                 </PageContainer>
 
-                <SettingDrawer
+                {/* <SettingDrawer
                   pathname={pathname}
                   enableDarkTheme
                   getContainer={(e: any) => {
@@ -210,7 +210,7 @@ function AdminLayout() {
                     setSetting(changeSetting);
                   }}
                   disableUrlParams={false}
-                />
+                /> */}
               </ProLayout>
             </ConfigProvider>
           </ProConfigProvider>

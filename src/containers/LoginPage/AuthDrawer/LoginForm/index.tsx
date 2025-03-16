@@ -37,7 +37,7 @@ function LoginForm() {
           navigate('/student/profile/' + data?.id);
           break;
         default:
-          navigate('/teacher/profile');
+          navigate('/teacher/profile/' + data?.id);
           break;
       }
     },
