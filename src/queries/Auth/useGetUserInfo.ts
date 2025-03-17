@@ -1,8 +1,8 @@
+import { authApi } from '@/queries/Auth';
 import { ApiResponseType, responseWrapper } from '@/queries/helpers';
-import { API_QUERIES } from '@/queries/keys';
 import { User } from '@/zustand/auth/types';
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
-import { authApi } from '@/queries/Auth';
+import { API_AUTH_QUERIES } from './keys';
 
 export function useGetUserInfo(
   options?: UseQueryOptions<ApiResponseType<User>, Error, User> & {
@@ -15,19 +15,20 @@ export function useGetUserInfo(
     isError,
     isFetching,
     refetch: onGetUserInfo,
-  } = useQuery<ApiResponseType<User>, Error, User>([API_QUERIES.IDENTITY], {
-    queryFn: () => {
-      return responseWrapper<ApiResponseType<User>>(authApi.getUserInfo);
+  } = useQuery<ApiResponseType<User>, Error, User>(
+    [API_AUTH_QUERIES.USER_INFO],
+    () => responseWrapper<ApiResponseType<User>>(authApi.getUserInfo),
+    {
+      select: (data) => data?.result,
+      notifyOnChangeProps: ['data', 'isFetching'],
+      enabled: options?.enabled,
+      keepPreviousData: true,
+      ...options,
     },
-    select: (data) => data?.result || {},
-    notifyOnChangeProps: ['data', 'isFetching'],
-    enabled: options?.enabled,
-    keepPreviousData: true,
-    ...options,
-  });
+  );
   const queryClient = useQueryClient();
 
-  const handleInvalidateUserInfo = () => queryClient.invalidateQueries(API_QUERIES.IDENTITY);
+  const handleInvalidateUserInfo = () => queryClient.invalidateQueries(API_AUTH_QUERIES.USER_INFO);
 
   return {
     data,

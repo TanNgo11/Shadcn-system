@@ -68,6 +68,7 @@ const OpenCoursePage = React.lazy(
 
 const StudentRegisterCoursePage = React.lazy(() => import('@/containers/Student/RegisterCourse'));
 const ViewCourses = React.lazy(() => import('@/containers/Student/ViewCourses'));
+const GoogleAuthenticatePage = React.lazy(() => import('@/containers/GoogleAuthenticate'));
 
 const appRoutes: RouteObject[] = [
   {
@@ -81,6 +82,10 @@ const appRoutes: RouteObject[] = [
       {
         path: 'login',
         element: <LoginPage />,
+      },
+      {
+        path: 'authenticate',
+        element: <GoogleAuthenticatePage />,
       },
       {
         path: '*',
