@@ -1,7 +1,7 @@
 import { Callback } from '@/utils/helpers';
-import { Button, message, Popconfirm } from 'antd';
-import { PopconfirmProps } from 'antd/lib';
 import { ProColumns } from '@ant-design/pro-table';
+import { Button, message } from 'antd';
+import { PopconfirmProps } from 'antd/lib';
 import { useState } from 'react'; // Add this import
 import { CourseResponse } from '../helpers';
 import OpenViewDetailsModal from './ViewDetailsOpeningCourse';
@@ -9,6 +9,7 @@ import OpenViewDetailsModal from './ViewDetailsOpeningCourse';
 type CoursesProps = {
   handleAssignTeachers: Callback;
   semesterId: string;
+  departmentId: string;
 };
 
 const confirm: PopconfirmProps['onConfirm'] = (e) => {
@@ -16,16 +17,17 @@ const confirm: PopconfirmProps['onConfirm'] = (e) => {
 };
 
 const cancel: PopconfirmProps['onCancel'] = (e) => {
-  console.log(e);
   message.error('Click on No');
 };
 
 const AssignTeacherCell = ({
   record,
   semesterId,
+  departmentId,
 }: {
   record: CourseResponse;
   semesterId: string;
+  departmentId: string;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -41,6 +43,7 @@ const AssignTeacherCell = ({
         <OpenViewDetailsModal
           semesterId={Number(semesterId)}
           courseId={record.id}
+          departmentId={departmentId}
           open={isOpen}
           onClose={close}
         />
@@ -52,6 +55,7 @@ const AssignTeacherCell = ({
 export const allColumns = ({
   handleAssignTeachers,
   semesterId,
+  departmentId,
 }: CoursesProps): ProColumns<CourseResponse>[] => [
   {
     title: 'ID',
@@ -102,7 +106,9 @@ export const allColumns = ({
     title: 'Option',
     valueType: 'option',
     key: 'option',
-    render: (_text, record) => <AssignTeacherCell record={record} semesterId={semesterId} />,
+    render: (_text, record) => (
+      <AssignTeacherCell record={record} semesterId={semesterId} departmentId={departmentId} />
+    ),
   },
 ];
 

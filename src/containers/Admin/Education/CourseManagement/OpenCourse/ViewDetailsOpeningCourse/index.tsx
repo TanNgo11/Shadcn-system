@@ -1,13 +1,14 @@
-import React, { useRef } from 'react';
 import { Modal } from 'antd';
-import OpenCourseTeacherDetailsModal from './TeachersInCourse';
+import React from 'react';
 import OpenCourseStudentDetailsModal from './StudentsInCourse';
+import OpenCourseTeacherDetailsModal from './TeachersInCourse';
 
 interface OpeningCourseDetailsProps {
   courseId?: string;
   open: boolean;
   onClose: () => void;
   semesterId: number;
+  departmentId: string;
 }
 interface CourseProps {
   courseId?: string[];
@@ -19,6 +20,7 @@ const OpenViewDetailsModal: React.FC<OpeningCourseDetailsProps> = ({
   open,
   onClose,
   semesterId,
+  departmentId,
 }: OpeningCourseDetailsProps) => {
   return (
     <Modal
@@ -29,8 +31,16 @@ const OpenViewDetailsModal: React.FC<OpeningCourseDetailsProps> = ({
       okText="Add"
       width={1000}
     >
-      <OpenCourseStudentDetailsModal courseId={courseId} semesterId={semesterId} />
-      <OpenCourseTeacherDetailsModal courseId={courseId} semesterId={semesterId} />
+      <OpenCourseStudentDetailsModal
+        courseId={courseId}
+        semesterId={semesterId}
+        departmentId={departmentId}
+      />
+      <OpenCourseTeacherDetailsModal
+        courseId={courseId}
+        semesterId={semesterId}
+        departmentId={departmentId}
+      />
     </Modal>
   );
 };

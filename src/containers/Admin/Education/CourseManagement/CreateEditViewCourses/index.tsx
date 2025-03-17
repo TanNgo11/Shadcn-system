@@ -55,10 +55,10 @@ const CreateEditBaseCourse = () => {
   });
 
   const onSubmit = (data: any) => {
-    if (!id) {
-    } else {
-      //onUpdateAdmin({ id: Number(adminId), data });
-    }
+    // if (!id) {
+    // } else {
+    //   //onUpdateAdmin({ id: Number(adminId), data });
+    // }
     onCreateBaseCourse(data);
   };
 

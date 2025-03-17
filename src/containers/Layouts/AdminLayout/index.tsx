@@ -197,20 +197,6 @@ function AdminLayout() {
                     <Outlet />
                   </ProCard>
                 </PageContainer>
-
-                {/* <SettingDrawer
-                  pathname={pathname}
-                  enableDarkTheme
-                  getContainer={(e: any) => {
-                    if (typeof window === 'undefined') return e;
-                    return document.getElementById('test-pro-layout');
-                  }}
-                  settings={settings}
-                  onSettingChange={(changeSetting) => {
-                    setSetting(changeSetting);
-                  }}
-                  disableUrlParams={false}
-                /> */}
               </ProLayout>
             </ConfigProvider>
           </ProConfigProvider>

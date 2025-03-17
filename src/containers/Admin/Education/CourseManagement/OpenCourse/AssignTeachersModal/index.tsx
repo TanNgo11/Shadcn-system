@@ -15,6 +15,7 @@ interface AssignTeachersModalProps {
   open: boolean;
   onClose: () => void;
   semesterId: number;
+  departmentId: string;
 }
 
 const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
@@ -22,11 +23,12 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
   open,
   onClose,
   semesterId,
+  departmentId,
 }: AssignTeachersModalProps) => {
   const [selectedTeacherId, setSelectedTeacherId] = useState<string>();
   const toast = useNotification();
   const { id } = useParams<{ id: string }>();
-  const handleAddSelectionChange = (_: any, selectedTeacher: TeacherResponse) => {
+  const handleAddSelectionChange = (selectedTeacher: TeacherResponse) => {
     setSelectedTeacherId(selectedTeacher.teacherId);
   };
   const actionRef = useRef<ActionType>();
@@ -34,62 +36,68 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
   const { teachers, handleInvalidateTeachersList, setParams, totalElements } = useGetTeachersList();
 
   const { onAssignTeacher, isLoading } = useAssignTeachersToCourse();
-  const { onRemoveTeacherFromCourses} = useRemoveTeacherFromCourses();
+  const { onRemoveTeacherFromCourses } = useRemoveTeacherFromCourses();
 
-  const handleAssignTeacher = useCallback((teacherId: string) => {
-    const payload: AssignTeacherPayload = {
-      teacherId: teacherId || '',
-      courseIds: courseId,
-      semesterId: semesterId.toString(),
-    };
-    onAssignTeacher(payload, {
-      onSuccess: () => {
-        toast.success({
-          message: 'Assign Teacher',
-          description: 'The teacher has been assigned successfully.',
-        });
-        onClose();
-      },
-      onError: () => {
-        toast.error({
-          message: 'Assign Teacher',
-          description: 'The teacher could not be assigned.',
-        });
-      },
-    });
-  }, [toast, onAssignTeacher, courseId, semesterId, onClose]);
-
-  const handleRemoveTeacher = useCallback((teacherId: string) => {
-    const payload: RemovalTeacherFromCoursePayload = {
-      teacherId: teacherId || '',
-      courseIds: courseId,
-      semesterId: semesterId.toString(),
-    };
-    
-    onRemoveTeacherFromCourses(payload, {
-      onSuccess: () => {
-        toast.success({
-          message: 'Remove Teacher',
-          description: 'The teacher has been remove successfully.',
-        });
-        onClose();
-      },
-      onError: () => {
-        toast.error({
-          message: 'Remove Teacher',
-          description: 'The teacher could not be removed.',
-        });
-      },
-    });
-
-    
-  }, [toast, onRemoveTeacherFromCourses, courseId, semesterId, onClose]);
-
-  const columns: ProColumns<TeacherResponse>[] = useMemo(
-    () => allColumns({ handleAssignTeacher, handleRemoveTeacher}),
-    [handleAssignTeacher, handleRemoveTeacher],
+  const handleAssignTeacher = useCallback(
+    (teacherId: string) => {
+      const payload: AssignTeacherPayload = {
+        teacherId: teacherId || '',
+        courseIds: courseId,
+        semesterId: semesterId.toString(),
+        departmentId: departmentId,
+      };
+      onAssignTeacher(payload, {
+        onSuccess: () => {
+          toast.success({
+            message: 'Assign Teacher',
+            description: 'The teacher has been assigned successfully.',
+          });
+          setSelectedTeacherId('');
+          onClose();
+        },
+        onError: () => {
+          toast.error({
+            message: 'Assign Teacher',
+            description: 'The teacher could not be assigned.',
+          });
+        },
+      });
+    },
+    [toast, onAssignTeacher, courseId, semesterId, onClose, departmentId],
   );
 
+  const handleRemoveTeacher = useCallback(
+    (teacherId: string) => {
+      const payload: RemovalTeacherFromCoursePayload = {
+        teacherId: teacherId || '',
+        courseIds: courseId,
+        semesterId: semesterId.toString(),
+        departmentId: departmentId,
+      };
+
+      onRemoveTeacherFromCourses(payload, {
+        onSuccess: () => {
+          toast.success({
+            message: 'Remove Teacher',
+            description: 'The teacher has been remove successfully.',
+          });
+          onClose();
+        },
+        onError: () => {
+          toast.error({
+            message: 'Remove Teacher',
+            description: 'The teacher could not be removed.',
+          });
+        },
+      });
+    },
+    [toast, onRemoveTeacherFromCourses, courseId, semesterId, onClose, departmentId],
+  );
+
+  const columns: ProColumns<TeacherResponse>[] = useMemo(
+    () => allColumns({ handleAssignTeacher, handleRemoveTeacher }),
+    [handleAssignTeacher, handleRemoveTeacher],
+  );
 
   return (
     <Modal
@@ -139,7 +147,7 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
         pagination={{
           pageSize: 5,
           showSizeChanger: false,
-          total: totalElements
+          total: totalElements,
         }}
         // rowSelection={{
         //   onChange: handleAddSelectionChange,

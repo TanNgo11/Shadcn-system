@@ -6,6 +6,7 @@ import {
   StudentRegisterCoursePayload,
 } from '@/containers/Student/helpers';
 import {
+  ApproveRegistrationsPayload,
   AssignTeacherPayload,
   GetCoursePropertiesParams,
   RemovalStudentsPayload,
@@ -62,6 +63,16 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     return coursePrivateApi.delete('/api/v1/registrations/remove-student', { data: payload });
   };
 
+  const getAllRegistrationsInSemester = (params: GetPropertiesParams) => {
+    return coursePrivateApi.get(
+      `/api/v1/registrations/semester-registrations?${stringify(params)}`,
+    );
+  };
+
+  const approveRegistrations = (payload: ApproveRegistrationsPayload) => {
+    return coursePrivateApi.post('/api/v1/registrations/approve-registrations', payload);
+  };
+
   return {
     getAllUnregisteredCoursesInSemesterByDepartmentForStudent,
     getAllRegisteredCoursesInSemesterByDepartmentForStudent,
@@ -71,6 +82,8 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     assignTeacherToCourse,
     removeTeacherFromCourse,
     removeStudentFromCourse,
+    getAllRegistrationsInSemester,
+    approveRegistrations,
   };
 };
 
