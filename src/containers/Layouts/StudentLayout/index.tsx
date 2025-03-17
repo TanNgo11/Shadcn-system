@@ -25,6 +25,8 @@ import { Suspense, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useNotification } from '../../StartupContainers/ToastContainer';
+import { NO_DATA } from '@/utils';
+import { PATHS } from '../Components/_AdminSidebarProps';
 
 function StudentLayout() {
   const { clearAuth, user, accessTokenState } = useAuthStore();
@@ -51,6 +53,8 @@ function StudentLayout() {
       }
     },
   });
+
+  const name = `${user?.firstName || NO_DATA} ${user?.middleName || NO_DATA} ${user?.lastName || NO_DATA}`;
 
   useEffect(() => {
     if (isConnected && user?.id) {
@@ -113,7 +117,7 @@ function StudentLayout() {
                 avatarProps={{
                   src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
                   size: 'default',
-                  title: `${user?.firstName || ''} ${user?.lastName || ''} `,
+                  title: name,
                   render: (_props, dom) => {
                     return (
                       <Dropdown
@@ -122,7 +126,16 @@ function StudentLayout() {
                             {
                               key: 'Profile',
                               icon: <ProfileOutlined />,
-                              label: <Link to="/profile">Profile</Link>,
+                              label: (
+                                <Link
+                                  to={PATHS.STUDENT_PROFILE.replace(
+                                    ':userId',
+                                    user?.id?.toString(),
+                                  )}
+                                >
+                                  Profile
+                                </Link>
+                              ),
                             },
                             {
                               key: 'logout',
@@ -190,15 +203,6 @@ function StudentLayout() {
                   );
                 }}
                 menuItemRender={(item, dom) => <Link to={item.path || '/'}>{dom}</Link>}
-                breadcrumbRender={(routers = []) => {
-                  return [
-                    {
-                      path: '/student',
-                      breadcrumbName: 'Student',
-                    },
-                    ...routers,
-                  ];
-                }}
                 {...settings}
                 {...studentSidebarProps}
               >

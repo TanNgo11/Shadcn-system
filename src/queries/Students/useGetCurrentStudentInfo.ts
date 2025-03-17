@@ -1,14 +1,12 @@
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
-import { ApiResponseType, responseWrapper } from '../helpers';
 import { studentsApi } from '.';
+import { ApiResponseType, responseWrapper } from '../helpers';
 import { API_STUDENTS_QUERIES } from './keys';
 import { StudentProfileResponse } from './types';
-import { useState } from 'react';
 
 export function useGetCurrentStudentInfo(
   options?: UseQueryOptions<ApiResponseType<StudentProfileResponse>, Error, StudentProfileResponse>,
 ) {
-
   const {
     data: student = {} as StudentProfileResponse,
     error,
@@ -16,8 +14,7 @@ export function useGetCurrentStudentInfo(
     refetch: onGetCurrentStudentInfo,
   } = useQuery<ApiResponseType<StudentProfileResponse>, Error, StudentProfileResponse>(
     [API_STUDENTS_QUERIES.STUDENT_INFO, {}],
-    async ({ queryKey }) => {
-      const [, ...params] = queryKey;
+    async () => {
       return responseWrapper<ApiResponseType<StudentProfileResponse>>(
         studentsApi.getStudentInfo,
         [],

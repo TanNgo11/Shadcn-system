@@ -6,3 +6,6 @@ export const isEmpty = (value: any): boolean =>
   (Array.isArray(value) && value.length === 0);
 
 export const isNumeric = (num: any) => !isNaN(num);
+
+
+export const NO_DATA = '';

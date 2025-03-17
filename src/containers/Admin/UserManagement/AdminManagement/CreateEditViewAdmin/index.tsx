@@ -25,7 +25,7 @@ const CreateEditViewAdmin: React.FC = () => {
       pageSize: 10,
     },
   });
-  const { onCreateAdmin, error } = useCreateNewAdmin({
+  const { onCreateAdmin } = useCreateNewAdmin({
     onSuccess: () => {
       toast.success({
         message: 'Create admin successfully',
@@ -291,9 +291,7 @@ const CreateEditViewAdmin: React.FC = () => {
                       onChange={(_date: any, dateString: any) => field.onChange(dateString)}
                     />
                     {errors.dateOfBirth && (
-                      <Typography.Text type="danger">
-                        {errors.dateOfBirth.message}
-                      </Typography.Text>
+                      <Typography.Text type="danger">{errors.dateOfBirth.message}</Typography.Text>
                     )}
                   </>
                 )}
@@ -350,9 +348,7 @@ const CreateEditViewAdmin: React.FC = () => {
                       onChange={(_date: any, dateString: any) => field.onChange(dateString)}
                     />
                     {errors.hireDate && (
-                      <Typography.Text type="danger">
-                        {errors.hireDate.message}
-                      </Typography.Text>
+                      <Typography.Text type="danger">{errors.hireDate.message}</Typography.Text>
                     )}
                   </>
                 )}
@@ -370,9 +366,7 @@ const CreateEditViewAdmin: React.FC = () => {
                   <>
                     <Input {...field} placeholder="Enter address" />
                     {errors.address && (
-                      <Typography.Text type="danger">
-                        {errors.address.message}
-                      </Typography.Text>
+                      <Typography.Text type="danger">{errors.address.message}</Typography.Text>
                     )}
                   </>
                 )}
@@ -388,7 +382,9 @@ const CreateEditViewAdmin: React.FC = () => {
                   <>
                     <Input {...field} placeholder="Enter emergency contact name" />
                     {errors.emergencyContactName && (
-                      <Typography.Text type="danger">{errors.emergencyContactName.message}</Typography.Text>
+                      <Typography.Text type="danger">
+                        {errors.emergencyContactName.message}
+                      </Typography.Text>
                     )}
                   </>
                 )}

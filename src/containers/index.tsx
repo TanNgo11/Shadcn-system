@@ -12,6 +12,7 @@ import TeacherLayout from './Layouts/TeacherLayout';
 import CreateEditBlog from './Admin/Blog/CreateEditBLog';
 import { PATHS } from './Layouts/Components/_AdminSidebarProps';
 import RegistrationManagement from './Admin/Education/RegistrationManagement';
+import Profile from '@/containers/Student/Profile';
 
 const PreviewBlog = React.lazy(() => import('@/containers/Admin/Blog/PreviewBlog'));
 const BlogList = React.lazy(() => import('@/containers/Admin/Blog'));
@@ -109,7 +110,7 @@ const appRoutes: RouteObject[] = [
         element: <HomePage />,
       },
       {
-        path: 'profile/:studentId',
+        path: 'profile/:userId',
         element: <StudentProfilePage />,
       },
       // {
@@ -225,7 +226,7 @@ const appRoutes: RouteObject[] = [
         element: <OpenCoursePage />,
       },
       {
-        path: 'profile',
+        path: 'profile/:userId',
         element: <AdminProfilePage />,
       },
       {
@@ -259,6 +260,7 @@ const appRoutes: RouteObject[] = [
     path: '/teacher',
     children: [
       {
+        index: true,
         path: 'profile/:userId',
         element: <TeacherProfilePage />,
       },
@@ -272,6 +274,10 @@ const appRoutes: RouteObject[] = [
     ),
     path: '/student',
     children: [
+      {
+        path: 'profile/:userId',
+        element: <Profile />,
+      },
       {
         path: 'register-course',
         element: <StudentRegisterCoursePage />,

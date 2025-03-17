@@ -64,6 +64,7 @@ export enum StudentStatus {
 export interface StudentProfileResponse {
   id: string;
   firstName: string;
+  middleName: string;
   lastName: string;
   username: string;
   dateOfBirth: string;
@@ -71,20 +72,20 @@ export interface StudentProfileResponse {
   email: string;
   phoneNumber: string;
   gender: string;
-  avatarPath: any;
+  avatarPath: string;
   roles: string[];
   studentId: string;
-  grade: any;
+  grade: string;
   enrollmentDate: string;
-  major: any;
+  major: string;
   guardianName: string;
   guardianPhoneNumber: string;
-  nation: any;
+  nationality: string;
   religion: string;
-  citizenId: any;
-  faculty: any;
+  citizenId: string;
+  faculty: string;
   degreeLevel: string;
-  schoolYear: any;
+  schoolYear: string;
   present: string;
   departmentId: string;
 }

@@ -61,7 +61,7 @@ function LoginForm() {
     onError: (error) => {
       toast.error({
         message: 'Login failed',
-        description: 'Please check your credentials and try again.',
+        description: 'Please check your username and password again.',
       });
     },
   });

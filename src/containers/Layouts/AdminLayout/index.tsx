@@ -1,39 +1,34 @@
-import MenuCard from '@/containers/Layouts/Components/MenuCardLayout';
 import SearchInput from '@/containers/Layouts/Components/SearchInputLayout';
 import LoadingContainer from '@/containers/StartupContainers/LoadingContainer';
 import { useAuthStore } from '@/zustand/auth/useAuthStore';
 import {
-  BookOutlined,
   GithubFilled,
   InfoCircleFilled,
   LogoutOutlined,
   ProfileOutlined,
-  QuestionCircleFilled,
-  QuestionCircleOutlined,
-  SmileFilled,
-  UserOutlined,
+  QuestionCircleFilled
 } from '@ant-design/icons';
 import {
   PageContainer,
   ProCard,
   ProConfigProvider,
   ProLayout,
-  ProSettings,
-  SettingDrawer,
+  ProSettings
 } from '@ant-design/pro-components';
 import { ConfigProvider, Dropdown } from 'antd';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useNotification } from '../../StartupContainers/ToastContainer';
-import defaultProps from '../Components/_HeaderMenuProps';
 import adminSidebarProps from '../Components/_AdminSidebarProps';
+import defaultProps from '../Components/_HeaderMenuProps';
 
 function AdminLayout() {
   const { clearAuth } = useAuthStore();
+  const user = useAuthStore((s) => s.user);
+  const name = `${user?.firstName || ''} ${user?.middleName || ''} ${user?.lastName || ''}`.trim().replace(/\s+/g, ' ');
   const toast = useNotification();
   const navigate = useNavigate();
-  const location = useLocation();
   const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
     layout: 'mix',
@@ -45,7 +40,6 @@ function AdminLayout() {
     fixedHeader: true,
   });
 
-  const [pathname, setPathname] = useState(location.pathname);
   const [num, setNum] = useState(40);
   if (typeof document === 'undefined') {
     return <div />;
@@ -113,7 +107,7 @@ function AdminLayout() {
                 avatarProps={{
                   src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
                   size: 'small',
-                  title: 'Ngo Thanh Tan',
+                  title: name,
                   render: (_props, dom) => {
                     return (
                       <Dropdown
@@ -176,9 +170,7 @@ function AdminLayout() {
                 // }}
                 onMenuHeaderClick={(e) => console.log(e)}
                 menuItemRender={(item, dom) => <Link to={item.path || '/'}>{dom}</Link>}
-                breadcrumbRender={(routers = []) => {
-                  return [...routers];
-                }}
+
                 {...settings}
                 {...adminSidebarProps}
               >
