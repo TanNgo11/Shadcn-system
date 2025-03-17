@@ -10,7 +10,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import { CourseResponse, RemovalRegisterCourseForStudentPayload } from '../../helpers';
 import { allColumns } from './allColumns';
 
-const UnregisteredCourseTable: React.FC = () => {
+const RegisteredCourseTable: React.FC = () => {
   const toast = useNotification();
   const { student } = useGetCurrentStudentInfo();
   const { semester } = useGetCurrentOpenSemester();
@@ -22,7 +22,6 @@ const UnregisteredCourseTable: React.FC = () => {
 
   const { registeredCourses, handleInvalidateRegisteredCourses, setParams, totalElements } =
     useGetRegisteredCourseForStudent();
-  console.log('🚀 ~ registeredCourses:', registeredCourses);
 
   const { onRemoveRegistrations } = useRemoveRegistrations({
     onSuccess: () => {
@@ -51,7 +50,7 @@ const UnregisteredCourseTable: React.FC = () => {
     }
 
     const payload: RemovalRegisterCourseForStudentPayload = {
-      studentId: student.studentId,
+      studentId: student.id,
       courseCodes: selectedRows.map((row) => row.code),
       semesterId: semester.id,
     };
@@ -73,7 +72,7 @@ const UnregisteredCourseTable: React.FC = () => {
         setParams({
           current: current ?? 1,
           pageSize: pageSize ?? 20,
-          studentId: student?.studentId,
+          studentId: student?.id,
           semesterId: semester?.id,
           departmentId: student?.departmentId,
           ...restParams,
@@ -114,4 +113,4 @@ const UnregisteredCourseTable: React.FC = () => {
   );
 };
 
-export default UnregisteredCourseTable;
+export default RegisteredCourseTable;

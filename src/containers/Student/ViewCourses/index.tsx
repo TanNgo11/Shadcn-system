@@ -18,16 +18,14 @@ export default function ViewCourses() {
 
   const { approvedCourses, setTableParams, handleInvalidateApprovedCourses } =
     useGetApprovedCoursesForStudentByStudentId({ id: student.studentId });
-    
+
   useEffect(() => {
     setTableParams({
       semesterId: semester?.id || '',
       current: 1,
       pageSize: 10,
     });
-  }, [semester])
+  }, [semester]);
 
-  return (
-    <CoursesPage registrations={approvedCourses} />
-  );
+  return <CoursesPage registrations={approvedCourses} />;
 }

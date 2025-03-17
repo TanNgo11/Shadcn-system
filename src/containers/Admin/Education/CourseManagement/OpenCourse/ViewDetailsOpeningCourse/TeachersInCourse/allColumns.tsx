@@ -49,7 +49,7 @@ export const teachersAllColumns = ({
     key: 'actions',
     valueType: 'option',
     render: (_, record) => [
-      <Button key="assign" onClick={() => handleRemoveTeacher(record.teacherId)}>
+      <Button key="assign" onClick={() => handleRemoveTeacher(record.id)}>
         Remove
       </Button>,
     ],

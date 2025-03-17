@@ -18,6 +18,8 @@ export const PATHS = {
   ROOM_MANAGEMENT: '/admin/room-management',
   SEMESTER_MANAGEMENT: '/admin/semester-management/:id',
 
+  REGISTRATION_MANAGEMENT: '/admin/registration-management',
+
   //Open Course
   OPEN_COURSE: '/admin/open-course/:id',
 
@@ -80,6 +82,10 @@ export default {
           {
             path: PATHS.ACADEMIC_YEARS_MANAGEMENT,
             name: 'Academic Years',
+          },
+          {
+            path: PATHS.REGISTRATION_MANAGEMENT,
+            name: 'Registrations',
           },
           // {
           //   path: PATHS.OPEN_COURSE,

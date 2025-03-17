@@ -1,11 +1,11 @@
 import StudentRegisterCourse from './OpeningCourseTable';
-import UnregisteredCourseTable from './UnregisteredCourseTable';
+import RegisteredCourseTable from './RegisteredCourseTable';
 
 const RegisterCourse = () => {
   return (
     <>
       <StudentRegisterCourse />
-      <UnregisteredCourseTable />
+      <RegisteredCourseTable />
     </>
   );
 };

@@ -82,6 +82,7 @@ export interface RegisterCoursePayload {
 }
 
 export interface RegistrationResponse {
+  id: string;
   studentId: string;
   courseCode: string;
   status: RegisterStatus;
@@ -104,9 +105,11 @@ export interface AssignTeacherPayload {
   teacherId: string;
   courseIds: string[];
   semesterId: string;
+  departmentId: string;
 }
 
 export interface RemovalTeacherFromCoursePayload {
+  departmentId: string;
   teacherId: string;
   courseIds: string[];
   semesterId: string;
@@ -116,10 +119,16 @@ export interface RemovalStudentFromCoursePayload {
   studentId: string;
   courseIds: string[];
   semesterId: string;
+  departmentId: string;
 }
 
 export interface RemovalStudentsPayload {
   studentIds: string[];
   courseIds: string[];
   semesterId: string;
+}
+
+export interface ApproveRegistrationsPayload {
+  semesterId: string;
+  registrationIds: string[];
 }

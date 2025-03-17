@@ -8,11 +8,13 @@ import { RemovalStudentFromCoursePayload, StudentResponse } from '@queries/Regis
 interface CourseProps {
   courseId?: string;
   semesterId: number;
+  departmentId: string;
 }
 
 const OpenCourseStudentDetailsModal: React.FC<CourseProps> = ({
   courseId,
   semesterId,
+  departmentId,
 }: CourseProps) => {
   const toast = useNotification();
   const actionRef = useRef<ActionType>();
@@ -29,6 +31,7 @@ const OpenCourseStudentDetailsModal: React.FC<CourseProps> = ({
         studentId: studentId || '',
         courseIds: courseId ? [courseId] : [],
         semesterId: semesterId.toString(),
+        departmentId: departmentId,
       };
 
       // onRemoveStudentsFromCourse({

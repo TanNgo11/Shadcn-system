@@ -11,6 +11,7 @@ import StudentLayout from './Layouts/StudentLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
 import CreateEditBlog from './Admin/Blog/CreateEditBLog';
 import { PATHS } from './Layouts/Components/_AdminSidebarProps';
+import RegistrationManagement from './Admin/Education/RegistrationManagement';
 
 const PreviewBlog = React.lazy(() => import('@/containers/Admin/Blog/PreviewBlog'));
 const BlogList = React.lazy(() => import('@/containers/Admin/Blog'));
@@ -210,6 +211,10 @@ const appRoutes: RouteObject[] = [
       {
         path: 'courses-management/create',
         element: <CreateEditBaseCourse />,
+      },
+      {
+        path: 'registration-management',
+        element: <RegistrationManagement />,
       },
       {
         path: 'semester-management/:id',

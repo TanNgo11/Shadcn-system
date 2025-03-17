@@ -18,22 +18,19 @@ export function useGetApprovedCoursesForStudentByStudentId(
   > & { id: string },
 ) {
   const [tableParams, setTableParams] = useState<GetPropertiesParams>();
-  
+
   const {
     data,
     error,
     isFetching,
     refetch: onGetApprovedCoursesForStudentByStudentId,
   } = useQuery<ApiResponseType<PaginationResponseType<RegistrationResponse[]>>, Error>(
-    [
-      REGISTER_COURSE_API_KEY.GET_APPROVED_COURSES,
-      { id: options?.id, tableParams: tableParams },
-    ],
+    [REGISTER_COURSE_API_KEY.GET_APPROVED_COURSES, { id: options?.id, tableParams: tableParams }],
     async ({ queryKey }) => {
       const [, ...params] = queryKey;
       return responseWrapper<ApiResponseType<PaginationResponseType<RegistrationResponse[]>>>(
         registrationApis.getApprovedCoursesForStudentByStudentId,
-        params
+        params,
       );
     },
     {
@@ -47,10 +44,7 @@ export function useGetApprovedCoursesForStudentByStudentId(
   const queryClient = useQueryClient();
 
   const handleInvalidateApprovedCourses = () =>
-    queryClient.invalidateQueries([
-      REGISTER_COURSE_API_KEY.GET_APPROVED_COURSES,
-      tableParams,
-    ]);
+    queryClient.invalidateQueries([REGISTER_COURSE_API_KEY.GET_APPROVED_COURSES, tableParams]);
 
   const {
     result: { current, totalPages, pageSize, totalElements, data: approvedCourses = [] } = {},

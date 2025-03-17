@@ -56,7 +56,7 @@ export const allColumns = ({
     key: 'actions',
     valueType: 'option',
     render: (_, record) => [
-      <Button key="assign" onClick={() => handleAssignTeacher(record.teacherId)}>
+      <Button key="assign" onClick={() => handleAssignTeacher(record.id)}>
         Assign
       </Button>,
     ],

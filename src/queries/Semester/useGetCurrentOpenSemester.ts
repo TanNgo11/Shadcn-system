@@ -13,10 +13,13 @@ export function useGetCurrentOpenSemester(
     isFetching,
     refetch: onGetCurrentOpenSemester,
   } = useQuery<ApiResponseType<SemesterResponse>, Error>(
-    [API_KEY.CURRENT_OPEN_SEMESTER, { ...options }],
+    [API_KEY.CURRENT_OPEN_SEMESTER, options],
     async ({ queryKey }) => {
       const [, ...params] = queryKey;
       return responseWrapper<ApiResponseType<SemesterResponse>>(semesterApi.getCurrentOpenSemester);
+    },
+    {
+      enabled: true,
     },
   );
 

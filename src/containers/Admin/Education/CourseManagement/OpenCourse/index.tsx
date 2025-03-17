@@ -9,8 +9,8 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Action, CourseResponse } from '../helpers';
 import { allColumns } from './allColumns';
-import OpenBaseCoursesModal from './OpenBaseCoursesModal';
 import OpenTeacherModal from './AssignTeachersModal';
+import OpenBaseCoursesModal from './OpenBaseCoursesModal';
 
 const OpenCourse: React.FC<Props> = () => {
   const { id } = useParams<{ id: string }>();
@@ -42,8 +42,6 @@ const OpenCourse: React.FC<Props> = () => {
     const selectedIds = selectedRows.map((row) => row.id);
     setSelectedRowIds(selectedIds);
   };
-
-
 
   const handleEditCourse = useCallback(() => {
     toast.error({
@@ -93,8 +91,9 @@ const OpenCourse: React.FC<Props> = () => {
       allColumns({
         handleAssignTeachers,
         semesterId: id,
+        departmentId: departmentId,
       }),
-    [handleAssignTeachers],
+    [handleAssignTeachers, id, departmentId],
   );
   const cancel: PopconfirmProps['onCancel'] = (e) => {
     console.log(e);
@@ -191,8 +190,10 @@ const OpenCourse: React.FC<Props> = () => {
                   courseId={selectedRowIds}
                   open={isTeacherModalOpen}
                   onClose={closeTeacherModal}
+                  departmentId={departmentId}
                 />
               )}
+              {selectedRowIds.length > 1 && setSelectedRowIds([])}
             </>
           ),
         ]}

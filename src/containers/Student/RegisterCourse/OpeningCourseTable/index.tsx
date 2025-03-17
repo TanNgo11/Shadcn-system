@@ -56,7 +56,7 @@ const StudentRegisterCourse: React.FC = () => {
     }
 
     const payload: StudentRegisterCoursePayload = {
-      studentId: student.studentId,
+      studentId: student.id,
       courseIds: selectedRows.map((row) => row.id),
       semesterId: semester.id,
     };
@@ -100,7 +100,7 @@ const StudentRegisterCourse: React.FC = () => {
           setParams({
             current: current ?? 1,
             pageSize: pageSize ?? 20,
-            studentId: student?.studentId,
+            studentId: student?.id,
             semesterId: semester?.id,
             departmentId: student?.departmentId,
             ...restParams,

@@ -1,24 +1,22 @@
 import { useNotification } from '@/containers/StartupContainers/ToastContainer';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { teachersAllColumns } from './allColumns';
-import { TeacherResponse } from '@queries/Teachers/types';
-import { useAssignTeachersToCourse } from '@queries/Registration/useAssignTeachersToCourse';
-import { AssignTeacherPayload, RemovalTeacherFromCoursePayload } from '@queries/Registration/types';
-import { Modal } from 'antd';
-import { useGetTeachersList } from '@queries/Teachers/useGetTeachersList';
-import { useRemoveTeacherFromCourses } from '@queries/Registration/useRemoveTeacherFromCourses';
 import useGetteachersInOpeningCourseByCourseId from '@queries/Courses/useGetTeachersInOpeningCourseByCourseId';
+import { RemovalTeacherFromCoursePayload } from '@queries/Registration/types';
+import { useRemoveTeacherFromCourses } from '@queries/Registration/useRemoveTeacherFromCourses';
+import { TeacherResponse } from '@queries/Teachers/types';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { teachersAllColumns } from './allColumns';
 
 interface CourseProps {
   courseId?: string;
   semesterId: number;
+  departmentId: string;
 }
 
 const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({
   courseId,
   semesterId,
+  departmentId,
 }: CourseProps) => {
   const toast = useNotification();
   const actionRef = useRef<ActionType>();
@@ -35,6 +33,7 @@ const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({
         teacherId: teacherId || '',
         courseIds: courseId ? [courseId] : [],
         semesterId: semesterId.toString(),
+        departmentId: departmentId,
       };
 
       onRemoveTeacherFromCourses(payload, {
@@ -53,13 +52,24 @@ const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({
         },
       });
     },
-    [toast, onRemoveTeacherFromCourses, courseId, semesterId, handleInvalidateTeachersList],
+    [
+      toast,
+      onRemoveTeacherFromCourses,
+      courseId,
+      semesterId,
+      handleInvalidateTeachersList,
+      departmentId,
+    ],
   );
 
   const teacherColumns: ProColumns<TeacherResponse>[] = useMemo(
     () => teachersAllColumns({ handleRemoveTeacher }),
     [handleRemoveTeacher],
   );
+
+  useEffect(() => {
+    handleInvalidateTeachersList();
+  }, []);
 
   return (
     <ProTable<TeacherResponse>
