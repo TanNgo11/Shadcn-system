@@ -5,17 +5,10 @@ import { ProColumns } from '@ant-design/pro-table';
 import { BlogsResponse, TagsResponse } from '@queries';
 import { getBlogActions } from './helpers';
 
-
-type Props ={
+type Props = {
   navigate: Callback;
-}
+};
 export const allColumns = (props: Props): ProColumns<BlogsResponse>[] => [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    valueType: 'text',
-    key: 'id',
-  },
   {
     title: 'Title',
     dataIndex: 'title',
@@ -26,16 +19,20 @@ export const allColumns = (props: Props): ProColumns<BlogsResponse>[] => [
     title: 'Tags',
     dataIndex: 'tags',
     valueType: 'text',
-    render: (value) => {
-      return <p>{(value as TagsResponse[])?.map((tag) => tag.name)}</p>;
-    },
+    render: (value) => (
+      <p>
+        {(value as TagsResponse[])?.map((tag, index, array) =>
+          index === array.length - 1 ? tag.name : `${tag.name}, `,
+        )}
+      </p>
+    ),
     key: 'tags',
   },
   {
     title: 'Uploaded By',
-    dataIndex: 'fullName',
+    dataIndex: 'createdBy',
     valueType: 'text',
-    key: 'fullName',
+    key: 'createdBy',
   },
   {
     title: 'Created At',

@@ -26,6 +26,7 @@ export interface AdminResponse {
   emergencyContactName: string;
   emergencyContactPhoneNumber: string;
   firstName: string;
+  middleName: string;
   lastName: string;
   dateOfBirth: string;
   phoneNumber: string;

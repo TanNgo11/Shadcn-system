@@ -1,11 +1,8 @@
-import { useQuery, UseQueryOptions, useQueryClient } from 'react-query';
-
-import { ApiResponseType } from '../helpers';
-
-import { responseWrapper } from '../helpers';
+import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
+import { adminsApi } from '.';
+import { ApiResponseType, responseWrapper } from '../helpers';
 import { API_ADMINS_QUERIES } from './keys';
 import { AdminResponse } from './types';
-import { adminsApi } from '.';
 
 export function useGetCurrentAdminInfo(
   options?: UseQueryOptions<ApiResponseType<AdminResponse>, Error>,

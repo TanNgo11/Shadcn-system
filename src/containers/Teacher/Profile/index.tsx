@@ -1,6 +1,7 @@
+import { NO_DATA } from '@/utils';
 import { HomeTwoTone, MailTwoTone, PhoneTwoTone, WechatOutlined } from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components';
-import { Avatar, Button, Col, Divider, Flex, Image, Row, Tag, Typography } from 'antd';
+import { Button, Col, Divider, Image, Row, Typography } from 'antd';
 import InformationTabs from './InformationTabs';
 import './styles.scss';
 import { useProfile } from './useProfile';
@@ -10,6 +11,7 @@ const TeacherProfile = () => {
     states: { teacher, isShowingMessageButton },
     handlers: { handleViewChat },
   } = useProfile();
+
   return (
     <Row justify="center" className="profile-container" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
       <Col
@@ -33,10 +35,11 @@ const TeacherProfile = () => {
             src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"
           />
           <Typography.Title className="profile-container__title" level={3}>
-            Serati Ma
+            {teacher?.username}
           </Typography.Title>
           <Typography.Title className="profile-container__subtitle" level={4}>
-            Serati Ma sub
+            {teacher?.firstName || NO_DATA} {teacher?.middleName || NO_DATA}
+            {teacher?.lastName || NO_DATA}
           </Typography.Title>
           {isShowingMessageButton && (
             <Button
@@ -54,83 +57,43 @@ const TeacherProfile = () => {
               <Typography.Text>
                 <MailTwoTone />
               </Typography.Text>
-              <Typography.Text className="profile-container__info--text" copyable>
-                tan.ngo.cit20@eiu.edu.vn
+              <Typography.Text
+                className="profile-container__info--text"
+                copyable
+                ellipsis={{ tooltip: true }}
+                style={{ width: '80%' }}
+              >
+                {teacher?.email}
               </Typography.Text>
             </div>
             <div className="profile-container__info">
               <Typography.Text>
                 <PhoneTwoTone />
               </Typography.Text>
-              <Typography.Text className="profile-container__info--text" copyable>
-                0929234798
+              <Typography.Text
+                className="profile-container__info--text"
+                copyable
+                ellipsis={{ tooltip: true }}
+                style={{ width: '80%' }}
+              >
+                {teacher?.phoneNumber}
               </Typography.Text>
             </div>
             <div className="profile-container__info">
               <Typography.Text>
                 <HomeTwoTone />
               </Typography.Text>
-              <Typography.Text className="profile-container__info--text" copyable>
-                Bến Cát-Chánh Phú Hòa - Việt Nam
+              <Typography.Text
+                className="profile-container__info--text"
+                copyable
+                ellipsis={{ tooltip: true }}
+                style={{ width: '80%' }}
+              >
+                {teacher?.address}
               </Typography.Text>
             </div>
           </ProCard>
           <Divider dashed />
-          <ProCard title={'Links'} layout="default">
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-              <Col span={12} className="profile-container__links">
-                <Avatar
-                  size="default"
-                  src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"
-                />
-                <Typography.Text className="profile-container__info--text">
-                  description
-                </Typography.Text>
-              </Col>
-              <Col span={12} className="profile-container__links">
-                <Avatar
-                  size="default"
-                  src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"
-                />
-                <Typography.Text className="profile-container__info--text">
-                  description
-                </Typography.Text>
-              </Col>
-              <Col span={12} className="profile-container__links">
-                <Avatar
-                  size="default"
-                  src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"
-                />
-                <Typography.Text className="profile-container__info--text">
-                  description
-                </Typography.Text>
-              </Col>
-              <Col span={12} className="profile-container__links">
-                <Avatar
-                  size="default"
-                  src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"
-                />
-                <Typography.Text className="profile-container__info--text">
-                  description
-                </Typography.Text>
-              </Col>
-            </Row>
-          </ProCard>
-          <ProCard title={'Course Hobbies'} layout="default">
-            <Flex gap="4px 0" wrap>
-              <Tag>ReactJS</Tag>
-              <Tag>NodeJS</Tag>
-              <Tag>VueJS</Tag>
-              <Tag>Angular</Tag>
-              <Tag>Laravel</Tag>
-              <Tag>Java</Tag>
-              <Tag>Python</Tag>
-              <Tag>C#</Tag>
-              <Tag>C++</Tag>
-              <Tag>Ruby</Tag>
-              <Tag>PHP</Tag>
-            </Flex>
-          </ProCard>
         </ProCard>
       </Col>
       <Col

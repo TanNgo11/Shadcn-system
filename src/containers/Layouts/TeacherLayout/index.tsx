@@ -25,9 +25,10 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import defaultProps from '../Components/_HeaderMenuProps';
 import { useAuthStore } from '@/zustand/auth/useAuthStore';
 import { useNotification } from '../../StartupContainers/ToastContainer';
+import { NO_DATA } from '@/utils';
 
 function TeacherLayout() {
-  const { clearAuth } = useAuthStore();
+  const { user, clearAuth } = useAuthStore();
   const toast = useNotification();
   const navigate = useNavigate();
   const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
@@ -40,13 +41,12 @@ function TeacherLayout() {
     siderMenuType: 'sub',
     fixedHeader: true,
   });
-
+  const name = `${user?.firstName || NO_DATA} ${user?.middleName || NO_DATA} ${user?.lastName || NO_DATA}`;
   const [pathname, setPathname] = useState(window.location.pathname);
   const [num, setNum] = useState(40);
   if (typeof document === 'undefined') {
     return <div />;
   }
-
   const handleLogout = () => {
     clearAuth();
     localStorage.removeItem('accessToken');
@@ -110,28 +110,28 @@ function TeacherLayout() {
                 avatarProps={{
                   src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
                   size: 'small',
-                  title: 'Ngo Thanh Tan',
+                  title: name,
                   render: (_props, dom) => {
                     return (
-                      <Dropdown
-                        menu={{
-                          items: [
-                            {
-                              key: 'Profile',
-                              icon: <ProfileOutlined />,
-                              label: <Link to="/profile">Profile</Link>,
-                            },
-                            {
-                              key: 'logout',
-                              icon: <LogoutOutlined />,
-                              label: 'Logout',
-                              onClick: handleLogout,
-                            },
-                          ],
-                        }}
-                      >
-                        {dom}
-                      </Dropdown>
+                        <Dropdown
+                          menu={{
+                            items: [
+                              {
+                                key: 'Profile',
+                                icon: <ProfileOutlined />,
+                                label: <Link to={`/teacher/profile/${user?.id}`}>Profile</Link>,
+                              },
+                              {
+                                key: 'logout',
+                                icon: <LogoutOutlined />,
+                                label: 'Logout',
+                                onClick: handleLogout,
+                              },
+                            ],
+                          }}
+                        >
+                          {dom}
+                        </Dropdown>
                     );
                   },
                 }}

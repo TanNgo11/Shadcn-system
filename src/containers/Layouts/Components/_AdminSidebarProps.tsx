@@ -37,6 +37,9 @@ export const PATHS = {
   ADD_BLOG: '/admin/blog/create',
   EDIT_BLOG: '/admin/blog/:id',
   PREVIEW_BLOG: '/admin/blog/preview/:id',
+
+  // Student 
+  STUDENT_PROFILE: '/student/profile/:userId',
 };
 
 export default {

@@ -1,8 +1,8 @@
 import { ProfileTwoTone } from '@ant-design/icons';
 import { Tabs } from 'antd';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import AdminInfo from './AdminTab';
-import { useGetCurrentAdminInfo } from '@/queries/Admins/useGetCurrentAdminInfo';
+import { AdminResponse } from '@queries/Admins/types';
 
 const InformationTabs = () => {
   const listTabs = useMemo(() => {
@@ -17,5 +17,6 @@ const InformationTabs = () => {
   }, []);
   return <Tabs defaultActiveKey="1" items={listTabs} />;
 };
+
 
 export default InformationTabs;

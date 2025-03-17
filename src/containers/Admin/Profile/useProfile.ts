@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/zustand/auth/useAuthStore';
+import { AdminResponse } from '@queries/Admins/types';
 import { useGetProfileByUserId } from '@queries/Auth/useGetProfileByUserId';
-import { StudentProfileResponse } from '@queries/Students/types';
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -8,21 +8,19 @@ export const useProfile = () => {
   const { user } = useAuthStore();
   const { userId } = useParams();
   const navigate = useNavigate();
-  const { profile: student } = useGetProfileByUserId<StudentProfileResponse>({
-    id: String(userId),
-  });
+  const profileQuery = useGetProfileByUserId<AdminResponse>({ id: String(userId) });
 
   const isShowingMessageButton = useMemo(() => {
-    if (!user?.id || !student?.id) return false;
-    return String(user?.id) !== String(student?.id);
-  }, [user?.id, student?.id]);
+    if (!user?.id || !profileQuery.profile?.id) return false;
+    return String(user?.id) !== String(profileQuery.profile?.id);
+  }, [user?.id, profileQuery.profile?.id]);
 
   const handleViewChat = () => {
-    navigate(`/chat/${user?.id}/${student?.id}`);
+    navigate(`/chat/${user?.id}/${profileQuery.profile?.id}`);
   };
 
   return {
-    states: { student, isShowingMessageButton },
+    states: { ...profileQuery, isShowingMessageButton },
     handlers: { handleViewChat },
   };
 };

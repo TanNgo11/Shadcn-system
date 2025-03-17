@@ -20,20 +20,23 @@ function LoginPage() {
   };
   const [isAuth, setIsAuth] = useState({ open: false, form: 'login' });
   useEffect(() => {
-    if (localStorage.getItem('accessToken')) {
-      switch (user?.roles?.[0]) {
+    if (localStorage.getItem('accessToken') && user?.id && user?.roles) {
+      switch (user.roles[0]) {
         case Role.ADMIN:
-          navigate('/admin/profile');
+          navigate(`/admin/profile/${user.id}`);
           break;
         case Role.STUDENT:
-          navigate('/student/profile');
+          navigate(`/student/profile/${user.id}`);
+          break;
+        case Role.TEACHER:
+          navigate(`/teacher/profile/${user.id}`);
           break;
         default:
-          navigate('/teacher/profile');
+          navigate(`/404`);
           break;
       }
     }
-  }, []);
+  }, [user, navigate, Role.ADMIN, Role.STUDENT, Role.TEACHER]);
 
   return (
     <>

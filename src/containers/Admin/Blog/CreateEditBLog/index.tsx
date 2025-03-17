@@ -132,15 +132,15 @@ const CreateEditBlog = () => {
 
   const editorConfig = {
     readonly: false,
-    // placeholder: 'Start typings...',
-    // spellcheck: true,
-    // toolbarInlineForSelection: true,
-    // showPlaceholder: false,
-    // disablePlugins:
-    //   'xpath,add-new-line,ai-assistant,class-span,video,table-keyboard-navigation,iframe,media,powered-by-jodit,file',
-    // uploader: {
-    //   insertImageAsBase64URI: true,
-    // },
+    placeholder: 'Start typings...',
+    spellcheck: true,
+    toolbarInlineForSelection: true,
+    showPlaceholder: false,
+    disablePlugins:
+      'xpath,add-new-line,ai-assistant,class-span,video,table-keyboard-navigation,iframe,media,powered-by-jodit,file',
+    uploader: {
+      insertImageAsBase64URI: true,
+    },
   };
 
   const uploadImage = async (file: File): Promise<string> => {
@@ -222,7 +222,7 @@ const CreateEditBlog = () => {
                       options={
                         tags?.map((tag) => ({
                           label: tag.name,
-                          value: tag.id,
+                          value: tag.name,
                         })) || []
                       }
                       {...field}
