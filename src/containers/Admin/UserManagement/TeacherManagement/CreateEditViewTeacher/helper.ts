@@ -6,6 +6,7 @@ export interface TeacherResponse {
   modifiedDate: string;
   createdBy: string;
   modifiedBy: string;
+  entityId: string;
   teacherId: string;
   username: string;
   hireDate: string;
@@ -44,6 +45,7 @@ export const initTeacherValue: TeacherPayload = {
   modifiedDate: '',
   createdBy: '',
   modifiedBy: '',
+  entityId: '',
   teacherId: '',
   username: '',
   hireDate: '',
