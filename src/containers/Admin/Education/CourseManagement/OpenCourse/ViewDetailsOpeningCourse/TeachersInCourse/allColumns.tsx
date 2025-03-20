@@ -1,9 +1,8 @@
 import { Callback } from '@/utils/helpers';
 import { ProColumns } from '@ant-design/pro-table';
+import { TeacherResponse } from '@queries/Teachers/types';
 import { Button, message } from 'antd';
 import { PopconfirmProps } from 'antd/lib';
-import { TeacherResponse } from '@queries/Teachers/types';
-import { StudentResponse } from '@queries/Students/types';
 
 type TeachersProps = {
   handleRemoveTeacher: Callback;
@@ -36,7 +35,7 @@ export const teachersAllColumns = ({
   },
   {
     title: 'ID',
-    dataIndex: 'teacherId',
+    dataIndex: 'entityId',
     valueType: 'text',
   },
   // {
