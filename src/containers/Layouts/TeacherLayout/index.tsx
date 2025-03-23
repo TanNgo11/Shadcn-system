@@ -203,14 +203,9 @@ function TeacherLayout() {
                     icon: <SmileFilled />,
                   },
                   {
-                    path: '/admin',
-                    name: 'Admin',
+                    path: '/teacher/courses',
+                    name: 'Courses',
                     icon: <CrownFilled />,
-
-                    children: [
-                      { path: '/admin/sub-page1', name: 'Sub Page 1' },
-                      { path: '/admin/sub-page2', name: 'Sub Page 2' },
-                    ],
                   },
                 ]}
               >

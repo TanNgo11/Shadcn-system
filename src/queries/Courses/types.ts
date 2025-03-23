@@ -51,3 +51,58 @@ export interface TeacherResponse {
   emergencyContactName: string;
   emergencyContactPhoneNumber: string;
 }
+
+export type CourseResponse = {
+  id: string;
+  name: string;
+  imageUri: string;
+  code: string;
+  credit: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  startDate: string;
+  endDate: string;
+  remain: number;
+};
+
+export type CourseDetailResponse = {
+  id: string;
+  name: string;
+  imageUri: string;
+  code: string;
+  credit: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  startDate: string;
+  endDate: string;
+  remain: number;
+  teacher: CourseTeacher;
+  studentIds: any;
+  departments: any;
+};
+
+export type CourseTeacher = {
+  id: string;
+  teacherId: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  avatarPath: string;
+  workingInformation: string;
+  contactLink: string;
+  officeLocation: string;
+  officeHours: string;
+  otherInformation: string;
+};
+
+export type UpdateTeacherReferencePayload = {
+  id: number;
+  contactLink: string;
+  officeLocation: string;
+  officeHours: string;
+  otherInformation: string;
+};

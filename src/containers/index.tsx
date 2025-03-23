@@ -23,6 +23,9 @@ const StudentProfilePage = React.lazy(() => import('@/containers/Student/Profile
 const TeacherProfilePage = React.lazy(() => import('@/containers/Teacher/Profile'));
 const AdminProfilePage = React.lazy(() => import('@/containers/Admin/Profile'));
 const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/CourseDetailPage'));
+const TeacherCourseDetailPage = React.lazy(
+  () => import('@/containers/Teacher/Courses/CourseDetail'),
+);
 const StudentManagementPage = React.lazy(
   () => import('@/containers/Admin/UserManagement/StudentManagement'),
 );
@@ -72,6 +75,7 @@ const OpenCoursePage = React.lazy(
 const StudentRegisterCoursePage = React.lazy(() => import('@/containers/Student/RegisterCourse'));
 const ViewCourses = React.lazy(() => import('@/containers/Student/ViewCourses'));
 const GoogleAuthenticatePage = React.lazy(() => import('@/containers/GoogleAuthenticate'));
+const TeacherListCoursesPage = React.lazy(() => import('@/containers/Teacher/Courses/ListCourses'));
 
 const appRoutes: RouteObject[] = [
   {
@@ -263,6 +267,14 @@ const appRoutes: RouteObject[] = [
         index: true,
         path: 'profile/:userId',
         element: <TeacherProfilePage />,
+      },
+      {
+        path: 'courses',
+        element: <TeacherListCoursesPage />,
+      },
+      {
+        path: 'courses/:courseId',
+        element: <TeacherCourseDetailPage />,
       },
     ],
   },

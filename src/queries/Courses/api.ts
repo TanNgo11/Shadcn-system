@@ -1,7 +1,12 @@
 import { useHttpPrivateRequest } from '@/services/useHttpPrivateRequest';
 import { API_URLS } from '../keys';
 import { GetPropertiesParams, TableParams } from '../helpers';
-import { BaseCourseResponse, CourseActionPayload, FileUploadPayload } from './types';
+import {
+  BaseCourseResponse,
+  CourseActionPayload,
+  FileUploadPayload,
+  UpdateTeacherReferencePayload,
+} from './types';
 import { stringify } from '@/utils';
 
 const useApi = (basename = API_URLS.COURSE) => {
@@ -93,8 +98,22 @@ const useApi = (basename = API_URLS.COURSE) => {
     );
   };
 
+  const getListCoursesOfTeacherBySemesterId = (semesterId: string) => {
+    return privateApi.get(`/api/v1/departments/courses/teacher/semester/${semesterId}`);
+  };
+
+  const getCourseDetail = (courseId: string) => {
+    return privateApi.get(`/api/v1/departments/courses/${courseId}`);
+  };
+
+  const updateTeacherReference = (payload: UpdateTeacherReferencePayload) => {
+    return privateApi.put(`/api/v1/references/teachers`, payload);
+  };
+
   return {
     getAllCourses,
+    getCourseDetail,
+    updateTeacherReference,
     addStudentIntoCourse,
     addTeacherIntoCourse,
     removeStudentFromCourse,
@@ -104,6 +123,7 @@ const useApi = (basename = API_URLS.COURSE) => {
     uploadImageInCourse,
     uploadMultiFileInCourse,
     createBaseCourses,
+    getListCoursesOfTeacherBySemesterId,
     getAllTeachersInCourseByCourseId,
     getAllStudentsInCourseByCourseId,
   };
