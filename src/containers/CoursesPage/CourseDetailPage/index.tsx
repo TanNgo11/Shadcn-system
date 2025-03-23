@@ -3,7 +3,6 @@ import { ProCard } from '@ant-design/pro-components';
 import { Col, Image, Row, Typography } from 'antd';
 import CourseDetailTabs from './CourseDetailTabs';
 import './styles.scss';
-import { useCourseStore } from '@/hooks/useCourseStore';
 
 const CourseDetailPage = () => {
   return (

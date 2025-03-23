@@ -1,0 +1,30 @@
+.course-detail-page-container {
+  &__image {
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+
+  &__subtitle {
+    margin: 0 !important;
+    font-weight: normal !important;
+  }
+  &__info {
+    margin-top: 10px;
+    &--text {
+      margin-left: 10px;
+    }
+  }
+  &__links {
+    margin-bottom: 10px;
+  }
+  &__short-information,
+  &__information-tabs {
+    margin-bottom: 24px;
+    min-height: 700px;
+  }
+}
+@media (min-width: 768px) {
+  .profile-container__information-tabs {
+    margin-bottom: 0;
+  }
+}
