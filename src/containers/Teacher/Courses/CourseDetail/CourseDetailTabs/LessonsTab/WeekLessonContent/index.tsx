@@ -1,21 +1,43 @@
-import { Typography } from 'antd';
+import { LessonResponse } from '@queries/Lessons';
+import { Typography, Input } from 'antd';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 
-const WeekLessonContent = () => {
-  return (
-    <>
-      <p>Hours: 4 LT/ 0TH</p>
-      <p>Implementation orientation CLO1, CLO2, CLO6.</p>
-      <p>Process evaluation (2).</p>
-      <Typography.Title level={5}>Teaching content:</Typography.Title>
-      <p>1.1. Background</p>
-      <p>1.2. Advantages and disadvantages</p>
-      <p>1.3. Principle of operation</p>
-      <p>1.4. Development Environment Settings</p>
-      <Typography.Title level={5}>Academic Activities:</Typography.Title>
-      <p>Listen to lectures, discuss Typescript, components, props, state.</p>
-      <p>Practice 1</p>
-    </>
-  );
+type WeekLessonContentProps = {
+  lesson: LessonResponse;
+  isEdit: boolean;
+  toggleEdit: () => void;
 };
+
+type WeekLessonContentRef = {
+  submit: () => string | undefined;
+};
+
+const WeekLessonContent = forwardRef<WeekLessonContentRef, WeekLessonContentProps>(
+  ({ lesson, isEdit, toggleEdit }, ref) => {
+    const { TextArea } = Input;
+    const [description, setDescription] = useState(lesson?.description || '');
+
+    useImperativeHandle(ref, () => ({
+      submit: () => description,
+    }));
+
+    return (
+      <>
+        {isEdit ? (
+          <TextArea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
+            placeholder="Enter description"
+          />
+        ) : (
+          <Typography.Text>{lesson?.description}</Typography.Text>
+        )}
+      </>
+    );
+  },
+);
+
+WeekLessonContent.displayName = 'WeekLessonContent';
 
 export default WeekLessonContent;
