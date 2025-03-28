@@ -17,11 +17,11 @@ export default function ViewCourses() {
   // }, [student?.studentId, semester?.id]);
 
   const { approvedCourses, setTableParams, handleInvalidateApprovedCourses } =
-    useGetApprovedCoursesForStudentByStudentId({ id: student.studentId });
+    useGetApprovedCoursesForStudentByStudentId({ id: student.id });
 
   useEffect(() => {
     setTableParams({
-      semesterId: semester?.id || '',
+      semesterId: semester?.id || 2,
       current: 1,
       pageSize: 10,
     });
