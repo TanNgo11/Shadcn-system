@@ -5,6 +5,7 @@ import {
   BaseCourseResponse,
   CourseActionPayload,
   FileUploadPayload,
+  UpdateCourseInformationPayload,
   UpdateTeacherReferencePayload,
 } from './types';
 import { stringify } from '@/utils';
@@ -110,7 +111,12 @@ const useApi = (basename = API_URLS.COURSE) => {
     return privateApi.put(`/api/v1/references/teachers`, payload);
   };
 
+  const updateCourseInformation = (payload: UpdateCourseInformationPayload) => {
+    return privateApi.put(`/api/v1/departments/courses/${payload.courseId}`, payload)
+  }
+
   return {
+    updateCourseInformation,
     getAllCourses,
     getCourseDetail,
     updateTeacherReference,

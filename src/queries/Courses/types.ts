@@ -81,6 +81,9 @@ export type CourseDetailResponse = {
   teacher: CourseTeacher;
   studentIds: any;
   departments: any;
+  courseInformation?: string;
+  assessmentPlan?: string;
+  learningMaterialsAndOutcomes?: string;
 };
 
 export type CourseTeacher = {
@@ -106,3 +109,10 @@ export type UpdateTeacherReferencePayload = {
   officeHours: string;
   otherInformation: string;
 };
+
+export type UpdateCourseInformationPayload = {
+  courseInformation?: string;
+  assessmentPlan?: string;
+  learningMaterialsAndOutcomes?: string;
+  courseId: string
+}

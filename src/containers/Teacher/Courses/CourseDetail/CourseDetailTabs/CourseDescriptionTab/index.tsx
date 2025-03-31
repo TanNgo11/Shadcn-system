@@ -1,41 +1,112 @@
 import { Flex, Image, List, Typography } from 'antd';
 import './styles.scss';
-import { CourseDetails, useCourseStore } from '@/hooks/useCourseStore';
-import { useMemo } from 'react';
+import { useCourseStore } from '@/hooks/useCourseStore';
+import JoditEditor from 'jodit-react';
+import { useEffect, useMemo, useState } from 'react';
+import { Button, Form, Input } from 'antd';
+import { EditTwoTone } from '@ant-design/icons';
+import { useForm } from 'react-hook-form';
+import { UpdateCourseInformationPayload } from '@queries/Courses/types';
+import { useParams } from 'react-router-dom';
+import { useGetCourseDetail } from '@queries/Courses/useGetCourseDetail';
+import { useUpdateCourseInformation } from '@queries/Courses/useUpdateCourseInformation';
+import { toast } from 'react-toastify';
 
 const data = [
   'Understand the basic concepts of mobile programming, including application architecture, user interface handling, graphics, navigation methods, and data connectivity.',
   'Build complete mobile applications with the capability to access both local and remote databases through REST API.',
   'Apply development and deployment skills on mobile platforms.',
 ];
+
 const CourseDescriptionTab = () => {
+  const { courseId } = useParams();
+  const { courseDetail, handleInvalidateTeachersList } = useGetCourseDetail({ courseId });
+  console.log(courseDetail)
+  const [isEdit, setIsEdit] = useState(false);
+  const [courseInformation, setCourseInformation] = useState('');
+  const { error, isLoading, isError, isSuccess, onUpdateCourseInformation } = useUpdateCourseInformation({
+    onSuccess: () => {
+      toast.success("Updated successfully!")
+      setIsEdit(false);
+      handleInvalidateTeachersList();
+    },
+    onError: () => {
+      toast.error("Error!")
+    }
+  });
 
-const courseDetails = useCourseStore((state) => state.courseDetail);
+  const initData: UpdateCourseInformationPayload = useMemo(() => ({
+    assessmentPlan: courseDetail?.assessmentPlan,
+    courseId,
+    courseInformation: courseDetail?.courseInformation,
+    learningMaterialsAndOutcomes: courseDetail?.learningMaterialsAndOutcomes
+  }), [courseDetail])
 
+  const { control, handleSubmit, reset, } = useForm<UpdateCourseInformationPayload>({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    defaultValues: initData,
+  });
+
+  const editorConfig = {
+    readonly: false,
+    placeholder: 'Start typings...',
+    spellcheck: true,
+    toolbarInlineForSelection: true,
+    showPlaceholder: false,
+    disablePlugins:
+      'xpath,add-new-line,ai-assistant,class-span,video,table-keyboard-navigation,iframe,media,powered-by-jodit,file',
+    uploader: {
+      insertImageAsBase64URI: true,
+    },
+  };
+
+  const onSubmit = (payload: UpdateCourseInformationPayload) => {
+    const data = { ...payload, courseInformation }
+    onUpdateCourseInformation(data);
+  }
+
+  useEffect(() => {
+    setCourseInformation(courseDetail?.courseInformation);
+  }, [courseDetail?.courseInformation])
+
+  useEffect(() => {
+    reset(initData);
+  }, [initData])
   return (
     <div className="course-description-tab-container">
-      <Flex justify="center" align="center">
-        <Image
-          src="https://th.bing.com/th/id/OIP.X0lQPk0QnmYgT_T9yW64NwHaEK?w=304&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-          width={400}
-        />
-      </Flex>
-      <Typography.Title className="course-description-tab-container__title" level={4}>
-        {courseDetails?.courseCode}
-      </Typography.Title>
-      <Typography.Paragraph>{courseDetails?.description}</Typography.Paragraph>
-
-      <Typography.Title className="course-description-tab-container__title" level={4}>
-        Requirement for {courseDetails?.description}
-      </Typography.Title>
-      <List
-        dataSource={data}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta description={item} />
-          </List.Item>
+      <Flex
+        justify="end"
+        align="center"
+        vertical={false}
+        style={{ width: '100%', marginBottom: '20px' }}
+        gap={'small'}
+      >
+        {isEdit ? (
+          <>
+            <Button type="default" onClick={() => setIsEdit(false)} >
+              Cancel
+            </Button>
+            <Button type="primary" htmlType="submit" onClick={handleSubmit(onSubmit)}>
+              Save
+            </Button>
+          </>
+        ) : (
+          <Button icon={<EditTwoTone />} type="text" onClick={() => setIsEdit(true)} />
         )}
-      />
+      </Flex>
+      {!isEdit ? (
+        <div
+          dangerouslySetInnerHTML={{ __html: courseDetail?.courseInformation || '' }}
+          style={{ lineHeight: '1.6', fontSize: '16px' }}
+        />
+      ) : (
+        <JoditEditor
+          value={courseInformation}
+          config={editorConfig}
+          onBlur={(newContent) => setCourseInformation(newContent)}
+        />
+      )}
     </div>
   );
 };
