@@ -1,91 +1,106 @@
-import { Table, Typography } from 'antd';
+import { Button, Flex, Table, Typography } from 'antd';
 import './styles.scss';
-const columns = [
-  {
-    title: 'CLO',
-    dataIndex: 'clo',
-    key: 'clo',
-    width: '20%',
-  },
-  {
-    title: 'Description',
-    dataIndex: 'description',
-    key: 'description',
-    width: '60%',
-  },
-  {
-    title: 'Implementation',
-    dataIndex: 'implementation',
-    key: 'implementation',
-    width: '20%',
-  },
-];
+import { useParams } from 'react-router-dom';
+import { useGetCourseDetail } from '@queries/Courses/useGetCourseDetail';
+import { useEffect, useMemo, useState } from 'react';
+import { useUpdateCourseInformation } from '@queries/Courses/useUpdateCourseInformation';
+import { toast } from 'react-toastify';
+import { UpdateCourseInformationPayload } from '@queries/Courses/types';
+import { useForm } from 'react-hook-form';
+import JoditEditor from 'jodit-react';
+import { EditTwoTone } from '@ant-design/icons';
 
-const data = [
-  {
-    key: '1',
-    clo: 'CLO1',
-    description:
-      'Apply concepts and principles of user interface handling and navigation methods on mobile application platforms to design and implement user interfaces.',
-    implementation: 'PLO1.1',
-  },
-  {
-    key: '2',
-    clo: 'CLO2',
-    description:
-      'Apply knowledge of local and remote database connectivity through services (REST API) to develop mobile applications with data interaction capabilities.',
-    implementation: 'PLO1.1, PLO2',
-  },
-  {
-    key: '3',
-    clo: 'CLO3',
-    description:
-      'Develop a complete mobile application, including designing and implementing features that use data from the database.',
-    implementation: 'PLO4',
-  },
-  {
-    key: '4',
-    clo: 'CLO4',
-    description:
-      'Contribute effectively in workgroups, demonstrating the ability to work as both a member and a leader when necessary to achieve the common goals of the project.',
-    implementation: 'PLO7',
-  },
-  {
-    key: '5',
-    clo: 'CLO5',
-    description:
-      'Demonstrate serious behavior and professional working attitude in all learning and practice activities.',
-    implementation: 'PLO9',
-  },
-];
 const LearningMaterialsTab = () => {
+  const { courseId } = useParams();
+  const { courseDetail, handleInvalidateTeachersList } = useGetCourseDetail({ courseId });
+  const [isEdit, setIsEdit] = useState(false);
+  const [learningMaterialsAndOutcomes, setLearningMaterialsAndOutcomes] = useState('');
+  const { error, isLoading, isError, isSuccess, onUpdateCourseInformation } = useUpdateCourseInformation({
+    onSuccess: () => {
+      toast.success("Updated successfully!")
+      setIsEdit(false);
+      handleInvalidateTeachersList();
+    },
+    onError: () => {
+      toast.error("Error!")
+    }
+  });
+
+  const initData: UpdateCourseInformationPayload = useMemo(() => ({
+    assessmentPlan: courseDetail?.assessmentPlan,
+    courseId,
+    courseInformation: courseDetail?.courseInformation,
+    learningMaterialsAndOutcomes: courseDetail?.learningMaterialsAndOutcomes
+  }), [courseDetail])
+
+
+  const { control, handleSubmit, reset, } = useForm<UpdateCourseInformationPayload>({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    defaultValues: initData,
+  });
+
+  const editorConfig = {
+    readonly: false,
+    placeholder: 'Start typings...',
+    spellcheck: true,
+    toolbarInlineForSelection: true,
+    showPlaceholder: false,
+    disablePlugins:
+      'xpath,add-new-line,ai-assistant,class-span,video,table-keyboard-navigation,iframe,media,powered-by-jodit,file',
+    uploader: {
+      insertImageAsBase64URI: true,
+    },
+  };
+
+  const onSubmit = (payload: UpdateCourseInformationPayload) => {
+    const data = { ...payload, learningMaterialsAndOutcomes }
+    onUpdateCourseInformation(data);
+  }
+
+  useEffect(() => {
+    setLearningMaterialsAndOutcomes(courseDetail?.learningMaterialsAndOutcomes);
+  }, [courseDetail?.learningMaterialsAndOutcomes])
+
+  useEffect(() => {
+    reset(initData);
+  }, [initData])
+
   return (
     <div className="learning-materials-tab-container">
       <div className="learning-materials-tab-container__learning">
-        <Typography.Title level={4}>LEARNING MATERIALS</Typography.Title>
-        <div className="learning-materials-tab-container__learning--subtitle">
-          <Typography.Title level={5}>Books and Teaching Materials</Typography.Title>
-          <p className="learning-materials-tab-container__learning--description">
-            [1] Meta Platforms, Inc. 2024, React Native, access 18/07/2023,
-            https://reactnative.dev/docs/getting-started
-          </p>
-        </div>
-        <div className="learning-materials-tab-container__learning--subtitle">
-          <Typography.Title level={5}>References</Typography.Title>
-          <p className="learning-materials-tab-container__learning--description">
-            [2] Sufyan bin Uzayr (2023), Mastering React Native : A Beginner's Guide, Published by
-            Ed.: First edition. Boca Raton : CRC Press. ISBNs: 9781032314723.
-          </p>
-          <p className="learning-materials-tab-container__learning--description">
-            [3] Alexander Benedikt Kuttig(2023), Professional React Native: Expert techniques and
-            solutions for building high-quality, cross-platform, production-ready apps, Published by
-            Packt Publishing.
-          </p>
-        </div>
-      </div>
-      <div className="learning-materials-tab-container__outcome">
-        <Typography.Title level={4}>COURSE LEARNING OUTCOMES (CLOs)</Typography.Title>
-        <Table columns={columns} dataSource={data} pagination={false} bordered />
+        <Flex
+          justify="end"
+          align="center"
+          vertical={false}
+          style={{ width: '100%', marginBottom: '20px' }}
+          gap={'small'}
+        >
+          {isEdit ? (
+            <>
+              <Button type="default" onClick={() => setIsEdit(false)} >
+                Cancel
+              </Button>
+              <Button type="primary" htmlType="submit" onClick={handleSubmit(onSubmit)}>
+                Save
+              </Button>
+            </>
+          ) : (
+            <Button icon={<EditTwoTone />} type="text" onClick={() => setIsEdit(true)} />
+          )}
+        </Flex>
+        {!isEdit ? (
+          <div
+            dangerouslySetInnerHTML={{ __html: courseDetail?.learningMaterialsAndOutcomes || '' }}
+            style={{ lineHeight: '1.6', fontSize: '16px', overflowX: 'scroll' }}
+          />
+        ) : (
+          <JoditEditor
+            value={learningMaterialsAndOutcomes}
+            config={editorConfig}
+            onBlur={(newContent) => setLearningMaterialsAndOutcomes(newContent)}
+          />
+        )}
       </div>
     </div>
   );

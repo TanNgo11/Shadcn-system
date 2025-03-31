@@ -106,6 +106,7 @@ export interface AssignTeacherPayload {
   courseIds: string[];
   semesterId: string;
   departmentId: string;
+  username: string;
 }
 
 export interface RemovalTeacherFromCoursePayload {

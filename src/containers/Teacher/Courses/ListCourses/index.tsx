@@ -26,7 +26,7 @@ const ListCourses = () => {
           <List.Item>
             <CourseCard
               name={course?.name || ''}
-              description={course?.description || ''}
+              startDate={course?.startDate}
               avatar={course?.imageUri || ''}
               courseId={course?.id}
               courseCode={course?.code}

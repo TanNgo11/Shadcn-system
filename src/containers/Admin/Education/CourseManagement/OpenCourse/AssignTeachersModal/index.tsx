@@ -39,12 +39,13 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
   const { onRemoveTeacherFromCourses } = useRemoveTeacherFromCourses();
 
   const handleAssignTeacher = useCallback(
-    (teacherId: string) => {
+    (teacher: any) => {
       const payload: AssignTeacherPayload = {
-        teacherId: teacherId || '',
+        teacherId: teacher.id || '',
         courseIds: courseId,
         semesterId: semesterId.toString(),
         departmentId: departmentId,
+        username: teacher.username,
       };
       onAssignTeacher(payload, {
         onSuccess: () => {

@@ -1,94 +1,104 @@
-import { Table } from 'antd';
-
-const columns = [
-  {
-    title: 'Type',
-    dataIndex: 'type',
-    key: 'type',
-    width: '20%',
-    render: (text: any, record: any) => (
-      <div>
-        {text} <span>{record.subType}</span>
-      </div>
-    ),
-  },
-  {
-    title: 'Content',
-    dataIndex: 'content',
-    key: 'content',
-  },
-  {
-    title: 'Method',
-    dataIndex: 'method',
-    key: 'method',
-  },
-  {
-    title: 'CLO',
-    dataIndex: 'clo',
-    key: 'clo',
-  },
-  {
-    title: 'Weights',
-    dataIndex: 'weights',
-    key: 'weights',
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    type: 'Regular',
-    subType: '(1)',
-    content: 'Analyze, design, and build applications on mobile platforms.',
-    method: 'Labs',
-    clo: 'CLO1,2,3',
-    weights: '20%',
-  },
-  {
-    key: '2',
-    type: 'Regular',
-    subType: '(2)',
-    content: 'Attendance',
-    method: 'Attendance',
-    clo: 'CLO5',
-    weights: '5%',
-  },
-  {
-    key: '3',
-    type: 'Regular',
-    subType: '(3)',
-    content: 'The skill of building an application on a mobile platform by yourself.',
-    method: 'Project',
-    clo: 'CLO1,2,3,4',
-    weights: '35%',
-  },
-  {
-    key: '4',
-    type: 'Summary',
-    subType: '(4)',
-    content: 'Design and write source code for mobile application screens.',
-    method: 'Practice on a computer',
-    clo: 'CLO1,2,3',
-    weights: '40%',
-  },
-];
+import { EditTwoTone } from '@ant-design/icons';
+import { UpdateCourseInformationPayload } from '@queries/Courses/types';
+import { useGetCourseDetail } from '@queries/Courses/useGetCourseDetail';
+import { useUpdateCourseInformation } from '@queries/Courses/useUpdateCourseInformation';
+import { Button, Flex, Table, Typography } from 'antd';
+import JoditEditor from 'jodit-react';
+import { useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const AssessmentPlanTab = () => {
+  const { courseId } = useParams();
+  const { courseDetail, handleInvalidateTeachersList } = useGetCourseDetail({ courseId });
+  const [isEdit, setIsEdit] = useState(false);
+  const [assessmentPlan, setAssessmentPlan] = useState('');
+  const { error, isLoading, isError, isSuccess, onUpdateCourseInformation } = useUpdateCourseInformation({
+    onSuccess: () => {
+      toast.success("Updated successfully!")
+      setIsEdit(false);
+      handleInvalidateTeachersList();
+    },
+    onError: () => {
+      toast.error("Error!")
+    }
+  });
+
+  const initData: UpdateCourseInformationPayload = useMemo(() => ({
+    assessmentPlan: courseDetail?.assessmentPlan,
+    courseId,
+    courseInformation: courseDetail?.courseInformation,
+    learningMaterialsAndOutcomes: courseDetail?.learningMaterialsAndOutcomes
+  }), [courseDetail])
+
+
+  const { control, handleSubmit, reset, } = useForm<UpdateCourseInformationPayload>({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    defaultValues: initData,
+  });
+
+  const editorConfig = {
+    readonly: false,
+    placeholder: 'Start typings...',
+    spellcheck: true,
+    toolbarInlineForSelection: true,
+    showPlaceholder: false,
+    disablePlugins:
+      'xpath,add-new-line,ai-assistant,class-span,video,table-keyboard-navigation,iframe,media,powered-by-jodit,file',
+    uploader: {
+      insertImageAsBase64URI: true,
+    },
+  };
+
+  const onSubmit = (payload: UpdateCourseInformationPayload) => {
+    const data = { ...payload, assessmentPlan }
+    onUpdateCourseInformation(data);
+  }
+
+  useEffect(() => {
+    setAssessmentPlan(courseDetail?.assessmentPlan);
+  }, [courseDetail?.assessmentPlan])
+
+  useEffect(() => {
+    reset(initData);
+  }, [initData])
   return (
-    <Table
-      columns={columns}
-      dataSource={data}
-      pagination={false}
-      bordered
-      summary={() => (
-        <Table.Summary.Row>
-          <Table.Summary.Cell index={0} colSpan={4}>
-            SUM
-          </Table.Summary.Cell>
-          <Table.Summary.Cell index={4}>100%</Table.Summary.Cell>
-        </Table.Summary.Row>
+    <>
+      <Flex
+        justify="end"
+        align="center"
+        vertical={false}
+        style={{ width: '100%', marginBottom: '20px' }}
+        gap={'small'}
+      >
+        {isEdit ? (
+          <>
+            <Button type="default" onClick={() => setIsEdit(false)} >
+              Cancel
+            </Button>
+            <Button type="primary" htmlType="submit" onClick={handleSubmit(onSubmit)}>
+              Save
+            </Button>
+          </>
+        ) : (
+          <Button icon={<EditTwoTone />} type="text" onClick={() => setIsEdit(true)} />
+        )}
+      </Flex>
+      {!isEdit ? (
+        <div
+          dangerouslySetInnerHTML={{ __html: courseDetail?.assessmentPlan || '' }}
+          style={{ lineHeight: '1.6', fontSize: '16px', overflowX: 'scroll'}}
+        />
+      ) : (
+        <JoditEditor
+          value={assessmentPlan}
+          config={editorConfig}
+          onBlur={(newContent) => setAssessmentPlan(newContent)}
+        />
       )}
-    />
+    </>
   );
 };
 
