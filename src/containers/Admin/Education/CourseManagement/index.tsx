@@ -79,7 +79,9 @@ export default function CourseManagement() {
         },
       }}
       pagination={{
-        pageSize: 10,
+        pageSizeOptions: [10, 20, 50, 100],
+        showSizeChanger: true,
+        showTotal: (total: number) => `Total ${total} items`,
         onChange: (page: any) => console.log(page),
       }}
       dateFormatter="string"

@@ -32,7 +32,7 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
   const { departments } = useGetDepartmentList({
     defaultParams: {
       current: 1,
-      pageSize: 10,
+      pageSize: 100,
     },
   });
   const { handleInvalidateSemesterList } = useGetOpenCoursesInDepartmentById({
@@ -45,7 +45,7 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
       departmentId: departmentId,
       defaultParams: {
         current: 1,
-        pageSize: 10,
+        pageSize: 100,
       },
     });
 
@@ -62,7 +62,7 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
     departmentId: departmentId,
     defaultParams: {
       current: 1,
-      pageSize: 10,
+      pageSize: 100,
     },
   });
 
@@ -174,7 +174,9 @@ const OpenBaseCoursesModal: React.FC<OpenBaseCoursesModalProps> = ({
           },
         }}
         pagination={{
-          pageSize: 10,
+          showSizeChanger: true,
+          pageSizeOptions: [5, 10, 20, 50, 100],
+          showTotal: (total: number) => `Total ${total} items`,
         }}
         rowSelection={{
           onChange: handleRowSelectionChange,

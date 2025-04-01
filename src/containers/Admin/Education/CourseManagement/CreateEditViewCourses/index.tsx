@@ -15,7 +15,7 @@ const CreateEditBaseCourse = () => {
   const { courses, setParams, handleInvalidateCoursesList } = useGetAllCourse({
     tableParams: {
       current: 1,
-      pageSize: 10,
+      pageSize: 100,
     },
   });
 
