@@ -1,6 +1,5 @@
 import { useHttpPrivateRequest } from '@/services/useHttpPrivateRequest';
 import { API_URLS } from '..';
-import { UpdateLessonPayload } from './types';
 
 const useLessonsApis = (baseURL = API_URLS.COURSE) => {
   const privateApi = useHttpPrivateRequest(baseURL);
@@ -9,8 +8,16 @@ const useLessonsApis = (baseURL = API_URLS.COURSE) => {
     return privateApi.get(`/api/v1/lessons/courses/${courseId}`);
   };
 
-  const updateLessonsByCourseId = (payload: UpdateLessonPayload) => {
-    return privateApi.put(`/api/v1/lessons/${payload?.id}`, payload);
+  const updateLessonsByCourseId = (payload: FormData) => {
+    const requestJson = payload.get('request');
+    if (!requestJson) {
+      throw new Error('Request field is missing in FormData');
+    }
+    const requestObj = JSON.parse(requestJson as string);
+    const lessonId = requestObj.id;
+    return privateApi.put(`/api/v1/lessons/${lessonId}`, payload, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
   };
 
   return {

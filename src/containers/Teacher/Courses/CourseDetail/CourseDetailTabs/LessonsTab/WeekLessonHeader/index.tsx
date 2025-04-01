@@ -7,7 +7,7 @@ type WeekLessonHeaderProps = {
   isEdit: boolean;
   toggleEdit: () => void;
   onSave: (payload: UpdateLessonPayload) => void;
-  submitRef: React.RefObject<{ submit: () => string | undefined }>;
+  submitRef: React.RefObject<{ submit: () => any }>;
 };
 
 const WeekLessonHeader = ({
@@ -19,9 +19,10 @@ const WeekLessonHeader = ({
 }: WeekLessonHeaderProps) => {
   const [titleValue, setTitleValue] = useState(title || '');
   const handleSave = () => {
-    const description = submitRef.current?.submit();
+    const payload = submitRef.current?.submit();
+
     onSave({
-      description,
+      ...payload,
       title: titleValue,
     });
   };

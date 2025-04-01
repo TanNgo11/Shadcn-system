@@ -1,10 +1,9 @@
 import { ApiResponseType, responseWrapper } from '@/queries/helpers';
 import { useMutation, UseMutationOptions } from 'react-query';
 import { LessonsApis } from '.';
-import { UpdateLessonPayload } from './types';
 
 export function useUpdateLessonById(
-  options?: UseMutationOptions<ApiResponseType<UpdateLessonPayload>, Error, UpdateLessonPayload>,
+  options?: UseMutationOptions<ApiResponseType<FormData>, Error, FormData>,
 ) {
   const {
     mutate: onUpdateLessonById,
@@ -12,8 +11,8 @@ export function useUpdateLessonById(
     isSuccess,
     isError,
     error,
-  } = useMutation<ApiResponseType<UpdateLessonPayload>, Error, UpdateLessonPayload>({
-    mutationFn: (payload: UpdateLessonPayload) =>
+  } = useMutation<ApiResponseType<FormData>, Error, FormData>({
+    mutationFn: (payload: FormData) =>
       responseWrapper(LessonsApis.updateLessonsByCourseId, [payload]),
     ...options,
   });
