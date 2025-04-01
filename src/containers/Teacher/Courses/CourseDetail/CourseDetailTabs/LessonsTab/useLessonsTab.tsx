@@ -14,7 +14,7 @@ const useLessonsTab = () => {
   });
   const [editStates, setEditStates] = useState<{ [key: string]: boolean }>({});
   const contentRefs = useRef<{
-    [key: string]: React.RefObject<{ submit: () => string | undefined }>;
+    [key: string]: React.RefObject<{ submit: () => any }>;
   }>({});
   Object.keys(editStates).forEach((lessonId) => {
     if (!contentRefs.current[lessonId]) {
@@ -49,10 +49,29 @@ const useLessonsTab = () => {
       toast.error({ message: 'Description cannot be empty' });
       return;
     }
-    onUpdateLessonById({
-      id: Number(lessonId),
-      ...payload,
-    });
+    const formData = new FormData();
+    const { files, ...rest } = payload;
+
+    formData.append(
+      'request',
+      JSON.stringify({
+        id: Number(lessonId),
+        ...rest,
+      }),
+    );
+    if (files && files.length > 0) {
+      files.forEach((file) => {
+        if (file.originFileObj) {
+          formData.append('files', file.originFileObj);
+        } else {
+          console.warn('File object missing originFileObj:', file);
+        }
+      });
+    } else {
+      console.warn('No files provided');
+    }
+
+    onUpdateLessonById(formData);
     toggleEdit(lessonId);
   };
 
