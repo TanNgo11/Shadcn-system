@@ -114,5 +114,5 @@ export type UpdateCourseInformationPayload = {
   courseInformation?: string;
   assessmentPlan?: string;
   learningMaterialsAndOutcomes?: string;
-  courseId: string
-}
+  courseId: string;
+};
