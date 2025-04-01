@@ -26,6 +26,9 @@ const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/Cours
 const TeacherCourseDetailPage = React.lazy(
   () => import('@/containers/Teacher/Courses/CourseDetail'),
 );
+const StudentCourseDetailPage = React.lazy(
+  () => import('@/containers/Student/Courses/CourseDetail'),
+);
 const StudentManagementPage = React.lazy(
   () => import('@/containers/Admin/UserManagement/StudentManagement'),
 );
@@ -299,8 +302,8 @@ const appRoutes: RouteObject[] = [
         element: <ViewCourses />,
       },
       {
-        path: 'current-courses/:studentId/:courseCode',
-        element: <CourseDetailPage />,
+        path: 'courses/:courseId',
+        element: <StudentCourseDetailPage />,
       },
     ],
   },
