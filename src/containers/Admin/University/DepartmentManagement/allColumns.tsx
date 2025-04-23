@@ -19,7 +19,6 @@ const confirm: PopconfirmProps['onConfirm'] = (e) => {
 };
 
 const cancel: PopconfirmProps['onCancel'] = (e) => {
-  console.log(e);
   message.error('Click on No');
 };
 

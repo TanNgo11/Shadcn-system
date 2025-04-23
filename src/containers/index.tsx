@@ -54,6 +54,15 @@ const CreateEditAdminPage = React.lazy(
 const DepartmentManagementPage = React.lazy(
   () => import('@/containers/Admin/University/DepartmentManagement'),
 );
+const BuildingManagementPage = React.lazy(
+  () => import('@/containers/Admin/University/BuildingManagement'),
+);
+const CreateEditBuildingPage = React.lazy(
+  () => import('@/containers/Admin/University/BuildingManagement/CreateEditViewBuilding'),
+);
+const ViewRoomsBuildingPage = React.lazy(
+  () => import('@/containers/Admin/University/BuildingManagement/ViewRoomsBuilding'),
+);
 const TeacherManagementPage = React.lazy(
   () => import('@/containers/Admin/UserManagement/TeacherManagement'),
 );
@@ -183,6 +192,22 @@ const appRoutes: RouteObject[] = [
       {
         path: 'departments-management',
         element: <DepartmentManagementPage />,
+      },
+      {
+        path: 'buildings-management',
+        element: <BuildingManagementPage />,
+      },
+      {
+        path: 'buildings/create',
+        element: <CreateEditBuildingPage />,
+      },
+      {
+        path: 'buildings/:id',
+        element: <CreateEditBuildingPage />,
+      },
+      {
+        path: 'buildings/:id/rooms',
+        element: <ViewRoomsBuildingPage />,
       },
       {
         path: 'students/create',

@@ -15,6 +15,7 @@ export const PATHS = {
   COURSES_MANAGEMENT: '/admin/courses-management',
   CLASSES_MANAGEMENT: '/admin/classes-management',
   DEPARTMENTS_MANAGEMENT: '/admin/departments-management',
+  BUILDINGS_MANAGEMENT: '/admin/buildings-management',
   ROOM_MANAGEMENT: '/admin/room-management',
   SEMESTER_MANAGEMENT: '/admin/semester-management/:id',
 
@@ -113,6 +114,10 @@ export default {
           {
             path: PATHS.DEPARTMENTS_MANAGEMENT,
             name: 'Departments',
+          },
+          {
+            path: PATHS.BUILDINGS_MANAGEMENT,
+            name: 'Buildings',
           },
           {
             path: PATHS.ROOM_MANAGEMENT,
