@@ -29,9 +29,13 @@
     "paths": {
       "@queries": ["src/queries"],
       "@queries/*": ["src/queries/*"],
-      "@/*": ["src/*"],
-    },
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src","src/**/*", "vite.config.ts"],
+  "include": ["src",
+    "src/**/*",
+    "vite.config.ts",
+    "node_modules/.pnpm/typescript@5.8.2/node_modules/typescript/lib/lib.es5.d.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
