@@ -1,9 +1,9 @@
 import ActionDialog from '@/components/ui/ActionsDialog';
-import { formatDate } from '@/utils';
-import { Callback } from '@/utils/helpers';
-import { ProColumns } from '@ant-design/pro-table';
-import { BlogsResponse, TagsResponse } from '@queries';
-import { getBlogActions } from './helpers';
+import {formatDate} from '@/utils';
+import {Callback} from '@/utils/helpers';
+import {ProColumns} from '@ant-design/pro-table';
+import {BlogsResponse, TagsResponse} from '@queries';
+import {getBlogActions} from './helpers';
 
 type Props = {
   navigate: Callback;
@@ -44,7 +44,7 @@ export const allColumns = (props: Props): ProColumns<BlogsResponse>[] => [
   {
     title: 'Actions',
     valueType: 'option',
-    render: (_text, record) => <ActionDialog actions={getBlogActions(record, props.navigate)} />,
+    render: (_text, record) => <ActionDialog actions={getBlogActions(record, props.navigate)}/>,
     key: 'actions',
   },
 ];
