@@ -1,11 +1,11 @@
-import { useNotification } from '@/containers/StartupContainers/ToastContainer';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
+import {useNotification} from '@/containers/StartupContainers/ToastContainer';
+import ProTable, {ActionType, ProColumns} from '@ant-design/pro-table';
 import useGetteachersInOpeningCourseByCourseId from '@queries/Courses/useGetTeachersInOpeningCourseByCourseId';
-import { RemovalTeacherFromCoursePayload } from '@queries/Registration/types';
-import { useRemoveTeacherFromCourses } from '@queries/Registration/useRemoveTeacherFromCourses';
-import { TeacherResponse } from '@queries/Teachers/types';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import { teachersAllColumns } from './allColumns';
+import {RemovalTeacherFromCoursePayload} from '@queries/Registration/types';
+import {useRemoveTeacherFromCourses} from '@queries/Registration/useRemoveTeacherFromCourses';
+import {TeacherResponse} from '@queries/Teachers/types';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import {teachersAllColumns} from './allColumns';
 
 interface CourseProps {
   courseId?: string;
@@ -14,18 +14,18 @@ interface CourseProps {
 }
 
 const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({
-  courseId,
-  semesterId,
-  departmentId,
-}: CourseProps) => {
+                                                                courseId,
+                                                                semesterId,
+                                                                departmentId,
+                                                              }: CourseProps) => {
   const toast = useNotification();
   const actionRef = useRef<ActionType>();
-  const { teachers, handleInvalidateTeachersList, setParams, totalElements } =
+  const {teachers, handleInvalidateTeachersList, setParams, totalElements} =
     useGetteachersInOpeningCourseByCourseId({
       courseId: courseId || '',
     });
 
-  const { onRemoveTeacherFromCourses } = useRemoveTeacherFromCourses();
+  const {onRemoveTeacherFromCourses} = useRemoveTeacherFromCourses();
 
   const handleRemoveTeacher = useCallback(
     (teacherId: string) => {
@@ -63,7 +63,7 @@ const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({
   );
 
   const teacherColumns: ProColumns<TeacherResponse>[] = useMemo(
-    () => teachersAllColumns({ handleRemoveTeacher }),
+    () => teachersAllColumns({handleRemoveTeacher}),
     [handleRemoveTeacher],
   );
 
@@ -77,7 +77,7 @@ const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({
       columns={teacherColumns}
       cardBordered
       request={async (_params, _sort, _filter) => {
-        const { current, pageSize, ...restParams } = _params;
+        const {current, pageSize, ...restParams} = _params;
         setParams({
           current: current ?? 1,
           pageSize: pageSize ?? 10,
@@ -112,10 +112,6 @@ const OpenCourseTeacherDetailsModal: React.FC<CourseProps> = ({
         showSizeChanger: false,
         total: totalElements,
       }}
-      // rowSelection={{
-      //   onChange: handleAddSelectionChange,
-      //   selectedRowKeys: selectedRowBaseCourses, // Dùng selectedRowKeys để phản ánh realtime
-      // }}
       dateFormatter="string"
       headerTitle="Teachers In Course"
       options={false}

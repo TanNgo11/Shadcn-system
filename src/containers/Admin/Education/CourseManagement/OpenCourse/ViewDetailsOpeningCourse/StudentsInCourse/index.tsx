@@ -1,9 +1,9 @@
-import { useNotification } from '@/containers/StartupContainers/ToastContainer';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import React, { useCallback, useMemo, useRef } from 'react';
+import {useNotification} from '@/containers/StartupContainers/ToastContainer';
+import ProTable, {ActionType, ProColumns} from '@ant-design/pro-table';
+import React, {useCallback, useMemo, useRef} from 'react';
 import useGetStudentsInOpeningCourseByCourseId from '@queries/Courses/useGetStudentsInOpeningCourseByCourseId';
-import { studentsAllColumns } from './allColumns';
-import { RemovalStudentFromCoursePayload, StudentResponse } from '@queries/Registration/types';
+import {studentsAllColumns} from './allColumns';
+import {RemovalStudentFromCoursePayload, StudentResponse} from '@queries/Registration/types';
 
 interface CourseProps {
   courseId?: string;
@@ -12,13 +12,13 @@ interface CourseProps {
 }
 
 const OpenCourseStudentDetailsModal: React.FC<CourseProps> = ({
-  courseId,
-  semesterId,
-  departmentId,
-}: CourseProps) => {
+                                                                courseId,
+                                                                semesterId,
+                                                                departmentId,
+                                                              }: CourseProps) => {
   const toast = useNotification();
   const actionRef = useRef<ActionType>();
-  const { students, handleInvalidateStudentsList, setParams, totalElements } =
+  const {students, handleInvalidateStudentsList, setParams, totalElements} =
     useGetStudentsInOpeningCourseByCourseId({
       courseId: courseId || '',
     });
@@ -54,7 +54,7 @@ const OpenCourseStudentDetailsModal: React.FC<CourseProps> = ({
   );
 
   const studentColumns: ProColumns<StudentResponse>[] = useMemo(
-    () => studentsAllColumns({ handleRemoveStudent }),
+    () => studentsAllColumns({handleRemoveStudent}),
     [handleRemoveStudent],
   );
 
@@ -64,7 +64,7 @@ const OpenCourseStudentDetailsModal: React.FC<CourseProps> = ({
       columns={studentColumns}
       cardBordered
       request={async (_params, _sort, _filter) => {
-        const { current, pageSize, ...restParams } = _params;
+        const {current, pageSize, ...restParams} = _params;
         setParams({
           current: current ?? 1,
           pageSize: pageSize ?? 10,
@@ -99,18 +99,15 @@ const OpenCourseStudentDetailsModal: React.FC<CourseProps> = ({
         showSizeChanger: false,
         total: totalElements,
       }}
-      // rowSelection={{
-      //   onChange: handleAddSelectionChange,
-      //   selectedRowKeys: selectedRowBaseCourses, // Dùng selectedRowKeys để phản ánh realtime
-      // }}
       dateFormatter="string"
-      headerTitle="Base Course Management"
+      headerTitle="Student In Course"
       options={false}
     />
   );
 };
 
 export default OpenCourseStudentDetailsModal;
+
 function useRemoveStudentsFromCourseRegistration(): { onRemoveStudentsFromCourse: any } {
   throw new Error('Function not implemented.');
 }

@@ -1,14 +1,14 @@
-import { useNotification } from '@/containers/StartupContainers/ToastContainer';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { allColumns } from './allColumns';
-import { TeacherResponse } from '@queries/Teachers/types';
-import { useAssignTeachersToCourse } from '@queries/Registration/useAssignTeachersToCourse';
-import { AssignTeacherPayload, RemovalTeacherFromCoursePayload } from '@queries/Registration/types';
-import { Modal } from 'antd';
-import { useGetTeachersList } from '@queries/Teachers/useGetTeachersList';
-import { useRemoveTeacherFromCourses } from '@queries/Registration/useRemoveTeacherFromCourses';
+import {useNotification} from '@/containers/StartupContainers/ToastContainer';
+import ProTable, {ActionType, ProColumns} from '@ant-design/pro-table';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
+import {useParams} from 'react-router-dom';
+import {allColumns} from './allColumns';
+import {TeacherResponse} from '@queries/Teachers/types';
+import {useAssignTeachersToCourse} from '@queries/Registration/useAssignTeachersToCourse';
+import {AssignTeacherPayload, RemovalTeacherFromCoursePayload} from '@queries/Registration/types';
+import {Modal} from 'antd';
+import {useGetTeachersList} from '@queries/Teachers/useGetTeachersList';
+import {useRemoveTeacherFromCourses} from '@queries/Registration/useRemoveTeacherFromCourses';
 
 interface AssignTeachersModalProps {
   courseId?: string[];
@@ -19,24 +19,24 @@ interface AssignTeachersModalProps {
 }
 
 const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
-  courseId,
-  open,
-  onClose,
-  semesterId,
-  departmentId,
-}: AssignTeachersModalProps) => {
+                                                                courseId,
+                                                                open,
+                                                                onClose,
+                                                                semesterId,
+                                                                departmentId,
+                                                              }: AssignTeachersModalProps) => {
   const [selectedTeacherId, setSelectedTeacherId] = useState<string>();
   const toast = useNotification();
-  const { id } = useParams<{ id: string }>();
+  const {id} = useParams<{ id: string }>();
   const handleAddSelectionChange = (selectedTeacher: TeacherResponse) => {
     setSelectedTeacherId(selectedTeacher.teacherId);
   };
   const actionRef = useRef<ActionType>();
 
-  const { teachers, handleInvalidateTeachersList, setParams, totalElements } = useGetTeachersList();
+  const {teachers, handleInvalidateTeachersList, setParams, totalElements} = useGetTeachersList();
 
-  const { onAssignTeacher, isLoading } = useAssignTeachersToCourse();
-  const { onRemoveTeacherFromCourses } = useRemoveTeacherFromCourses();
+  const {onAssignTeacher, isLoading} = useAssignTeachersToCourse();
+  const {onRemoveTeacherFromCourses} = useRemoveTeacherFromCourses();
 
   const handleAssignTeacher = useCallback(
     (teacher: any) => {
@@ -96,7 +96,7 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
   );
 
   const columns: ProColumns<TeacherResponse>[] = useMemo(
-    () => allColumns({ handleAssignTeacher, handleRemoveTeacher }),
+    () => allColumns({handleAssignTeacher, handleRemoveTeacher}),
     [handleAssignTeacher, handleRemoveTeacher],
   );
 
@@ -105,21 +105,21 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
       title={`Teachers List`}
       centered
       open={open}
-      //onOk={handleAssignTeacher()}
       onCancel={onClose}
-      okText="Add"
       width={1000}
       confirmLoading={isLoading}
+      footer={null}
     >
       <ProTable<TeacherResponse>
         dataSource={teachers}
         columns={columns}
         cardBordered
         request={async (_params, _sort, _filter) => {
-          const { current, pageSize, ...restParams } = _params;
+          const {current, pageSize, ...restParams} = _params;
           setParams({
             current: current ?? 1,
             pageSize: pageSize ?? 10,
+            departmentId: departmentId,
             ...restParams,
           });
           actionRef.current?.reload();
@@ -131,9 +131,7 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
           };
         }}
         rowKey="id"
-        search={{
-          layout: 'vertical',
-        }}
+        search={false}
         form={{
           syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
             if (type === 'get') {
@@ -150,12 +148,7 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
           showSizeChanger: false,
           total: totalElements,
         }}
-        // rowSelection={{
-        //   onChange: handleAddSelectionChange,
-        //   selectedRowKeys: selectedRowBaseCourses, // Dùng selectedRowKeys để phản ánh realtime
-        // }}
         dateFormatter="string"
-        headerTitle="Base Course Management"
         options={false}
       />
     </Modal>
