@@ -40,3 +40,7 @@ export type TableParams = {
 export type GetPropertiesParams = {
   [key: string]: string | number | string[] | boolean;
 };
+function alert(arg0: string) {
+  throw new Error("Function not implemented.");
+}
+

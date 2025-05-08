@@ -13,12 +13,12 @@ type DepartmentsProps = {
 };
 
 // Notification box to confirm the deletion of a Department
-const confirm: PopconfirmProps['onConfirm'] = (e) => {
+const confirm: PopconfirmProps['onConfirm'] = () => {
   //handleDeleteDepartment(_record.id, Action.DELETE);
   message.success('Click on Yes');
 };
 
-const cancel: PopconfirmProps['onCancel'] = (e) => {
+const cancel: PopconfirmProps['onCancel'] = () => {
   message.error('Click on No');
 };
 
