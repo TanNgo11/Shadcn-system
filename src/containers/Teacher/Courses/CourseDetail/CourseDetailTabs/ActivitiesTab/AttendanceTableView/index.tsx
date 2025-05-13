@@ -3,7 +3,7 @@ import { Button, Modal, Select, message } from 'antd';
 import ProTable, { ProColumns } from '@ant-design/pro-table';
 import {
   AttendanceResponse,
-  StudentAttendanceRecord,
+  SessionResponse,
   TeacherCheckAttendance,
 } from '@/queries/Attendance/types';
 import { allColumns } from './allColumns';
@@ -21,13 +21,11 @@ const AttendanceTableView: React.FC<AttendanceTableViewProps> = ({
   visible,
   onClose,
 }) => {
-  const [attendanceRecords, setAttendanceRecords] = useState<StudentAttendanceRecord[]>([]);
+  const [attendanceResponses, setAttendanceResponses] = useState<AttendanceResponse[]>([]);
   const [notes, setNotes] = useState<Record<number, string>>({});
+  const [selectedSessionId, setSelectedSessionId] = useState<string | null>('Select Session');
+  const [selectedSession, setSelectedSession] = useState<SessionResponse | undefined>();
 
-  // For ClassSession fetching
-  const [selectedSessionId, setSelectedSessionId] = useState<string | null>('Session');
-
-  // Get the return attributes from hook
   const {
     data: allSessions,
     error,
@@ -38,22 +36,14 @@ const AttendanceTableView: React.FC<AttendanceTableViewProps> = ({
     enabled: visible && !!courseId,
   });
 
+  // Update AttendanceResponse when SelectedSession is changed
   useEffect(() => {
-    if (allSessions?.result?.length && !selectedSessionId) {
-      setSelectedSessionId(allSessions.result[0].id.toString());
+    if (selectedSession?.attendances) {
+      setAttendanceResponses(selectedSession.attendances);
+    } else {
+      setAttendanceResponses([]);
     }
-
-    console.log('Selected Session ID:', selectedSessionId);
-    console.log('course:', courseId);
-  }, [allSessions, selectedSessionId, courseId]);
-
-  const selectedSession = useMemo(() => {
-    return Array.isArray(allSessions?.result)
-      ? allSessions.result.find(
-          (session: { id: number }) => session.id.toString() === selectedSessionId,
-        )
-      : null;
-  }, [allSessions, selectedSessionId]);
+  }, [selectedSession]);
 
   const { onCheckAttendance, isLoading: isSubmitting } = useCheckAttendanceForTeacher({
     onSuccess: async () => {
@@ -66,43 +56,23 @@ const AttendanceTableView: React.FC<AttendanceTableViewProps> = ({
     },
   });
 
-  useEffect(() => {
-    if (!selectedSession || !Array.isArray(selectedSession?.timetable?.attendanceRecords)) return;
-
-    const initialNotes: Record<number, string> = {};
-    const initialRecords: StudentAttendanceRecord[] =
-      selectedSession.timetable.attendanceRecords.map(
-        (attendanceRecords: StudentAttendanceRecord) => {
-          initialNotes[attendanceRecords.studentId] = attendanceRecords.notes || '';
-          return {
-            studentId: attendanceRecords.studentId,
-            status: attendanceRecords.status || 'Present',
-            notes: attendanceRecords.notes || '',
-          };
-        },
-      );
-
-    setAttendanceRecords(initialRecords);
-    setNotes(initialNotes);
-  }, [selectedSession]);
-
   const handleStatusChange = (studentId: number, status: string) => {
-    setAttendanceRecords((prev) =>
+    setAttendanceResponses((prev) =>
       prev.map((record) => (record.studentId === studentId ? { ...record, status } : record)),
     );
   };
 
-  const handleNotesChange = (studentId: number, note: string) => {
-    setNotes((prev) => ({ ...prev, [studentId]: note }));
-    setAttendanceRecords((prev) =>
-      prev.map((record) => (record.studentId === studentId ? { ...record, notes: note } : record)),
+  const handleNotesChange = (studentId: number, notes: string) => {
+    setNotes((prev) => ({ ...prev, [studentId]: notes }));
+    setAttendanceResponses((prev) =>
+      prev.map((record) => (record.studentId === studentId ? { ...record, notes: notes } : record)),
     );
   };
 
   const handleSubmit = () => {
     const payload: TeacherCheckAttendance = {
       classSessionId: parseInt(selectedSessionId, 10),
-      attendanceRecords,
+      attendanceResponses,
     };
     onCheckAttendance(payload);
   };
@@ -114,7 +84,7 @@ const AttendanceTableView: React.FC<AttendanceTableViewProps> = ({
 
   return (
     <Modal
-      title={`Attendance for Session: ${selectedSessionId == 'Session' ? '' : selectedSessionId}`}
+      title={`Attendance for Session: ${selectedSessionId === 'Select Session' ? '' : selectedSession.sessionDate.toString()}`}
       open={visible}
       onCancel={onClose}
       width={900}
@@ -130,22 +100,26 @@ const AttendanceTableView: React.FC<AttendanceTableViewProps> = ({
       <Select
         placeholder="Select a class session"
         value={selectedSessionId}
-        onChange={setSelectedSessionId}
+        onChange={(value) => {
+          setSelectedSessionId(value);
+          const session = allSessions?.result?.find((session) => session.id.toString() === value);
+          setSelectedSession(session);
+        }}
         loading={isFetching}
         style={{ width: 200, marginBottom: 16 }}
       >
         {allSessions?.result?.map((session) => (
-          <Select.Option key={session.id} value={session.id}>
-            {`Session ${session.id} - ${session.sessionDate}`}
+          <Select.Option key={session.id} value={session.id.toString()}>
+            {`Session - ${session.sessionDate}`}
           </Select.Option>
         ))}
       </Select>
-      <ProTable
+      <ProTable<AttendanceResponse>
         columns={columns}
-        dataSource={selectedSession?.timetable?.attendanceRecords || []}
+        dataSource={attendanceResponses} // Sử dụng attendanceResponses làm dataSource
         rowKey="studentId"
         search={false}
-        pagination={false}
+        pagination={{ pageSize: 10 }}
         loading={isFetching}
         options={false}
       />

@@ -1,7 +1,8 @@
 import { Select, Input } from 'antd';
-import { AttendanceResponse, StudentAttendanceRecord } from '@/queries/Attendance/types';
+import { AttendanceResponse } from '@/queries/Attendance/types';
 import { Callback } from '@/utils/helpers';
 import { ProColumns } from '@ant-design/pro-table';
+import { ATTENDANCE_STATUS } from './keys';
 
 const { Option } = Select;
 
@@ -15,25 +16,25 @@ export const allColumns = ({
   notes,
   handleStatusChange,
   handleNotesChange,
-}: AttendanceColumnsProps): ProColumns<StudentAttendanceRecord>[] => [
+}: AttendanceColumnsProps): ProColumns<AttendanceResponse>[] => [
   {
     title: 'Student Name',
-    dataIndex: 'studentId',
+    dataIndex: 'studentName',
     key: 'studentName',
   },
   {
     title: 'Status',
     dataIndex: 'status',
     key: 'status',
-    render: (_: any, record: StudentAttendanceRecord) => (
+    render: (_: any, response: AttendanceResponse) => (
       <Select
-        defaultValue={record.status || 'PRESENT'}
+        defaultValue={response.status || 'PRESENT'}
         style={{ width: 120 }}
-        onChange={(value) => handleStatusChange(record.studentId, value)} // Pass value
+        onChange={(value) => handleStatusChange(response.studentId, value)} // Pass value
       >
-        <Option value="Present">Present</Option>
-        <Option value="Late">Late</Option>
-        <Option value="Absent">Absent</Option>
+        <Option value={ATTENDANCE_STATUS.PRESENT}>{ATTENDANCE_STATUS.PRESENT}</Option>
+        <Option value={ATTENDANCE_STATUS.LATE}>{ATTENDANCE_STATUS.LATE}</Option>
+        <Option value={ATTENDANCE_STATUS.ABSENT}>{ATTENDANCE_STATUS.ABSENT}</Option>
       </Select>
     ),
   },
@@ -41,11 +42,11 @@ export const allColumns = ({
     title: 'Notes',
     dataIndex: 'notes',
     key: 'notes',
-    render: (_: any, record: StudentAttendanceRecord) => (
+    render: (_: any, response: AttendanceResponse) => (
       <Input
-        placeholder="Add notes"
-        value={notes[record.studentId] || ''}
-        onChange={(e) => handleNotesChange(record.studentId)} // Pass note value
+        placeholder={response.studentName + ' ' + response.date}
+        value={response.studentName + ' ' + response.date}
+        onChange={(e) => handleNotesChange(response.studentId, 'test note')} // Pass note value
       />
     ),
   },

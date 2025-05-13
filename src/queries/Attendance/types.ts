@@ -2,7 +2,7 @@ import { DayOfWeek } from './keys';
 
 export type TeacherCheckAttendance = {
   classSessionId: number;
-  attendanceRecords: StudentAttendanceRecord[];
+  attendanceResponses: AttendanceResponse[];
 };
 
 export type StudentAttendanceRecord = {
@@ -15,15 +15,15 @@ export type AttendanceResponse = {
   studentId: number;
   studentName: string;
   classSessionId: number;
-  attendanceStatus: string;
+  status: string;
   notes: string;
   date: string;
 };
 
 export type TimetableResponse = {
   id: number;
-  attendanceRecords: StudentAttendanceRecord[];
   daysOfWeek: DayOfWeek;
+  timeSlots: TimeSlotResponse[];
 };
 
 export type TimeSlotResponse = {
@@ -48,6 +48,7 @@ export type SessionResponse = {
   status: string;
   replacedById?: number;
   replacedBySessionId?: number;
+  attendances: AttendanceResponse[];
 };
 
 export type StudentReference = {
