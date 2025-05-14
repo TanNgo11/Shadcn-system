@@ -41,6 +41,9 @@ const CreateEditAcademicYearPage = React.lazy(
 const CreateEditBaseCourse = React.lazy(
   () => import('@/containers/Admin/Education/CourseManagement/CreateEditViewCourses'),
 );
+
+const TimeTablePage = React.lazy(() => import('@/containers/Admin/Education/TimeTableManagement'));
+
 const CreateEditStudentPage = React.lazy(
   () => import('@/containers/Admin/UserManagement/StudentManagement/CreateEditViewStudent'),
 );
@@ -72,6 +75,7 @@ const AdminManagementPage = React.lazy(
 const CoursesInDepartmentPage = React.lazy(
   () => import('@/containers/Admin/University/DepartmentManagement/ViewCoursesDepartment'),
 );
+
 const CourseManagementPage = React.lazy(
   () => import('@/containers/Admin/Education/CourseManagement'),
 );
@@ -257,6 +261,11 @@ const appRoutes: RouteObject[] = [
         path: 'open-course/:id',
         element: <OpenCoursePage />,
       },
+      {
+        path: PATHS.TIME_TABLE_MANAGEMENT,
+        element: <TimeTablePage />,
+      },
+
       {
         path: 'profile/:userId',
         element: <AdminProfilePage />,

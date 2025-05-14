@@ -1,9 +1,10 @@
 import { PATHS } from '@/containers/Layouts/Components/_AdminSidebarProps';
 import { SemesterResponse } from '@/queries/Semester';
+import { Callback } from '@/utils/helpers';
 import { ProColumns } from '@ant-design/pro-table';
 import { Button } from 'antd';
 
-export const allColumns = (): ProColumns<SemesterResponse>[] => [
+export const allColumns = (handleNavigateToTimeTable: Callback): ProColumns<SemesterResponse>[] => [
   {
     title: 'ID',
     dataIndex: 'id',
@@ -45,15 +46,22 @@ export const allColumns = (): ProColumns<SemesterResponse>[] => [
       false: { text: 'Inactive', status: 'Error' },
     },
   },
-  // action open course here
+  {
+    title: 'Time Table',
+    dataIndex: 'timeTableSetUp',
+    valueType: 'select',
+    valueEnum: {
+      true: { text: 'Yes', status: 'Success' },
+      false: { text: 'Inactive', status: 'Error' },
+    },
+  },
   {
     title: 'Action',
     valueType: 'option',
-    render: (_, record) =>
-      record.registrationOpen && record.semesterActive ? (
-        <Button onClick={() => {
-          {PATHS.OPEN_COURSE.replace(':id', record.id)}
-        }}>Open Courses</Button>
-      ) : null,
+    render: (_, record) => [
+      <Button key="view-timetable" onClick={(event) => handleNavigateToTimeTable(event, record.id)}>
+        Time Table
+      </Button>,
+    ],
   },
 ];

@@ -20,6 +20,7 @@ export const PATHS = {
   SEMESTER_MANAGEMENT: '/admin/semester-management/:id',
 
   REGISTRATION_MANAGEMENT: '/admin/registration-management',
+  TIME_TABLE_MANAGEMENT: '/admin/timetable-management/:semesterId',
 
   //Open Course
   OPEN_COURSE: '/admin/open-course/:id',
@@ -39,7 +40,7 @@ export const PATHS = {
   EDIT_BLOG: '/admin/blog/:id',
   PREVIEW_BLOG: '/admin/blog/preview/:id',
 
-  // Student 
+  // Student
   STUDENT_PROFILE: '/student/profile/:userId',
 };
 

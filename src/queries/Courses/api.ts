@@ -17,6 +17,11 @@ const useApi = (basename = API_URLS.COURSE) => {
     return privateApi.get(`/api/v1/departments/courses?${stringify(params)}`);
   };
 
+  const getAllCoursesBySemesterId = (params: GetPropertiesParams) => {
+    const { semesterId, ...restParams } = params;
+    return privateApi.get(`/api/v1/semesters/${semesterId}/courses?${stringify(restParams)}`);
+  };
+
   const addTeacherIntoCourse = (payload: CourseActionPayload) => {
     return privateApi.post(`/api/v1/departments/course/add-teachers`, payload);
   };
@@ -112,8 +117,8 @@ const useApi = (basename = API_URLS.COURSE) => {
   };
 
   const updateCourseInformation = (payload: UpdateCourseInformationPayload) => {
-    return privateApi.put(`/api/v1/departments/courses/${payload.courseId}`, payload)
-  }
+    return privateApi.put(`/api/v1/departments/courses/${payload.courseId}`, payload);
+  };
 
   return {
     updateCourseInformation,
@@ -129,6 +134,7 @@ const useApi = (basename = API_URLS.COURSE) => {
     uploadImageInCourse,
     uploadMultiFileInCourse,
     createBaseCourses,
+    getAllCoursesBySemesterId,
     getListCoursesOfTeacherBySemesterId,
     getAllTeachersInCourseByCourseId,
     getAllStudentsInCourseByCourseId,
