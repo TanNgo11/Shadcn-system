@@ -25,7 +25,18 @@ const SemesterManagement = () => {
     return semesters.filter((semester) => semester.academicYear?.id === Number(id)) || [];
   }, [semesters, id]);
 
-  const columns: ProColumns<SemesterResponse>[] = useMemo(() => allColumns(), []);
+  const handleNavigateToTimeTable = React.useCallback(
+    (event: any, semesterId: string) => {
+      event.stopPropagation();
+      navigate(PATHS.TIME_TABLE_MANAGEMENT.replace(':semesterId', semesterId));
+    },
+    [navigate],
+  );
+
+  const columns: ProColumns<SemesterResponse>[] = useMemo(
+    () => allColumns(handleNavigateToTimeTable),
+    [handleNavigateToTimeTable],
+  );
 
   return (
     <ProTable<SemesterResponse>
