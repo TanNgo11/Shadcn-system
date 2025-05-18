@@ -150,8 +150,8 @@ const appRoutes: RouteObject[] = [
         element: <ViewCourses />,
       },
       {
-        path: 'current-courses/:studentId/:courseCode',
-        element: <CourseDetailPage />,
+        path: 'courses/:courseId',
+        element: <StudentCourseDetailPage />,
       },
     ],
   },
@@ -312,32 +312,6 @@ const appRoutes: RouteObject[] = [
       {
         path: 'courses/:courseId',
         element: <TeacherCourseDetailPage />,
-      },
-    ],
-  },
-  {
-    element: (
-      <RoleBasedRoute requiredRole={[Role.STUDENT]}>
-        <StudentLayout />
-      </RoleBasedRoute>
-    ),
-    path: '/student',
-    children: [
-      {
-        path: 'profile/:userId',
-        element: <Profile />,
-      },
-      {
-        path: 'register-course',
-        element: <StudentRegisterCoursePage />,
-      },
-      {
-        path: 'current-courses',
-        element: <ViewCourses />,
-      },
-      {
-        path: 'courses/:courseId',
-        element: <StudentCourseDetailPage />,
       },
     ],
   },
