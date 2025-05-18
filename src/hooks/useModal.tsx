@@ -7,7 +7,7 @@ interface UseModalReturn {
 	toggle: () => void;
 }
 
-export const useModal = (initialState: boolean = false): UseModalReturn => {
+export const useModal = (initialState = false): UseModalReturn => {
 	const [isOpen, setIsOpen] = useState(initialState);
 
 	const open = () => setIsOpen(true);

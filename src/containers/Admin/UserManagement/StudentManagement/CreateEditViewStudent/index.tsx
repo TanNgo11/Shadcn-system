@@ -31,14 +31,11 @@ const CreateEditViewStudent: React.FC = () => {
         message: 'Create student successfully',
         description: 'You have successfully created a new student.',
       });
-      handleInvalidateStudentsList({
-        current: 1,
-        pageSize: 10,
-      });
+      handleInvalidateStudentsList();
       navigate(-1);
     },
     onError: (error: any) => {
-      const errorMessage = error?.response?.data?.message || 'An unexpected error occurred.';
+      const errorMessage = error?.response?.data?.message ?? 'An unexpected error occurred.';
       if (error?.response?.data?.code !== 1000) {
         toast.error({
           message: 'Create student failed',
@@ -53,15 +50,12 @@ const CreateEditViewStudent: React.FC = () => {
         message: 'Update student successfully',
         description: 'You have successfully updated the student.',
       });
-      handleInvalidateStudentsList({
-        current: 1,
-        pageSize: 10,
-      });
+      handleInvalidateStudentsList();
       handleInvalidStudentById();
       navigate(-1);
     },
     onError: (error: any) => {
-      const errorMessage = error?.response?.data?.message || 'An unexpected error occurred.';
+      const errorMessage = error?.response?.data?.message ?? 'An unexpected error occurred.';
       if (error?.response?.data?.code !== 1000) {
         toast.error({
           message: 'Update student failed',
@@ -75,7 +69,7 @@ const CreateEditViewStudent: React.FC = () => {
     control,
     handleSubmit,
     reset,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<StudentPayload>({
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -83,12 +77,11 @@ const CreateEditViewStudent: React.FC = () => {
     resolver: zodResolver(studentRegisterFormSchema),
   });
 
-  console.log(errors);
   useEffect(() => {
     if (id) {
       reset({ ...student, id: Number(studentId) });
     }
-  }, [student, reset]);
+  }, [student, reset, id, studentId]);
 
   const onSubmit = (data: CRUStudentPayload) => {
     if (!id) {
@@ -110,7 +103,7 @@ const CreateEditViewStudent: React.FC = () => {
 
   return (
     <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
-      <Card title="Account Information" bordered={false}>
+      <Card title="Account Information">
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item label="Username">

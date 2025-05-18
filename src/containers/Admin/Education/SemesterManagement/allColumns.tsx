@@ -61,7 +61,7 @@ export const allColumns = (handleNavigateToTimeTable: Callback): ProColumns<Seme
     render: (_, record) => [
       <Button key="view-timetable" onClick={(event) => handleNavigateToTimeTable(event, record.id)}>
         Time Table
-      </Button>,
+      </Button>
     ],
   },
 ];

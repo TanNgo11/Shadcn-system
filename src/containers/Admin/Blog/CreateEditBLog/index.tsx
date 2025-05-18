@@ -71,7 +71,7 @@ const CreateEditBlog = () => {
       navigate(PATHS.BLOG);
     },
     onError: (err: any) => {
-      toast.error({ message: err.message || 'Blog update failed' });
+      toast.error({ message: err.message ?? 'Blog update failed' });
     },
   });
 
