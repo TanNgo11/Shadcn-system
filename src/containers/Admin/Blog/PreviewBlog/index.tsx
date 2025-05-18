@@ -50,8 +50,8 @@ const PreviewBlog = () => {
         {blogData.tags && blogData.tags.length > 0 && (
           <Col span={24}>
             <Typography.Text strong>Tags: </Typography.Text>
-            {blogData.tags.map((tag, index) => (
-              <Tag key={index} color="blue" style={{ marginRight: '8px' }}>
+            {blogData.tags.map((tag) => (
+              <Tag key={tag.id || tag.name || tag.toString()} color="blue" style={{ marginRight: '8px' }}>
                 {tag.name || tag.toString()}
               </Tag>
             ))}

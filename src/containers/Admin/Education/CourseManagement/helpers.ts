@@ -6,6 +6,7 @@ export interface CourseResponse {
   credit: string;
   teacherIds: string[];
   studentIds: string[];
+  processStatus: string;
 }
 
 export interface BaseCourseResponse {

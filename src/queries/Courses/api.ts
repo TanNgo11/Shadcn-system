@@ -5,6 +5,7 @@ import {
   BaseCourseResponse,
   CourseActionPayload,
   FileUploadPayload,
+  UpdateConstrainPayload,
   UpdateCourseInformationPayload,
   UpdateTeacherReferencePayload,
 } from './types';
@@ -40,6 +41,11 @@ const useApi = (basename = API_URLS.COURSE) => {
 
   const createBaseCourses = (payload: BaseCourseResponse[]) => {
     return privateApi.post(`api/v1/departments/base-course`, payload);
+  };
+
+  const updateConstraint = (payload: UpdateConstrainPayload) => {
+    const { courseId, ...restPayload } = payload;
+    return privateApi.put(`/api/v1/departments/courses/${courseId}/constraint`, restPayload);
   };
 
   const getAllTeachersInCourse = (
@@ -121,6 +127,7 @@ const useApi = (basename = API_URLS.COURSE) => {
   };
 
   return {
+    updateConstraint,
     updateCourseInformation,
     getAllCourses,
     getCourseDetail,

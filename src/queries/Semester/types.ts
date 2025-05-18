@@ -28,5 +28,5 @@ export interface CourseResponse {
   remain: number;
   teacherIds: string[];
   studentIds: string[];
+  processStatus: string;
 }
-

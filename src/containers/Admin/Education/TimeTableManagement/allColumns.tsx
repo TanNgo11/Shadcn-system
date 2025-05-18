@@ -1,11 +1,17 @@
 import { ProColumns } from '@ant-design/pro-table';
 import { CourseResponse } from '../CourseManagement/helpers';
 import { Button } from 'antd';
+import { Callback } from '@/utils/helpers';
+import ChipCommon from './components/ChipCommon';
+import ActionDialog from '@/components/ui/ActionsDialog';
+import { getCourseActions } from './components/TimeTableActions/TimeTableActions';
 
-type CoursesProps = {};
+type CoursesProps = {
+  handleEditCourseConstraint: Callback;
+};
 
 export const allColumns = ({
-  handleAssignTeachers,
+  handleEditCourseConstraint,
 }: CoursesProps): ProColumns<CourseResponse>[] => [
   {
     title: 'ID',
@@ -18,44 +24,38 @@ export const allColumns = ({
     title: 'No.',
     valueType: 'index',
     width: 48,
+    align: 'center',
   },
 
   {
     title: 'Code',
     dataIndex: 'code',
     valueType: 'text',
+    align: 'center',
   },
   {
     title: 'Course Name',
     dataIndex: 'name',
     valueType: 'text',
-    onCell: () => {
-      return {};
-    },
   },
   {
     title: 'Credit',
     dataIndex: 'credit',
     valueType: 'text',
+    align: 'right',
   },
   {
     title: 'Status',
     dataIndex: 'processStatus',
     valueType: 'select',
-    valueEnum: {
-      true: { text: 'ready to start', status: 'Success' },
-      false: { text: 'required fields', status: 'Error' },
-    },
+    render: (_, record) => <ChipCommon status={record.processStatus} />,
   },
   {
     title: 'Option',
     valueType: 'option',
     key: 'option',
     render: (_text, record) => (
-      <>
-        <Button onClick={(event) => handleNavigateToTimeTable(event, record.id)}>Time Table</Button>
-        ,
-      </>
+      <ActionDialog actions={getCourseActions(record, handleEditCourseConstraint)} />
     ),
   },
 ];

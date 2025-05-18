@@ -8,6 +8,12 @@ export interface CourseActionPayload {
   semesterIds?: string[];
 }
 
+export interface UpdateConstrainPayload {
+  courseId: number;
+  maxStudents: number;
+  numsOfTimetable: number;
+}
+
 export interface FileUploadPayload {
   departmentId: string;
   courseId: string;
