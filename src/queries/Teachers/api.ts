@@ -10,6 +10,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   const publicApi = useHttpPublicRequest(baseURL);
   const privateApi = useHttpPrivateRequest(baseURL);
   const teacherPrivateApi = useHttpPrivateRequest(API_URLS.PROFILE);
+  const teacherCoursePrivateApi = useHttpPrivateRequest(API_URLS.COURSE);
 
   const createTeacher = (payload: CrudTeacherPayload) => {
     return privateApi.post('/api/v1/users/teacher/registration', payload);
@@ -41,6 +42,15 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
     });
   };
 
+  const getAllTeachersHaveCourseInSemester = (
+    semesterId: string | number,
+    params: GetPropertiesParams,
+  ) => {
+    return teacherCoursePrivateApi.get(
+      `/api/v1/references/teachers/semesters/${semesterId}?${stringify(params)}`,
+    );
+  };
+
   return {
     createTeacher,
     getTeachersList,
@@ -49,6 +59,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
     deleteTeacher,
     deleteTeacherById,
     deleteTeacherByUsernames,
+    getAllTeachersHaveCourseInSemester,
   };
 };
 

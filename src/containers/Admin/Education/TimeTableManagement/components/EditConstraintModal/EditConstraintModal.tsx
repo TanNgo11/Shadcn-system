@@ -44,12 +44,12 @@ const EditConstraintModal: React.FC<Props> = ({ open, onCancel, course }) => {
     resolver: zodResolver(constrainFormSchema),
   });
   useEffect(() => {
-    console.log("🚀 ~ errors:", errors);
+    console.log('🚀 ~ errors:', errors);
   }, [errors]);
 
   const onSubmit = (data: UpdateConstrainPayload) => {
     console.log('hehe');
-    
+
     if (isEmpty(course)) return;
     console.log('huhu');
 
