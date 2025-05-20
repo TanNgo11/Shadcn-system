@@ -1,8 +1,8 @@
-import {API_QUERIES, ApiResponseType, responseWrapper} from "@queries";
-import {AttendanceResponse} from "@queries/Attendance/types.ts";
-import {useQuery, useQueryClient, UseQueryOptions} from "react-query";
-import {attendanceApis} from "@queries/Attendance/index.ts";
-import {API_ATTENDANCE_QUERIES} from "@queries/Attendance/keys.ts";
+import { API_QUERIES, ApiResponseType, responseWrapper } from '@queries';
+import { AttendanceResponse } from '@queries/Attendance/types.ts';
+import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
+import { attendanceApis } from '@queries/Attendance/index.ts';
+import { API_ATTENDANCE_QUERIES } from '@queries/Attendance/keys.ts';
 
 export default function useGetAttendancesBySessionId(
   options?: UseQueryOptions<ApiResponseType<AttendanceResponse[]>, Error> & {

@@ -6,6 +6,11 @@ import { CourseResponse } from '../CourseManagement/helpers';
 import { allColumns } from './allColumns';
 import { useTimeTableManagement } from './useTimeTableManagement';
 import EditConstraintModal from './components/EditConstraintModal/EditConstraintModal';
+import { useGetAllTeachesHaveCourseInSemester } from '@queries/Teachers/useGetAllTeachersHaveCourseInSemester';
+import { TeacherResponse } from '@queries/Teachers/types';
+import { Tabs } from 'antd';
+import type { TabsProps } from 'antd';
+import TeacherTableActions from './components/TeacherTable/TeacherTable';
 
 const TimeTableManagement = () => {
   const { semesterId } = useParams();
@@ -21,57 +26,56 @@ const TimeTableManagement = () => {
     [handleEditCourseConstraint],
   );
 
+  const items: TabsProps['items'] = [
+    {
+      key: 'courses',
+      label: 'Courses',
+      children: (
+        <ProTable<CourseResponse>
+          actionRef={actionRef}
+          dataSource={courses}
+          columns={columns}
+          cardBordered
+          request={async (_params, _sort, _filter) => {
+            const { current, pageSize, ...restParams } = _params;
+            setParams({
+              current: current ?? 1,
+              pageSize: pageSize ?? 10,
+              semesterId: semesterId,
+              ...restParams,
+            });
+
+            return {
+              data: courses,
+              success: true,
+              total: totalElements,
+            };
+          }}
+          rowKey="id"
+          search={false}
+          pagination={{
+            pageSizeOptions: [10, 20, 50, 100],
+            showSizeChanger: true,
+            showPrevNextJumpers: true,
+            showTotal: (total: number) => `Total ${total} items`,
+            onChange: (page: any) => console.log(page),
+          }}
+          dateFormatter="string"
+          headerTitle="Courses List"
+        />
+      ),
+    },
+    {
+      key: 'teachers',
+      label: 'Teachers',
+      children: <TeacherTableActions semesterId={semesterId} />,
+    },
+  ];
+
   return (
     <>
-      <ProTable<CourseResponse>
-        actionRef={actionRef}
-        dataSource={courses}
-        columns={columns}
-        cardBordered
-        request={async (_params, _sort, _filter) => {
-          const { current, pageSize, ...restParams } = _params;
-          setParams({
-            current: current ?? 1,
-            pageSize: pageSize ?? 10,
-            semesterId: semesterId,
-            ...restParams,
-          });
-          actionRef.current?.reload();
-
-          return {
-            data: courses,
-            success: true,
-            total: totalElements,
-          };
-        }}
-        rowKey="id"
-        search={false}
-        form={{
-          syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
-            if (type === 'get') {
-              return {
-                ...values,
-              };
-            }
-            return values;
-          },
-        }}
-        pagination={{
-          pageSizeOptions: [10, 20, 50, 100],
-          showSizeChanger: true,
-          showPrevNextJumpers: true,
-          showTotal: (total: number) => `Total ${total} items`,
-          onChange: (page: any) => console.log(page),
-        }}
-        dateFormatter="string"
-        headerTitle="Courses List"
-      />
-      {/* Example Modal usage */}
-      <EditConstraintModal
-        open={isOpen}
-        onCancel={close}
-        course={selectedCourse}
-      />
+      <Tabs defaultActiveKey="courses" items={items} />
+      <EditConstraintModal open={isOpen} onCancel={close} course={selectedCourse} />
     </>
   );
 };

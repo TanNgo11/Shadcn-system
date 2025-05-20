@@ -13,6 +13,7 @@ import CreateEditBlog from './Admin/Blog/CreateEditBLog';
 import { PATHS } from './Layouts/Components/_AdminSidebarProps';
 import RegistrationManagement from './Admin/Education/RegistrationManagement';
 import Profile from '@/containers/Student/Profile';
+import TimeSlotTableActions from './Admin/Education/TimeTableManagement/components/TimeSlotTable/TimeSlotTable';
 
 const PreviewBlog = React.lazy(() => import('@/containers/Admin/Blog/PreviewBlog'));
 const BlogList = React.lazy(() => import('@/containers/Admin/Blog'));
@@ -22,7 +23,7 @@ const NotFoundPage = React.lazy(() => import('@/containers/StartupContainers/Not
 const StudentProfilePage = React.lazy(() => import('@/containers/Student/Profile'));
 const TeacherProfilePage = React.lazy(() => import('@/containers/Teacher/Profile'));
 const AdminProfilePage = React.lazy(() => import('@/containers/Admin/Profile'));
-const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/CourseDetailPage'));
+//const CourseDetailPage = React.lazy(() => import('@/containers/CoursesPage/CourseDetailPage'));
 const TeacherCourseDetailPage = React.lazy(
   () => import('@/containers/Teacher/Courses/CourseDetail'),
 );
@@ -88,6 +89,13 @@ const OpenCoursePage = React.lazy(
   () => import('@/containers/Admin/Education/CourseManagement/OpenCourse'),
 );
 
+const TimeSlotTeacherSemesterManagerPage = React.lazy(
+  () =>
+    import(
+      '@/containers/Admin/Education/TimeTableManagement/components/TimeSlotTable/TimeSlotTable'
+    ),
+);
+
 const StudentRegisterCoursePage = React.lazy(() => import('@/containers/Student/RegisterCourse'));
 const ViewCourses = React.lazy(() => import('@/containers/Student/ViewCourses'));
 const GoogleAuthenticatePage = React.lazy(() => import('@/containers/GoogleAuthenticate'));
@@ -137,10 +145,10 @@ const appRoutes: RouteObject[] = [
       //   path: 'courses',
       //   element: <CoursesPage />,
       // },
-      {
-        path: 'course/:id',
-        element: <CourseDetailPage />,
-      },
+      // {
+      //   path: 'course/:id',
+      //   element: <CourseDetailPage />,
+      // },
       {
         path: 'register-course',
         element: <StudentRegisterCoursePage />,
@@ -264,6 +272,11 @@ const appRoutes: RouteObject[] = [
       {
         path: PATHS.TIME_TABLE_MANAGEMENT,
         element: <TimeTablePage />,
+      },
+
+      {
+        path: PATHS.TIME_SLOT_TEACHER_SEMESTER_MANAGER,
+        element: <TimeSlotTeacherSemesterManagerPage />,
       },
 
       {

@@ -18,6 +18,7 @@ export const PATHS = {
   BUILDINGS_MANAGEMENT: '/admin/buildings-management',
   ROOM_MANAGEMENT: '/admin/room-management',
   SEMESTER_MANAGEMENT: '/admin/semester-management/:id',
+  TIME_SLOT_TEACHER_SEMESTER_MANAGER: '/admin/time-slots/teachers/:teacherId/semesters/:semesterId',
 
   REGISTRATION_MANAGEMENT: '/admin/registration-management',
   TIME_TABLE_MANAGEMENT: '/admin/timetable-management/:semesterId',
@@ -120,10 +121,10 @@ export default {
             path: PATHS.BUILDINGS_MANAGEMENT,
             name: 'Buildings',
           },
-          {
-            path: PATHS.ROOM_MANAGEMENT,
-            name: 'Rooms',
-          },
+          // {
+          //   path: PATHS.ROOM_MANAGEMENT,
+          //   name: 'Rooms',
+          // },
         ],
       },
       {

@@ -55,3 +55,8 @@ export type StudentReference = {
   studentId: number;
   name: string;
 };
+
+export type DeleteTimeSlotRequest = {
+  timeSlotId: string;
+  teacherId: string;
+};
