@@ -1,10 +1,11 @@
 import { Callback } from '@/utils/helpers';
 import { ProColumns } from '@ant-design/pro-table';
-import { Button, Checkbox, message } from 'antd';
+import { Button, Checkbox, message, Tag } from 'antd';
 import { PopconfirmProps } from 'antd/lib';
 import { BaseCourseResponse } from '../../helpers';
 import { TeacherResponse } from '@queries/Teachers/types';
 import { useParams } from 'react-router-dom';
+import { TeacherRole } from '@queries/Registration/types';
 
 type TeachersProps = {
   handleAssignTeacher: Callback;
@@ -45,6 +46,7 @@ export const allColumns = ({
     title: 'ID',
     dataIndex: 'teacherId',
     valueType: 'text',
+    render: (_, record) => <Tag color="blue">{record.teacherId}</Tag>,
   },
   {
     title: 'Department ID',
@@ -56,8 +58,19 @@ export const allColumns = ({
     key: 'actions',
     valueType: 'option',
     render: (_, record) => [
-      <Button key="assign" onClick={() => handleAssignTeacher(record)}>
-        Assign
+      <Button
+        key="assign"
+        onClick={() => handleAssignTeacher(record, TeacherRole.THEORY_TEACHER)}
+        style={{ color: 'green' }}
+      >
+        Theory
+      </Button>,
+      <Button
+        key="assign"
+        onClick={() => handleAssignTeacher(record, TeacherRole.PRACTICE_TEACHER)}
+        style={{ color: 'blue' }}
+      >
+        Practice
       </Button>,
     ],
   },

@@ -84,13 +84,6 @@ export const allColumns = ({
     title: 'Course Name',
     dataIndex: 'name',
     valueType: 'text',
-    onCell: () => {
-      return {
-        onClick: () => {
-          window.confirm('Cell clicked ');
-        },
-      };
-    },
   },
   {
     title: 'Credit',

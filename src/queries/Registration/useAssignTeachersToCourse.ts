@@ -8,7 +8,7 @@ export function useAssignTeachersToCourse(
   options?: UseMutationOptions<ApiResponseType<void>, Error, AssignTeacherPayload>,
 ) {
   const {
-    mutate: onAssignTeacher,
+    mutateAsync: onAssignTeacher,
     isLoading,
     isSuccess,
     isError,

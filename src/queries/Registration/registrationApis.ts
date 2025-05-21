@@ -9,6 +9,7 @@ import {
   ApproveRegistrationsPayload,
   AssignTeacherPayload,
   GetCoursePropertiesParams,
+  RegistrationTeacherRoleRequest,
   RemovalStudentsPayload,
   RemovalTeacherFromCoursePayload,
 } from './types';
@@ -73,6 +74,10 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     return coursePrivateApi.post('/api/v1/registrations/approve-registrations', payload);
   };
 
+  const assignTeacherRoleToCourse = (payload: RegistrationTeacherRoleRequest) => {
+    return coursePrivateApi.put('/api/v1/registrations/assign-teacher-role', payload);
+  };
+
   return {
     getAllUnregisteredCoursesInSemesterByDepartmentForStudent,
     getAllRegisteredCoursesInSemesterByDepartmentForStudent,
@@ -84,6 +89,7 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     removeStudentFromCourse,
     getAllRegistrationsInSemester,
     approveRegistrations,
+    assignTeacherRoleToCourse,
   };
 };
 
