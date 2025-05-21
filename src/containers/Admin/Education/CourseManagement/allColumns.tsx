@@ -49,13 +49,6 @@ export const allColumns = ({
     title: 'Course Name',
     dataIndex: 'name',
     valueType: 'text',
-    onCell: () => {
-      return {
-        onClick: (record) => {
-          window.confirm('Cell clicked ');
-        },
-      };
-    },
   },
   {
     title: 'Description',

@@ -10,10 +10,6 @@ interface OpeningCourseDetailsProps {
   semesterId: number;
   departmentId: string;
 }
-interface CourseProps {
-  courseId?: string[];
-  semesterId: number;
-}
 
 const OpenViewDetailsModal: React.FC<OpeningCourseDetailsProps> = ({
   courseId,

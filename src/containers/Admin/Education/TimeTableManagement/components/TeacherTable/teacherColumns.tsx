@@ -12,7 +12,7 @@ export const teacherColumns = ({}: TeachersProps): ProColumns<TeacherResponse>[]
     dataIndex: 'id',
     valueType: 'text',
     width: 40,
-    hidden: false,
+    hidden: true,
   },
   {
     title: 'No.',

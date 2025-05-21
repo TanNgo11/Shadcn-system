@@ -11,6 +11,7 @@ import { Action, CourseResponse } from '../helpers';
 import { allColumns } from './allColumns';
 import OpenTeacherModal from './AssignTeachersModal';
 import OpenBaseCoursesModal from './OpenBaseCoursesModal';
+import { TeacherRole } from '@queries/Registration/types';
 
 const OpenCourse: React.FC<Props> = () => {
   const { id } = useParams<{ id: string }>();
@@ -77,7 +78,7 @@ const OpenCourse: React.FC<Props> = () => {
 
   // Assign teachers to courses
   const handleAssignTeachers = useCallback(
-    (courseId: string) => {
+    (courseId: string, role: TeacherRole) => {
       toast.error({
         message: 'Assign Teachers',
         description: 'The teachers could not be assigned.',
@@ -107,6 +108,7 @@ const OpenCourse: React.FC<Props> = () => {
         handleDeleteCourse(courseIds, Action.DELETE);
       }
     };
+
   const {
     isOpen: isBaseCourseModalOpen,
     open: openBaseCourseModal,
@@ -117,6 +119,7 @@ const OpenCourse: React.FC<Props> = () => {
     open: openTeacherModal,
     close: closeTeacherModal,
   } = useModal();
+
   return (
     <>
       <Card style={{ marginBottom: 20 }}>
@@ -181,6 +184,10 @@ const OpenCourse: React.FC<Props> = () => {
                   Remove
                 </Button>
               </Popconfirm>
+            </>
+          ),
+          selectedRowIds.length === 1 && (
+            <>
               <Button type="primary" onClick={openTeacherModal} style={{ margin: '0 10px' }}>
                 Assign Teacher
               </Button>

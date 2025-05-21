@@ -133,3 +133,14 @@ export interface ApproveRegistrationsPayload {
   semesterId: string;
   registrationIds: string[];
 }
+
+export interface RegistrationTeacherRoleRequest {
+  teacherId: string;
+  courseId: string;
+  teacherRole: TeacherRole;
+}
+
+export enum TeacherRole {
+  THEORY_TEACHER,
+  PRACTICE_TEACHER,
+}

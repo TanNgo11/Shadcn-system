@@ -1,14 +1,22 @@
-import {useNotification} from '@/containers/StartupContainers/ToastContainer';
-import ProTable, {ActionType, ProColumns} from '@ant-design/pro-table';
-import React, {useCallback, useMemo, useRef, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import {allColumns} from './allColumns';
-import {TeacherResponse} from '@queries/Teachers/types';
-import {useAssignTeachersToCourse} from '@queries/Registration/useAssignTeachersToCourse';
-import {AssignTeacherPayload, RemovalTeacherFromCoursePayload} from '@queries/Registration/types';
-import {Modal} from 'antd';
-import {useGetTeachersList} from '@queries/Teachers/useGetTeachersList';
-import {useRemoveTeacherFromCourses} from '@queries/Registration/useRemoveTeacherFromCourses';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { Modal } from 'antd';
+import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
+
+import { useNotification } from '@/containers/StartupContainers/ToastContainer';
+import { allColumns } from './allColumns';
+
+import { useGetTeachersList } from '@queries/Teachers/useGetTeachersList';
+import { useAssignTeachersToCourse } from '@queries/Registration/useAssignTeachersToCourse';
+import { useRemoveTeacherFromCourses } from '@queries/Registration/useRemoveTeacherFromCourses';
+import { useAssignTeacherRoleToCourse } from '@queries/Registration/useAssignTeacherRoleToCourse';
+
+import { TeacherResponse } from '@queries/Teachers/types';
+import {
+  AssignTeacherPayload,
+  RegistrationTeacherRoleRequest,
+  RemovalTeacherFromCoursePayload,
+  TeacherRole,
+} from '@queries/Registration/types';
 
 interface AssignTeachersModalProps {
   courseId?: string[];
@@ -19,90 +27,92 @@ interface AssignTeachersModalProps {
 }
 
 const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
-                                                                courseId,
-                                                                open,
-                                                                onClose,
-                                                                semesterId,
-                                                                departmentId,
-                                                              }: AssignTeachersModalProps) => {
-  const [selectedTeacherId, setSelectedTeacherId] = useState<string>();
+  courseId = [],
+  open,
+  onClose,
+  semesterId,
+  departmentId,
+}) => {
   const toast = useNotification();
-  const {id} = useParams<{ id: string }>();
-  const handleAddSelectionChange = (selectedTeacher: TeacherResponse) => {
-    setSelectedTeacherId(selectedTeacher.teacherId);
-  };
   const actionRef = useRef<ActionType>();
 
-  const {teachers, handleInvalidateTeachersList, setParams, totalElements} = useGetTeachersList();
-
-  const {onAssignTeacher, isLoading} = useAssignTeachersToCourse();
-  const {onRemoveTeacherFromCourses} = useRemoveTeacherFromCourses();
+  const { teachers, totalElements, setParams } = useGetTeachersList();
+  const { onAssignTeacher, isLoading } = useAssignTeachersToCourse();
+  const { onRemoveTeacherFromCourses } = useRemoveTeacherFromCourses();
+  const { onAssignTeacherRole } = useAssignTeacherRoleToCourse();
 
   const handleAssignTeacher = useCallback(
-    (teacher: any) => {
-      const payload: AssignTeacherPayload = {
-        teacherId: teacher.id || '',
-        courseIds: courseId,
-        semesterId: semesterId.toString(),
-        departmentId: departmentId,
-        username: teacher.username,
-      };
-      onAssignTeacher(payload, {
-        onSuccess: () => {
-          toast.success({
-            message: 'Assign Teacher',
-            description: 'The teacher has been assigned successfully.',
-          });
-          setSelectedTeacherId('');
-          onClose();
-        },
-        onError: () => {
-          toast.error({
-            message: 'Assign Teacher',
-            description: 'The teacher could not be assigned.',
-          });
-        },
-      });
+    async (teacher: TeacherResponse, role: TeacherRole) => {
+      try {
+        const assignPayload: AssignTeacherPayload = {
+          teacherId: teacher.teacherId,
+          courseIds: courseId,
+          semesterId: semesterId.toString(),
+          departmentId,
+          username: teacher.username,
+        };
+
+        const rolePayload: RegistrationTeacherRoleRequest = {
+          courseId: courseId[0],
+          teacherId: teacher.id.toString(),
+          teacherRole: role,
+        };
+
+        await onAssignTeacherRole(rolePayload);
+        await onAssignTeacher(assignPayload);
+
+        toast.success({
+          message: 'Assign Teacher',
+          description: 'Teacher assigned successfully.',
+        });
+        actionRef.current?.reload();
+        onClose();
+      } catch (err) {
+        toast.error({
+          message: 'Assign Teacher',
+          description: 'Failed to assign teacher or role.',
+        });
+      }
     },
-    [toast, onAssignTeacher, courseId, semesterId, onClose, departmentId],
+    [toast, onAssignTeacher, onAssignTeacherRole, courseId, semesterId, departmentId, onClose],
   );
 
   const handleRemoveTeacher = useCallback(
     (teacherId: string) => {
       const payload: RemovalTeacherFromCoursePayload = {
-        teacherId: teacherId || '',
+        teacherId,
         courseIds: courseId,
         semesterId: semesterId.toString(),
-        departmentId: departmentId,
+        departmentId,
       };
 
       onRemoveTeacherFromCourses(payload, {
         onSuccess: () => {
           toast.success({
             message: 'Remove Teacher',
-            description: 'The teacher has been remove successfully.',
+            description: 'Teacher removed successfully.',
           });
           onClose();
         },
         onError: () => {
           toast.error({
             message: 'Remove Teacher',
-            description: 'The teacher could not be removed.',
+            description: 'Failed to remove teacher.',
           });
         },
       });
     },
-    [toast, onRemoveTeacherFromCourses, courseId, semesterId, onClose, departmentId],
+    [toast, onRemoveTeacherFromCourses, courseId, semesterId, departmentId, onClose],
   );
 
   const columns: ProColumns<TeacherResponse>[] = useMemo(
-    () => allColumns({handleAssignTeacher, handleRemoveTeacher}),
+    () => allColumns({ handleAssignTeacher, handleRemoveTeacher }),
     [handleAssignTeacher, handleRemoveTeacher],
   );
 
   return (
     <Modal
-      title={`Teachers List`}
+      title="Teachers List"
       centered
       open={open}
       onCancel={onClose}
@@ -111,18 +121,14 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
       footer={null}
     >
       <ProTable<TeacherResponse>
-        dataSource={teachers}
-        columns={columns}
-        cardBordered
         request={async (_params, _sort, _filter) => {
-          const {current, pageSize, ...restParams} = _params;
+          const { current, pageSize, ...restParams } = _params;
           setParams({
             current: current ?? 1,
             pageSize: pageSize ?? 10,
-            departmentId: departmentId,
+            departmentId,
             ...restParams,
           });
-          actionRef.current?.reload();
 
           return {
             data: teachers,
@@ -130,26 +136,19 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
             total: totalElements,
           };
         }}
+        actionRef={actionRef}
+        dataSource={teachers}
+        columns={columns}
         rowKey="id"
         search={false}
-        form={{
-          syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
-            if (type === 'get') {
-              return {
-                ...values,
-                created_at: [values.startTime, values.endTime],
-              };
-            }
-            return values;
-          },
-        }}
+        cardBordered
         pagination={{
           pageSize: 5,
           showSizeChanger: false,
           total: totalElements,
         }}
-        dateFormatter="string"
         options={false}
+        dateFormatter="string"
       />
     </Modal>
   );
