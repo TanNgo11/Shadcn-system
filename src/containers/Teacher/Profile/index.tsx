@@ -38,7 +38,7 @@ const TeacherProfile = () => {
             {teacher?.username}
           </Typography.Title>
           <Typography.Title className="profile-container__subtitle" level={4}>
-            {teacher?.firstName || NO_DATA} {teacher?.middleName || NO_DATA}
+            {teacher?.firstName || NO_DATA} {teacher?.middleName || NO_DATA}{' '}
             {teacher?.lastName || NO_DATA}
           </Typography.Title>
           {isShowingMessageButton && (

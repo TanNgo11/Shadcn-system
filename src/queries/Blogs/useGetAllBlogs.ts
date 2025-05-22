@@ -1,10 +1,9 @@
-import { ApiResponseType, responseWrapper } from '../helpers';
-import { PaginationResponseType, TableParams } from '../helpers';
-import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
-import { useState } from 'react';
 import { isEmpty } from '@/utils';
+import { useState } from 'react';
+import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { blogApis, BlogsResponse } from '.';
 import { API_QUERIES } from '..';
+import { ApiResponseType, PaginationResponseType, responseWrapper, TableParams } from '../helpers';
 
 export function useGetAllBlogs(
   options?: UseQueryOptions<ApiResponseType<PaginationResponseType<BlogsResponse[]>>, Error>,

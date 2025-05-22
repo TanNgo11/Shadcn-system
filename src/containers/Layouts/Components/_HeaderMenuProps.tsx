@@ -1,4 +1,3 @@
-import { ChromeFilled, CrownFilled, SmileFilled, TabletFilled } from '@ant-design/icons';
 
 export default {
   route: {
