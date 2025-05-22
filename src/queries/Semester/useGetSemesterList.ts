@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 
-import { ApiResponseType, PaginationResponseType, TableParams, responseWrapper } from '../helpers';
+import { ApiResponseType, PaginationResponseType, responseWrapper, TableParams } from '../helpers';
 
-import { isEmpty } from '@/utils';
 import { semesterApi } from '.';
 import { API_KEY } from './keys';
 import { SemesterResponse } from './types';
+import { isEmpty } from '@/utils';
 
 export function useGetSemesterList(
-  options?: UseQueryOptions<ApiResponseType<PaginationResponseType<SemesterResponse[]>>, Error> & {
-    defaultParams?: TableParams;
-  },
+  initialParams: TableParams = {},
+  options?: UseQueryOptions<ApiResponseType<PaginationResponseType<SemesterResponse[]>>, Error>,
 ) {
-  const [params, setParams] = useState<TableParams>(options?.defaultParams || {});
+  const [params, setParams] = useState<TableParams>(initialParams);
+
   const {
     data,
     error,
@@ -22,24 +22,24 @@ export function useGetSemesterList(
   } = useQuery<ApiResponseType<PaginationResponseType<SemesterResponse[]>>, Error>(
     [API_KEY.SEMESTER_LIST, { ...params }],
     async ({ queryKey }) => {
-      const [, ...params] = queryKey;
+      const [, ...queryParams] = queryKey as [string, TableParams];
       return responseWrapper<ApiResponseType<PaginationResponseType<SemesterResponse[]>>>(
         semesterApi.getSemesterList,
-        params,
+        queryParams,
       );
     },
     {
       notifyOnChangeProps: ['data', 'isFetching'],
       keepPreviousData: true,
-      enabled: !isEmpty(params) && !isEmpty(params.academicYearId),
+      enabled: !isEmpty(params.academicYearId),
       ...options,
     },
   );
 
   const queryClient = useQueryClient();
 
-  const handleInvalidateSemesterList = (params: TableParams) =>
-    queryClient.invalidateQueries([API_KEY.SEMESTER_LIST, { ...params }]);
+  const handleInvalidateSemesterList = (invalidateParams: TableParams) =>
+    queryClient.invalidateQueries([API_KEY.SEMESTER_LIST, { ...invalidateParams }]);
 
   const { result: { current, totalPages, pageSize, totalElements, data: semesters = [] } = {} } =
     data || {};

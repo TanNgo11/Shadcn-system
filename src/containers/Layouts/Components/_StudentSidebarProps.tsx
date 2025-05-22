@@ -1,4 +1,4 @@
-import { BookOutlined, HomeOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
+import { BookOutlined, HomeOutlined, SmileOutlined } from '@ant-design/icons';
 export const PATHS = {
   // User
   DASHBOARD: '/student/dashboard',

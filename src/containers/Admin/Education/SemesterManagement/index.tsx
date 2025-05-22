@@ -2,11 +2,9 @@ import { PATHS } from '@/containers/Layouts/Components/_AdminSidebarProps';
 import { SemesterResponse } from '@/queries/Semester';
 import { useGetSemesterList } from '@/queries/Semester/useGetSemesterList';
 import ProTable, { ProColumns } from '@ant-design/pro-table';
-import { Button } from 'antd';
 import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { allColumns } from './allColumns';
-import { record } from 'zod';
 
 const SemesterManagement = () => {
   const { id } = useParams<{ id: string }>();

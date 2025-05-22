@@ -5,15 +5,13 @@ import { Role } from '@/zustand/auth/types';
 import React from 'react';
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+import CreateEditBlog from './Admin/Blog/CreateEditBLog';
+import RegistrationManagement from './Admin/Education/RegistrationManagement';
 import AdminLayout from './Layouts/AdminLayout';
 import AuthLayout from './Layouts/AuthLayout';
+import { PATHS } from './Layouts/Components/_AdminSidebarProps';
 import StudentLayout from './Layouts/StudentLayout';
 import TeacherLayout from './Layouts/TeacherLayout';
-import CreateEditBlog from './Admin/Blog/CreateEditBLog';
-import { PATHS } from './Layouts/Components/_AdminSidebarProps';
-import RegistrationManagement from './Admin/Education/RegistrationManagement';
-import Profile from '@/containers/Student/Profile';
-import TimeSlotTableActions from './Admin/Education/TimeTableManagement/components/TimeSlotTable/TimeSlotTable';
 
 const PreviewBlog = React.lazy(() => import('@/containers/Admin/Blog/PreviewBlog'));
 const BlogList = React.lazy(() => import('@/containers/Admin/Blog'));
