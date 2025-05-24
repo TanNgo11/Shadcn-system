@@ -1,0 +1,22 @@
+.course-detail-page-container {
+  &__activities-tab {
+    &--icon {
+      font-size: 24px;
+      &__announcement {
+        color: #4caf50;
+      }
+      &__attendance {
+        color: #db902e;
+      }
+      &__forum {
+        color: #1677ff;
+      }
+      &__lessons {
+        color: #cfc251;
+      }
+      &__syllabus {
+        color: #ff5722;
+      }
+    }
+  }
+}
