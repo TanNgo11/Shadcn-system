@@ -9,10 +9,11 @@ import { SemesterResponse } from './types';
 import { isEmpty } from '@/utils';
 
 export function useGetSemesterList(
-  initialParams: TableParams = {},
-  options?: UseQueryOptions<ApiResponseType<PaginationResponseType<SemesterResponse[]>>, Error>,
+  options?: UseQueryOptions<ApiResponseType<PaginationResponseType<SemesterResponse[]>>, Error> & {
+    defaultParams?: TableParams;
+  },
 ) {
-  const [params, setParams] = useState<TableParams>(initialParams);
+  const [params, setParams] = useState<TableParams>(options?.defaultParams);
 
   const {
     data,
