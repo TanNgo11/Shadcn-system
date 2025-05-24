@@ -1,29 +1,35 @@
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { useGetAllCoursesBySemesterId } from '@queries/Courses/useGetAllCoursesBySemesterId';
+import type { TabsProps } from 'antd';
+import { Tabs } from 'antd';
 import { useMemo, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { CourseResponse } from '../CourseManagement/helpers';
 import { allColumns } from './allColumns';
-import { useTimeTableManagement } from './useTimeTableManagement';
 import EditConstraintModal from './components/EditConstraintModal/EditConstraintModal';
-import { useGetAllTeachesHaveCourseInSemester } from '@queries/Teachers/useGetAllTeachersHaveCourseInSemester';
-import { TeacherResponse } from '@queries/Teachers/types';
-import { Tabs } from 'antd';
-import type { TabsProps } from 'antd';
 import TeacherTableActions from './components/TeacherTable/TeacherTable';
+import { useTimeTableManagement } from './useTimeTableManagement';
+import TimetableModal from './components/TimetableModal';
 
 const TimeTableManagement = () => {
   const { semesterId } = useParams();
   const actionRef = useRef<ActionType | null>(null);
   const { courses, setParams, totalElements } = useGetAllCoursesBySemesterId();
   const {
-    state: { isOpen, close, selectedCourse },
-    handlers: { handleEditCourseConstraint },
+    state: {
+      isOpen,
+      close,
+      selectedCourse,
+      isViewEditCourseConstraint,
+      isViewTimeTableOpen,
+      selectedCourseId,
+    },
+    handlers: { handleEditCourseConstraint, handleViewTimeTable },
   } = useTimeTableManagement();
 
   const columns: ProColumns<CourseResponse>[] = useMemo(
-    () => allColumns({ handleEditCourseConstraint }),
-    [handleEditCourseConstraint],
+    () => allColumns({ handleEditCourseConstraint, handleViewTimeTable }),
+    [handleEditCourseConstraint, handleViewTimeTable],
   );
 
   const items: TabsProps['items'] = [
@@ -75,7 +81,16 @@ const TimeTableManagement = () => {
   return (
     <>
       <Tabs defaultActiveKey="courses" items={items} />
-      <EditConstraintModal open={isOpen} onCancel={close} course={selectedCourse} />
+      <EditConstraintModal
+        open={isOpen && isViewEditCourseConstraint}
+        onCancel={close}
+        course={selectedCourse}
+      />
+      <TimetableModal
+        selectedCourseId={selectedCourseId}
+        open={isOpen && isViewTimeTableOpen}
+        onCancel={close}
+      />
     </>
   );
 };

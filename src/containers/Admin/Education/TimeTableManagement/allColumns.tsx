@@ -8,10 +8,12 @@ import { getCourseActions } from './components/TimeTableActions/TimeTableActions
 
 type CoursesProps = {
   handleEditCourseConstraint: Callback;
+  handleViewTimeTable: Callback;
 };
 
 export const allColumns = ({
   handleEditCourseConstraint,
+  handleViewTimeTable,
 }: CoursesProps): ProColumns<CourseResponse>[] => [
   {
     title: 'ID',
@@ -55,7 +57,9 @@ export const allColumns = ({
     valueType: 'option',
     key: 'option',
     render: (_text, record) => (
-      <ActionDialog actions={getCourseActions(record, handleEditCourseConstraint)} />
+      <ActionDialog
+        actions={getCourseActions(record, handleEditCourseConstraint, handleViewTimeTable)}
+      />
     ),
   },
 ];
