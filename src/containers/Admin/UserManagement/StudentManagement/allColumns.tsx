@@ -87,11 +87,11 @@ export const allColumns = ({
     dataIndex: 'present',
     render: (_, record) => <StudentChip status={record.present} />,
   },
-  {
-    title: 'Status',
-    dataIndex: 'status',
-    render: (_, record) => <StudentChip status={record.status} />,
-  },
+  // {
+  //   title: 'Status',
+  //   dataIndex: 'status',
+  //   render: (_, record) => <StudentChip status={record.status} />,
+  // },
   {
     title: 'Options',
     valueType: 'option',
