@@ -46,6 +46,10 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     return api.get(`/api/v1/semesters/current-open-semester`);
   };
 
+  const getCurrentOpenSemesterByDate = () => {
+    return api.get(`/api/v1/semesters/current-open-semester-by-date`);
+  };
+
   const addBaseCourseToSemester = (payload: { semesterId: number; ids: number[] }) => {
     return api.post(`/api/v1/semesters/add-open-courses/${payload.semesterId}`, payload.ids);
   };
@@ -64,6 +68,7 @@ const useApi = (baseURL = API_URLS.COURSE) => {
     addBaseCourseToSemester,
     getCurrentOpenSemester,
     deleteCoursesByIds,
+    getCurrentOpenSemesterByDate,
   };
 };
 export default useApi;
