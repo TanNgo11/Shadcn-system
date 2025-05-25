@@ -3,7 +3,7 @@ import { WeeklyCalendar } from 'antd-weekly-calendar';
 import React from 'react';
 import { useTimeTableModal } from './useTimeTableModal';
 import { mapTimetablesToEvents } from './helpers';
-
+import './styles.scss';
 interface Props {
   open: boolean;
   onCancel: () => void;
@@ -26,6 +26,7 @@ const TimetableModal: React.FC<Props> = ({ open, onCancel, selectedCourseId }) =
       styles={{
         body: { height: '70vh', overflowY: 'auto' },
       }}
+      className="timetable-modal"
       //   confirmLoading={isLoading}
       //   onOk={handleSubmit(onSubmit)}
     >
@@ -34,6 +35,7 @@ const TimetableModal: React.FC<Props> = ({ open, onCancel, selectedCourseId }) =
         onEventClick={(event) => console.log(event)}
         onSelectDate={(date) => console.log(date)}
         weekends={false}
+        
       />
     </Modal>
   );

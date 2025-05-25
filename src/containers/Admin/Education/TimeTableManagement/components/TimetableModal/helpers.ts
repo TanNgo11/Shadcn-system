@@ -8,14 +8,20 @@ export interface Event {
   backgroundColor: string;
 }
 
+export enum TimeTableModalType {
+  LAB = 'LAB',
+  LECTURE = 'LECTURE',
+}
 export function mapTimetablesToEvents(timetables: TimetableResponse[]): Event[] {
-  const colors = ['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#00FFFF', '#FFA500'];
   const events: Event[] = [];
 
   timetables.forEach((timetable, index) => {
     const course = timetable.course;
     const courseName = course.name || course.code || 'Unknown Course';
-    const color = colors[index % colors.length];
+    const color =
+      timetable?.classSessions[index]?.sessionType === TimeTableModalType.LAB
+        ? `#fcebeb`
+        : `#AAAAFF`;
 
     timetable.classSessions.forEach((session) => {
       const timeSlot = session.timeSlot;
@@ -43,8 +49,10 @@ export function mapTimetablesToEvents(timetables: TimetableResponse[]): Event[] 
         endMinutes,
         endSeconds || 0,
       );
-
-      const title = `${courseName} (${room.code || 'No Room'}) - ${teacher?.teacherId || 'No Teacher'}`;
+      const title = `${courseName}
+      Room: ${room.name ?? 'No Room'}
+      Teacher: ${teacher?.firstName ?? ' '} ${teacher?.lastName ?? ' '}
+      `;
 
       const event: Event = {
         eventId: `${timetable.id}-${session.id}`,
