@@ -1,41 +1,20 @@
 import { Alert, Layout, Select, Spin, Typography } from 'antd';
-import { useAuthStore } from '@/zustand/auth/useAuthStore';
-import { useGetCurrentOpenSemesterByDate } from '@queries/Semester/useGetCurrentOpenSemesterByDate';
-import { useGetSemesterList } from '@queries/Semester/useGetSemesterList';
-import { useGetStudentCalendarByStudentIdAndSemesterId } from '@queries/Timetable/useGetStudentCalendarByStudentIdAndSemesterId';
-import { useEffect, useState } from 'react';
 import { WeeklyCalendar } from 'antd-weekly-calendar';
+import React from 'react';
+import { useGetCalendar } from './useCalendarModel';
 import { mapTimetablesToEvents } from './helpers';
+import { useAuthStore } from '@/zustand/auth/useAuthStore';
+
 const { Content } = Layout;
-const Schedule = () => {
+
+const TeacherCalendarView: React.FC = () => {
   const { user } = useAuthStore();
-  const [selectedSemester, setSelectedSemester] = useState<string>('');
 
-  const { semester } = useGetCurrentOpenSemesterByDate();
-
-  const { semesters, setParams } = useGetSemesterList({
-    defaultParams: { academicYearId: semester?.academicYear?.id },
-  });
-
-  const semestersOptions = semesters.map((semester) => ({
-    label: semester?.name,
-    value: semester?.id,
-  }));
-
-  const { studentSchedule, isPending, isError, error } =
-    useGetStudentCalendarByStudentIdAndSemesterId({
-      semesterId: selectedSemester,
-      studentId: String(user?.id),
-    });
-
-  useEffect(() => {
-    if (semester) {
-      setParams({ academicYearId: semester?.academicYear?.id });
-      setSelectedSemester(semester?.id || '');
-    }
-  }, [semester, setParams]);
-
-  const events = mapTimetablesToEvents(studentSchedule);
+  const {
+    states: { teacherCalendar, selectedSemester, semestersOptions, error, isPending, isError },
+    handlers: { setSelectedSemester },
+  } = useGetCalendar({ teacherId: user?.id.toString() });
+  const events = mapTimetablesToEvents(teacherCalendar);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -80,4 +59,4 @@ const Schedule = () => {
   );
 };
 
-export default Schedule;
+export default TeacherCalendarView;

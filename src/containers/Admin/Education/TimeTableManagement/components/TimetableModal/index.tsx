@@ -23,6 +23,9 @@ const TimetableModal: React.FC<Props> = ({ open, onCancel, selectedCourseId }) =
       destroyOnClose
       okText="Save"
       width={'90%'}
+      styles={{
+        body: { height: '70vh', overflowY: 'auto' },
+      }}
       //   confirmLoading={isLoading}
       //   onOk={handleSubmit(onSubmit)}
     >

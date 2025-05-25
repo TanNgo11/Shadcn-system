@@ -4,10 +4,10 @@ import { timeTableStatusApi } from '.';
 import { API_TIMETABLES_QUERIES } from './keys';
 import { TimetableResponse } from './types';
 
-export const useGetTeacherCalendarByTeacherIdAndSemesterId = (
+export const useGetStudentCalendarByStudentIdAndSemesterId = (
   options?: UseQueryOptions<ApiResponseType<TimetableResponse[]>, Error> & {
     semesterId: string;
-    teacherId: string;
+    studentId: string;
   },
 ) => {
   const {
@@ -18,17 +18,17 @@ export const useGetTeacherCalendarByTeacherIdAndSemesterId = (
     error,
     refetch: onGetTeacherTimetables,
   } = useQuery<ApiResponseType<TimetableResponse[]>, Error>(
-    [API_TIMETABLES_QUERIES.CALENDAR_BY_TEACHER_ID, options?.semesterId, options?.teacherId],
+    [API_TIMETABLES_QUERIES.TIMETABLES_BY_STUDENT_ID, options?.semesterId, options?.studentId],
     async ({ queryKey }) => {
       const [, ...params] = queryKey;
       return responseWrapper<ApiResponseType<TimetableResponse[]>>(
-        timeTableStatusApi.getTeacherCalendarByTeacherIdAndSemesterId,
+        timeTableStatusApi.getStudentCalendarByStudentIdAndSemesterId,
         params,
       );
     },
     {
       keepPreviousData: true,
-      enabled: !!options?.semesterId && !!options?.teacherId,
+      enabled: !!options?.semesterId && !!options?.studentId,
       ...options,
     },
   );
@@ -37,14 +37,14 @@ export const useGetTeacherCalendarByTeacherIdAndSemesterId = (
 
   const handleInvalidateTimetables = () => {
     queryClient.invalidateQueries([
-      API_TIMETABLES_QUERIES.CALENDAR_BY_TEACHER_ID,
+      API_TIMETABLES_QUERIES.TIMETABLES_BY_STUDENT_ID,
       options?.semesterId,
-      options?.teacherId,
+      options?.studentId,
     ]);
   };
 
   return {
-    teacherCalendar: data?.result || [],
+    studentSchedule: data?.result || [],
     isPending: isLoading || isFetching,
     isError,
     error,

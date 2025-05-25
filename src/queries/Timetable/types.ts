@@ -71,3 +71,12 @@ export type TimeSlotResponse = {
   startTime: string;
   endTime: string;
 };
+
+export type DayOfWeek =
+  | 'MONDAY'
+  | 'TUESDAY'
+  | 'WEDNESDAY'
+  | 'THURSDAY'
+  | 'FRIDAY'
+  | 'SATURDAY'
+  | 'SUNDAY';

@@ -9,6 +9,10 @@ const useTimetableApis = (baseURL = API_URLS.COURSE) => {
     return privateApi.get(`/api/v1/timetables/courses/${courseId}`);
   };
 
+  const getTeacherCalendarByTeacherIdAndSemesterId = (semesterId: string, teacherId: string) => {
+    return privateApi.get(`/api/v1/timetables/teachers/${teacherId}/semesters/${semesterId}`);
+  };
+
   const getStudentTimetable = (param: GetPropertiesParams) => {
     const { studentId, ...restParams } = param;
     return privateApi.get(`/api/v1/timetables/students/${studentId}?${stringify(restParams)}`);
@@ -19,6 +23,7 @@ const useTimetableApis = (baseURL = API_URLS.COURSE) => {
   };
   return {
     getTimetablesByCourseId,
+    getTeacherCalendarByTeacherIdAndSemesterId,
     getStudentCalendarByStudentIdAndSemesterId,
     getStudentTimetable,
   };

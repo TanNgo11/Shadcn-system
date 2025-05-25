@@ -99,6 +99,7 @@ const StudentRegisterCoursePage = React.lazy(() => import('@/containers/Student/
 const ViewCourses = React.lazy(() => import('@/containers/Student/ViewCourses'));
 const GoogleAuthenticatePage = React.lazy(() => import('@/containers/GoogleAuthenticate'));
 const TeacherListCoursesPage = React.lazy(() => import('@/containers/Teacher/Courses/ListCourses'));
+const TeacherCalendarView = React.lazy(() => import('@/containers/Teacher/calendar/index'));
 
 const appRoutes: RouteObject[] = [
   {
@@ -328,6 +329,10 @@ const appRoutes: RouteObject[] = [
       {
         path: 'courses/:courseId',
         element: <TeacherCourseDetailPage />,
+      },
+      {
+        path: 'calendar',
+        element: <TeacherCalendarView />,
       },
     ],
   },

@@ -27,7 +27,7 @@ const CourseDetail = () => {
             span: 8,
           }}
         >
-          <TeacherInformation {...teacherInformation} />
+          <TeacherInformation {...teacherInformation} id={Number(teacherInformation?.id)} />
         </Col>
         <Col
           xs={{

@@ -32,7 +32,7 @@ export function useGetSemesterList(
     {
       notifyOnChangeProps: ['data', 'isFetching'],
       keepPreviousData: true,
-      enabled: !isEmpty(params.academicYearId),
+      enabled: !isEmpty(params?.academicYearId),
       ...options,
     },
   );
