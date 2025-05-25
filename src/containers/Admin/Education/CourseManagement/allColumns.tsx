@@ -4,6 +4,7 @@ import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox, message, Popconfirm } from 'antd';
 import { PopconfirmProps } from 'antd/lib';
 import { BaseCourseResponse, CourseResponse } from './helpers';
+import CourseStatusChip from './components/CourseStatusChip';
 
 type CoursesProps = {
   handleEditCourse: Callback;
@@ -63,7 +64,7 @@ export const allColumns = ({
   {
     title: 'Status',
     dataIndex: 'status',
-    valueType: 'text',
+    render: (_, record) => <CourseStatusChip status={record.status} />,
   },
   {
     title: 'Option',

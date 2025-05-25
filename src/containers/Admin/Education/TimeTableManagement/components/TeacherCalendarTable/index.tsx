@@ -28,6 +28,7 @@ const TeacherCalendarModal: React.FC<Props> = ({ open, onCancel, semesterId, tea
       styles={{
         body: { height: '70vh', overflowY: 'auto' },
       }}
+      className="timetable-modal"
     >
       {isPending ? (
         <div style={{ textAlign: 'center', padding: '2rem' }}>

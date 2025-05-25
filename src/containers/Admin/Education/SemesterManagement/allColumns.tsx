@@ -46,15 +46,15 @@ export const allColumns = (handleNavigateToTimeTable: Callback): ProColumns<Seme
       false: { text: 'Inactive', status: 'Error' },
     },
   },
-  {
-    title: 'Time Table',
-    dataIndex: 'timeTableSetUp',
-    valueType: 'select',
-    valueEnum: {
-      true: { text: 'Yes', status: 'Success' },
-      false: { text: 'Inactive', status: 'Error' },
-    },
-  },
+  // {
+  //   title: 'Time Table',
+  //   dataIndex: 'timeTableSetUp',
+  //   valueType: 'select',
+  //   valueEnum: {
+  //     true: { text: 'Yes', status: 'Success' },
+  //     false: { text: 'Inactive', status: 'Error' },
+  //   },
+  // },
   {
     title: 'Action',
     valueType: 'option',
