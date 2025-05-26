@@ -17,7 +17,7 @@ const useApi = (baseURL = API_URLS.IDENTITY) => {
   };
 
   const getTeachersList = (params: GetPropertiesParams) => {
-    return teacherPrivateApi.get(`/api/v1/users/teachers?${stringify(params)} `);
+    return privateApi.get(`/api/v1/users/teachers?${stringify(params)} `);
   };
 
   const getTeacherById = (teacherId: string) => {

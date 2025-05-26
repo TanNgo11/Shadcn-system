@@ -32,7 +32,7 @@ const AttendanceTableView: React.FC<AttendanceTableViewProps> = ({
     isFetching,
     handleInvalidateClassSession,
   } = useGetAllClassSessionsByCourseId({
-    courseId: parseInt(courseId) || 95,
+    courseId: parseInt(courseId),
     enabled: visible && !!courseId,
   });
 

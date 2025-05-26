@@ -21,11 +21,17 @@ const useTimetableApis = (baseURL = API_URLS.COURSE) => {
   const getStudentCalendarByStudentIdAndSemesterId = (semesterId: string, studentId: string) => {
     return privateApi.get(`/api/v1/timetables/students/${studentId}/semesters/${semesterId}`);
   };
+
+  const generateTimetableBySemesterId = ({ semesterId }: { semesterId: string }) => {
+    return privateApi.post(`/api/v1/timetables/semesters/${semesterId}`);
+  };
+
   return {
     getTimetablesByCourseId,
     getTeacherCalendarByTeacherIdAndSemesterId,
     getStudentCalendarByStudentIdAndSemesterId,
     getStudentTimetable,
+    generateTimetableBySemesterId,
   };
 };
 

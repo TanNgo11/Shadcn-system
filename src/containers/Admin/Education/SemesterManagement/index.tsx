@@ -63,14 +63,14 @@ const SemesterManagement = () => {
       headerTitle="Semester Management"
       options={false}
       onRow={(record, _) => {
-        // if (record.registrationOpen && record.semesterActive) {
-        return {
-          onClick: () => {
-            navigate(PATHS.OPEN_COURSE.replace(':id', record.id));
-          },
-          style: { cursor: 'pointer' },
-        };
-        // }
+        if (record.registrationOpen) {
+          return {
+            onClick: () => {
+              navigate(PATHS.OPEN_COURSE.replace(':id', record.id));
+            },
+            style: { cursor: 'pointer' },
+          };
+        }
         return {};
       }}
     />
