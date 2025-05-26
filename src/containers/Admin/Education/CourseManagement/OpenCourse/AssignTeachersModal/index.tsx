@@ -45,7 +45,7 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
     async (teacher: TeacherResponse, role: TeacherRole) => {
       try {
         const assignPayload: AssignTeacherPayload = {
-          teacherId: teacher.teacherId,
+          teacherId: String(teacher.id),
           courseIds: courseId,
           semesterId: semesterId.toString(),
           departmentId,
@@ -59,7 +59,7 @@ const OpenTeacherModal: React.FC<AssignTeachersModalProps> = ({
         };
 
         await onAssignTeacherRole(rolePayload);
-        await onAssignTeacher(assignPayload);
+        // await onAssignTeacher(assignPayload);
 
         toast.success({
           message: 'Assign Teacher',

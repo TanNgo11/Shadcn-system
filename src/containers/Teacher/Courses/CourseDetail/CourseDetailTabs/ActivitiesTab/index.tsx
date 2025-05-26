@@ -1,16 +1,14 @@
-import { List, Select, message } from 'antd';
+import { List } from 'antd';
+import { useState } from 'react';
 import { FaFilePdf, FaFolderOpen } from 'react-icons/fa6';
 import { IoIosPeople } from 'react-icons/io';
 import { MdAnnouncement, MdForum } from 'react-icons/md';
-import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import AttendanceTableView from './AttendanceTableView';
-import useGetAllClassSessionsByCourseId from '@queries/Attendance/useGetAllClassSessionsByCourseId';
 import './styles.scss';
 
 const ActivitiesTab = () => {
-  const { id } = useParams<{ id: string }>();
-  const courseId = parseInt(id || '0', 10); //
+  const { courseId } = useParams();
   const [attendanceModalVisible, setAttendanceModalVisible] = useState(false);
 
   const handleAttendanceClick = () => {
