@@ -2,6 +2,7 @@ import { useNotification } from '@/containers/StartupContainers/ToastContainer';
 import { Role } from '@/zustand/auth/types';
 import { useAuthStore } from '@/zustand/auth/useAuthStore';
 import React, { useEffect, useState } from 'react';
+import type { JSX } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 
 interface RoleBasedRouteProps {

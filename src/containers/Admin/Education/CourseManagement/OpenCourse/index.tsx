@@ -5,7 +5,7 @@ import { useDeleteCoursesByIds } from '@/queries/Semester/useDeleteCoursesByIds'
 import { useGetOpenCoursesInDepartmentById } from '@/queries/Semester/useGetOpenCoursesInDepartmentById';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { Button, Card, message, Popconfirm, PopconfirmProps, Select, Typography } from 'antd';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Action, CourseResponse } from '../helpers';
 import { allColumns } from './allColumns';
@@ -21,7 +21,7 @@ const OpenCourse: React.FC<Props> = () => {
   const [departmentId, setDepartmentId] = React.useState<string>('');
   const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
 
-  const { departments } = useGetDepartmentList({
+  const { departments, isFetching:isLoadingDepartments } = useGetDepartmentList({
     defaultParams: {
       current: 1,
       pageSize: 100,
@@ -119,7 +119,11 @@ const OpenCourse: React.FC<Props> = () => {
     open: openTeacherModal,
     close: closeTeacherModal,
   } = useModal();
-
+  useEffect(() => {
+    if (!isLoadingDepartments && departments.length > 0 && !departmentId) {
+      setDepartmentId(departments[0].id);
+    }
+  }, [departments, departmentId, isLoadingDepartments]);
   return (
     <>
       <Card style={{ marginBottom: 20 }}>
@@ -127,6 +131,7 @@ const OpenCourse: React.FC<Props> = () => {
         <Select
           placeholder="Select department"
           style={{ width: 200 }}
+          value={departmentId || undefined}
           onChange={(value) => {
             setDepartmentId(value);
           }}
@@ -137,7 +142,12 @@ const OpenCourse: React.FC<Props> = () => {
             </Select.Option>
           ))}
         </Select>
-        <Button type="primary" onClick={openBaseCourseModal} style={{ margin: '0 10px' }}>
+        <Button
+          type="primary"
+          onClick={openBaseCourseModal}
+          style={{ margin: '0 10px' }}
+          disabled={!departmentId}
+        >
           Add Base Courses
         </Button>
         {isBaseCourseModalOpen && (
@@ -155,6 +165,7 @@ const OpenCourse: React.FC<Props> = () => {
         dataSource={openCourses}
         columns={columns}
         cardBordered
+        options={false}
         request={async (_params, _sort, _filter) => {
           const { current, pageSize, ...restParams } = _params;
           setParams({
@@ -162,8 +173,6 @@ const OpenCourse: React.FC<Props> = () => {
             pageSize: pageSize ?? 10,
             ...restParams,
           });
-          //actionRef.current?.reload();
-
           return {
             data: openCourses,
             success: true,
@@ -172,19 +181,17 @@ const OpenCourse: React.FC<Props> = () => {
         }}
         toolBarRender={() => [
           selectedRowIds.length > 0 && (
-            <>
-              <Popconfirm
-                title="Are you sure to delete these courses?"
-                onCancel={cancel}
-                onConfirm={confirm(handleDeleteCourse, selectedRowIds)}
-                cancelText="Cancel"
-                okText="Yes"
-              >
-                <Button key="button" danger type="primary">
-                  Remove
-                </Button>
-              </Popconfirm>
-            </>
+            <Popconfirm
+              title="Are you sure to delete these courses?"
+              onCancel={cancel}
+              onConfirm={confirm(handleDeleteCourse, selectedRowIds)}
+              cancelText="Cancel"
+              okText="Yes"
+            >
+              <Button key="button" danger type="primary">
+                Remove
+              </Button>
+            </Popconfirm>
           ),
           selectedRowIds.length === 1 && (
             <>
@@ -206,22 +213,11 @@ const OpenCourse: React.FC<Props> = () => {
         ]}
         rowKey="id"
         search={false}
-        form={{
-          syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
-            if (type === 'get') {
-              return {
-                ...values,
-              };
-            }
-            return values;
-          },
-        }}
         pagination={{
           pageSizeOptions: [10, 20, 50, 100],
           showSizeChanger: true,
           showPrevNextJumpers: true,
-          showTotal: (total: number) => `Total ${total} items`,
-          onChange: (page: any) => console.log(page),
+          total: totalElements,
         }}
         dateFormatter="string"
         headerTitle="Opening Course Management"

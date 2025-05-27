@@ -202,17 +202,6 @@ export default function HomePage() {
             listsHeight: 400,
           },
         }}
-        form={{
-          syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
-            if (type === 'get') {
-              return {
-                ...values,
-                created_at: [values.startTime, values.endTime],
-              };
-            }
-            return values;
-          },
-        }}
         pagination={{
           total: totalElements,
         }}

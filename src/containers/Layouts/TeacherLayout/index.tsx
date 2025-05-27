@@ -108,17 +108,7 @@ function TeacherLayout() {
                     );
                   },
                 }}
-                actionsRender={(props) => {
-                  if (props.isMobile) return [];
-                  if (typeof window === 'undefined') return [];
-                  return [
-                    props.layout !== 'side' && document.body.clientWidth > 1400 ? (
-                      <SearchInput />
-                    ) : undefined,
-                    <InfoCircleFilled key="InfoCircleFilled" />,
-                    <QuestionCircleFilled key="QuestionCircleFilled" />,
-                  ];
-                }}
+             
                 // title="EIU"
                 menuItemRender={(item, dom) => <Link to={item.path || '/'}>{dom}</Link>}
                 logo="https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ"
