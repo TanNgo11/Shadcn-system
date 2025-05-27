@@ -75,19 +75,10 @@ export default function HomePage() {
           startYear: { show: true },
           endYear: { show: true },
         },
-        onChange(value) {
-          console.log('value: ', value);
-        },
       }}
       rowKey="id"
-      options={{
-        setting: {
-          listsHeight: 400,
-        },
-      }}
-      search={{
-        layout: 'vertical',
-      }}
+      options={false}
+      search={false}
       form={{
         syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
           if (type === 'get') {

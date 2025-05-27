@@ -6,6 +6,9 @@ import { useGetStudentCalendarByStudentIdAndSemesterId } from '@queries/Timetabl
 import { useEffect, useState } from 'react';
 import { WeeklyCalendar } from 'antd-weekly-calendar';
 import { mapTimetablesToEvents } from './helpers';
+import './styles.scss';
+
+
 const { Content } = Layout;
 const Schedule = () => {
   const { user } = useAuthStore();
@@ -66,7 +69,10 @@ const Schedule = () => {
             style={{ margin: '1rem' }}
           />
         ) : (
-          <div style={{ height: 'calc(100vh - 170px)', overflowY: 'auto', padding: '0 1rem 1rem' }}>
+          <div
+            style={{ height: 'calc(100vh - 170px)', overflowY: 'auto', padding: '0 1rem 1rem' }}
+            className="timetable-modal"
+          >
             <WeeklyCalendar
               events={events}
               onEventClick={(event) => console.log(event)}

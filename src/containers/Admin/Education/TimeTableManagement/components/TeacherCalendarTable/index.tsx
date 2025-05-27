@@ -44,8 +44,6 @@ const TeacherCalendarModal: React.FC<Props> = ({ open, onCancel, semesterId, tea
       ) : (
         <WeeklyCalendar
           events={events}
-          onEventClick={(event) => console.log(event)}
-          onSelectDate={(date) => console.log(date)}
           weekends={false}
         />
       )}

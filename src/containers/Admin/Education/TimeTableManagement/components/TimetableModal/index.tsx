@@ -27,8 +27,6 @@ const TimetableModal: React.FC<Props> = ({ open, onCancel, selectedCourseId }) =
         body: { height: '70vh', overflowY: 'auto' },
       }}
       className="timetable-modal"
-      //   confirmLoading={isLoading}
-      //   onOk={handleSubmit(onSubmit)}
     >
       <WeeklyCalendar
         events={events}

@@ -4,7 +4,7 @@ import React from 'react';
 import { useGetCalendar } from './useCalendarModel';
 import { mapTimetablesToEvents } from './helpers';
 import { useAuthStore } from '@/zustand/auth/useAuthStore';
-
+import "./styles.scss";
 const { Content } = Layout;
 
 const TeacherCalendarView: React.FC = () => {
@@ -45,12 +45,16 @@ const TeacherCalendarView: React.FC = () => {
             style={{ margin: '1rem' }}
           />
         ) : (
-          <div style={{ height: 'calc(100vh - 170px)', overflowY: 'auto', padding: '0 1rem 1rem' }}>
+          <div
+            className="timetable-modal"
+            style={{ height: 'calc(100vh - 170px)', overflowY: 'auto', padding: '0 1rem 1rem' }}
+          >
             <WeeklyCalendar
               events={events}
               onEventClick={(event) => console.log(event)}
               onSelectDate={(date) => console.log(date)}
               weekends={false}
+              
             />
           </div>
         )}

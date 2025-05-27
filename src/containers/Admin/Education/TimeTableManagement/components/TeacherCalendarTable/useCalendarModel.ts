@@ -1,4 +1,3 @@
-import { TimetableResponse } from '@queries/Timetable/types';
 import { useGetTeacherCalendarByTeacherIdAndSemesterId } from '@queries/Timetable/useGetTeacherCalendarByTeacherIdAndSemesterId';
 
 type CalendarModelProps = {

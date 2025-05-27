@@ -1,8 +1,8 @@
 import { Callback } from '@/utils/helpers';
 import { ProColumns } from '@ant-design/pro-table';
-import { Button, Checkbox, message } from 'antd';
-import { PopconfirmProps } from 'antd/lib';
 import { StudentResponse } from '@queries/Students/types';
+import { Button, message } from 'antd';
+import { PopconfirmProps } from 'antd/lib';
 
 type StudentsProps = {
   handleRemoveStudent: Callback;

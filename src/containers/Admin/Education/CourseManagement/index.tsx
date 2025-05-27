@@ -20,13 +20,6 @@ export default function CourseManagement() {
   });
   const actionRef = useRef<ActionType>();
 
-  // const handleEditCourse = () => {
-  //   toast.error({
-  //     message: 'Edit Course',
-  //     description: 'The course could not be edited.',
-  //   });
-  // };
-
   const handleEditCourse = useCallback(() => {
     toast.error({
       message: 'Edit Course',
@@ -64,9 +57,8 @@ export default function CourseManagement() {
         };
       }}
       rowKey="id"
-      search={{
-        layout: 'vertical',
-      }}
+      search={false}
+      options={false}
       form={{
         syncToUrl: (values: Record<string, any>, type: 'get' | 'set') => {
           if (type === 'get') {
@@ -93,7 +85,7 @@ export default function CourseManagement() {
           onClick={() => {
             navigate(`/admin/courses-management/create`);
           }}
-          type="default"
+          type="primary"
         >
           Add New
         </Button>,
