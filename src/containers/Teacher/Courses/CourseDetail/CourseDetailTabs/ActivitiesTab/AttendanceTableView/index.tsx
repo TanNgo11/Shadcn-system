@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Button, Modal, Select, message } from 'antd';
+import { Button, Modal, Select, Space, Tooltip, message } from 'antd';
 import ProTable, { ProColumns } from '@ant-design/pro-table';
 import {
   AttendanceResponse,
@@ -9,6 +9,7 @@ import {
 import { allColumns } from './allColumns';
 import useGetAllClassSessionsByCourseId from '@queries/Attendance/useGetAllClassSessionsByCourseId';
 import useCheckAttendanceForTeacher from '@queries/Attendance/useCheckAttendanceForTeacher';
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 interface AttendanceTableViewProps {
   courseId: string;
@@ -79,23 +80,49 @@ const AttendanceTableView: React.FC<AttendanceTableViewProps> = ({
 
   const columns: ProColumns[] = useMemo(
     () => allColumns({ notes, handleStatusChange, handleNotesChange }),
-    [notes],
+    [notes, selectedSessionId],
   );
+
+  const [isEnableAttend, setIsEnableAttend] = useState(false);
 
   return (
     <Modal
-      title={`Attendance for Session: ${selectedSessionId === 'Select Session' ? '' : selectedSession.sessionDate.toString()}`}
+      title={`Attendance for Session: ${
+        selectedSessionId === 'Select Session' ? '' : selectedSession.sessionDate.toString()
+      }`}
       open={visible}
       onCancel={onClose}
       width={900}
-      footer={[
-        <Button key="cancel" onClick={onClose}>
-          Cancel
-        </Button>,
-        <Button key="submit" type="primary" loading={isSubmitting} onClick={handleSubmit}>
-          Submit
-        </Button>,
-      ]}
+      footer={
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Space>
+            <Button key="cancel" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button key="submit" type="primary" loading={isSubmitting} onClick={handleSubmit}>
+              Submit
+            </Button>
+          </Space>
+          <Tooltip
+            title={
+              isEnableAttend
+                ? 'Click to disable attendance view'
+                : 'Click to enable attendance view'
+            }
+          >
+            <Space>
+              <Button
+                key="enable"
+                type={isEnableAttend ? 'default' : 'primary'}
+                icon={<CheckCircleOutlined />}
+                onClick={() => setIsEnableAttend(!isEnableAttend)}
+              >
+                {isEnableAttend ? 'Disable Attend' : 'Enable Attend'}
+              </Button>
+            </Space>
+          </Tooltip>
+        </div>
+      }
     >
       <Select
         placeholder="Select a class session"
@@ -114,15 +141,18 @@ const AttendanceTableView: React.FC<AttendanceTableViewProps> = ({
           </Select.Option>
         ))}
       </Select>
-      <ProTable<AttendanceResponse>
-        columns={columns}
-        dataSource={attendanceResponses} // Sử dụng attendanceResponses làm dataSource
-        rowKey="studentId"
-        search={false}
-        pagination={{ pageSize: 10 }}
-        loading={isFetching}
-        options={false}
-      />
+
+      {isEnableAttend && (
+        <ProTable<AttendanceResponse>
+          columns={columns}
+          dataSource={attendanceResponses}
+          rowKey="studentId"
+          search={false}
+          pagination={{ pageSize: 10 }}
+          loading={isFetching}
+          options={false}
+        />
+      )}
     </Modal>
   );
 };
