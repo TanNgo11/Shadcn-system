@@ -11,6 +11,8 @@ export function useGetCurrentOpenSemester(
     data,
     error,
     isFetching,
+    isLoading,
+    isError,
     refetch: onGetCurrentOpenSemester,
   } = useQuery<ApiResponseType<SemesterResponse>, Error>(
     [API_KEY.CURRENT_OPEN_SEMESTER, options],
@@ -33,7 +35,8 @@ export function useGetCurrentOpenSemester(
   return {
     semester,
     error,
-    isFetching,
+    isPending: isLoading || isFetching,
+    isError,
     onGetCurrentOpenSemester,
     handleInvalidCurrentOpenSemester,
   };

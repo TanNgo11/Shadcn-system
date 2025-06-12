@@ -28,7 +28,7 @@ export const allColumns = ({
     key: 'status',
     render: (_: any, response: AttendanceResponse) => (
       <Select
-        defaultValue={response.status || 'PRESENT'}
+        value={response.status || undefined}
         style={{ width: 120 }}
         onChange={(value) => handleStatusChange(response.studentId, value)} // Pass value
       >
@@ -44,9 +44,9 @@ export const allColumns = ({
     key: 'notes',
     render: (_: any, response: AttendanceResponse) => (
       <Input
-        placeholder={response.studentName + ' ' + response.date}
-        value={response.studentName + ' ' + response.date}
-        onChange={(e) => handleNotesChange(response.studentId, 'test note')} // Pass note value
+        placeholder="Enter notes"
+        value={notes[response.studentId] ?? response.notes ?? ''}
+        onChange={(e) => handleNotesChange(response.studentId, e.target.value)}
       />
     ),
   },

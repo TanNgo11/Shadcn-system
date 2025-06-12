@@ -8,6 +8,7 @@ import AttendanceTableView from './AttendanceTableView';
 import './styles.scss';
 
 const ActivitiesTab = () => {
+  const { id } = useParams<{ id: string }>();
   const { courseId } = useParams();
   const [attendanceModalVisible, setAttendanceModalVisible] = useState(false);
 
