@@ -61,19 +61,18 @@ export const allColumns = (): ProColumns<CourseResponse>[] => [
     valueType: 'text',
     hideInSearch: true,
   },
-  {
-    title: 'Start Time',
-    dataIndex: 'startTime',
-    valueType: 'text',
-    hideInSearch: true,
-  },
-  {
-    title: 'End Time',
-    dataIndex: 'endTime + ',
-    valueType: 'text',
-    hideInSearch: true,
-  },
-
+  // {
+  //   title: 'Start Time',
+  //   dataIndex: 'startTime',
+  //   valueType: 'text',
+  //   hideInSearch: true,
+  // },
+  // {
+  //   title: 'End Time',
+  //   dataIndex: 'endTime + ',
+  //   valueType: 'text',
+  //   hideInSearch: true,
+  // },
   {
     title: 'Start Date',
     dataIndex: 'startDate',
