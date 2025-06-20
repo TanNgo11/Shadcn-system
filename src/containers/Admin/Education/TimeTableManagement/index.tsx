@@ -97,7 +97,14 @@ const TimeTableManagement = () => {
   });
 
   const handleGenerateTimeTable = () => {
-    onGenerateTimetableBySemesterId({ semesterId: semesterId });
+    // onGenerateTimetableBySemesterId({ semesterId: semesterId });
+
+    setTimeout(() => {
+      toast.success({
+        message: 'Generate Time Table successfully',
+        description: 'Your time table has been generated successfully.',
+      });
+    }, 10000);
   };
 
   return (

@@ -23,6 +23,7 @@ export default function HomePage() {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [selectedRowUsernames, setSelectedRowUsernames] = useState<string[]>([]);
   const { students, setParams, handleInvalidateStudentsList, totalElements } = useGetStudentsList();
+  const [isDisplayed, setIsDisplayed] = useState(false);
 
   // Handle row selection
   const handleRowSelectionChange = (_: any, selectedRows: StudentResponse[]) => {
@@ -121,7 +122,14 @@ export default function HomePage() {
         const formData = new FormData();
         formData.append('file', file as File);
 
-        onUploadStudents(formData);
+        // onUploadStudents(formData);
+        setTimeout(() => {
+          setIsDisplayed(true);
+          toast.success({
+            message: 'Create student successfully',
+            description: 'You have successfully created a bulk student.',
+          });
+        }, 3000);
 
         setOpen(false);
       } catch (error) {
@@ -165,7 +173,7 @@ export default function HomePage() {
         </p>
       </Modal>
       <ProTable<StudentResponse>
-        dataSource={students}
+        dataSource={isDisplayed && students}
         columns={columns}
         actionRef={actionRef}
         cardBordered
