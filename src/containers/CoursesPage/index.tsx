@@ -7,6 +7,7 @@ interface CoursesPageProps {
 }
 
 const CoursesPage = ({ registrations }: CoursesPageProps) => {
+  console.log(registrations);
   return (
     <List
       rowKey={(item) => item.courseCode}
@@ -16,8 +17,8 @@ const CoursesPage = ({ registrations }: CoursesPageProps) => {
         <List.Item>
           <CourseCard
             name={registration?.courseDetails?.name || ''}
-            description={registration?.baseCourseDetails?.description || ''}
-            avatar={registration?.courseDetails?.imageUri || ''}
+            description={registration?.baseCourseDetails?.name || ''}
+            avatar={registration?.thumbnail || ''}
             studentId={registration?.studentId}
             courseId={registration?.courseDetails?.id}
             courseCode={registration?.baseCourseDetails?.code}

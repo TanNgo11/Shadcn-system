@@ -163,7 +163,7 @@ function StudentLayout() {
                   ];
                 }}
                 title="EIU"
-                logo="https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ"
+                logo="http://localhost:8085/file-svc/download/logo"
                 headerTitleRender={(logo, title, _) => {
                   const defaultDom = (
                     <Link to={'/student/home'}>
@@ -187,20 +187,20 @@ function StudentLayout() {
                     </>
                   );
                 }}
-                menuFooterRender={(props) => {
-                  if (props?.collapsed) return undefined;
-                  return (
-                    <div
-                      style={{
-                        textAlign: 'center',
-                        paddingBlockStart: 12,
-                      }}
-                    >
-                      <div>© 2024 Made with love</div>
-                      <div>by CTTH</div>
-                    </div>
-                  );
-                }}
+                // menuFooterRender={(props) => {
+                //   if (props?.collapsed) return undefined;
+                //   return (
+                //     <div
+                //       style={{
+                //         textAlign: 'center',
+                //         paddingBlockStart: 12,
+                //       }}
+                //     >
+                //       <div>© 2024 Made with love</div>
+                //       <div>by CTTH</div>
+                //     </div>
+                //   );
+                // }}
                 menuItemRender={(item, dom) => <Link to={item.path || '/'}>{dom}</Link>}
                 {...settings}
                 {...studentSidebarProps}

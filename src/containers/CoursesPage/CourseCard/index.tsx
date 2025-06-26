@@ -30,7 +30,7 @@ const CourseCard = ({
 
   return (
     <Link to={`/student/courses/${courseId}`} onClick={handleClick}>
-      <Card className="course-card-container" hoverable cover={<img alt={name} src={avatar} />}>
+      <Card className="course-card-container" hoverable cover={<img alt={name} src={avatar} style={{ width: '100%', height: '200px', objectFit: 'fill' }} />}>
         <Card.Meta
           title={
             <Link className="course-card-container__title" to={`/student/courses/${courseId}`}>

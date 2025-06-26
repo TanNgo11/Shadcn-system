@@ -36,9 +36,8 @@ function TeacherLayout() {
     siderMenuType: 'sub',
     fixedHeader: true,
   });
-  const name = `${user?.firstName || NO_DATA} ${user?.middleName || NO_DATA} ${
-    user?.lastName || NO_DATA
-  }`;
+  const name = `${user?.firstName || NO_DATA} ${user?.middleName || NO_DATA} ${user?.lastName || NO_DATA
+    }`;
   const pathname = window.location.pathname;
   if (typeof document === 'undefined') {
     return <div />;
@@ -108,14 +107,14 @@ function TeacherLayout() {
                     );
                   },
                 }}
-             
-                // title="EIU"
+
+                title="EIU"
                 menuItemRender={(item, dom) => <Link to={item.path || '/'}>{dom}</Link>}
-                logo="https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ"
+                logo="http://localhost:8085/file-svc/download/logo"
                 {...teacherSidebarProps}
                 {...settings}
               >
-                <PageContainer>
+                <PageContainer title={false}>
                   <ProCard
                     style={{
                       height: 'fit-content',

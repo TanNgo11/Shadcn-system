@@ -92,6 +92,7 @@ export interface RegistrationResponse {
   cancellationDeadline: Date;
   courseDetails?: CourseResponse;
   baseCourseDetails?: BaseCourseResponse;
+  thumbnail: string
 }
 
 export type GetCoursePropertiesParams = {

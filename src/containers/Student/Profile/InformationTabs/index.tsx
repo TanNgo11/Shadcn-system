@@ -18,12 +18,12 @@ const InformationTabs = () => {
         children: <StudentTab {...userProfile} />,
         icon: <ProfileTwoTone />,
       },
-      {
-        key: '2',
-        label: 'Course Information',
-        children: <CourseTab  {...userProfile} />,
-        icon: <DatabaseTwoTone />,
-      },
+      // {
+      //   key: '2',
+      //   label: 'Course Information',
+      //   children: <CourseTab  {...userProfile} />,
+      //   icon: <DatabaseTwoTone />,
+      // },
     ];
   }, [userProfile]);
   return <Tabs defaultActiveKey="1" items={listTabs} />;

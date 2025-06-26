@@ -15,7 +15,7 @@ interface CourseCardProps {
 const CourseCard = ({ name, startDate, avatar, courseId, courseCode }: CourseCardProps) => {
   return (
     <Link to={`/teacher/courses/${courseId}`}>
-      <Card className="course-card-container" hoverable cover={<img alt={name} src={avatar} />}>
+      <Card className="course-card-container" hoverable cover={<img alt={name} src={avatar}/>}>
         <Card.Meta
           title={
             <Link className="course-card-container__title" to={`/teacher/courses/${courseId}`}>
