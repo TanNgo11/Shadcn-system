@@ -168,6 +168,8 @@ function AdminLayout() {
                 //     </>
                 //   );
                 // }}
+                title='EIU'
+                logo="http://localhost:8085/file-svc/download/logo"
                 onMenuHeaderClick={(e) => console.log(e)}
                 menuItemRender={(item, dom) => <Link to={item.path || '/'}>{dom}</Link>}
 
@@ -178,6 +180,7 @@ function AdminLayout() {
                   token={{
                     paddingInlinePageContainerContent: num,
                   }}
+                  title={false}
                 >
                   <ProCard
                     style={{

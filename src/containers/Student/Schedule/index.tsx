@@ -45,7 +45,7 @@ const Schedule = () => {
       <Content style={{ padding: 0, margin: 0 }}>
         <div style={{ padding: '1rem' }}>
           <Typography.Title level={2} style={{ margin: 0 }}>
-            Teacher Calendar
+            Student Calendar
           </Typography.Title>
           <Select
             size="large"
